@@ -3,7 +3,7 @@ Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	20021125
+Version:	20021219
 Release:	1
 License:	GPL
 Group:		Applications/Emulators
@@ -108,7 +108,8 @@ Wine - programy
 %patch2 -p1
 
 # turn off compilation of some tools
-sed -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in > .tmp
+#sed -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in > .tmp
+sed -e "s|avitools||" programs/Makefile.in > .tmp
 mv -f .tmp programs/Makefile.in
 
 %build
