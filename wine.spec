@@ -4,7 +4,7 @@ Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
 Version:	20011108
-Release:	4
+Release:	5
 License:	distributable
 Group:		Applications/Emulators
 Group(de):	Applikationen/Emulators
@@ -31,6 +31,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_prefix		/usr/X11R6
 %define		_mandir		%{_prefix}/man
 %define		_winedir	%{_datadir}/%{name}
+%define no_install_post_strip 1
 
 %description
 Wine is a program which allows running Microsoft Windows programs
@@ -75,13 +76,13 @@ Requires:	%{name} = %{version}
 %description devel
 Wine - header files.
 
-%description -l es devel
+%description devel -l es
 Biblioteca de desarrollo de wine.
 
-%description -l pl devel
+%description devel -l pl
 Wine - pliki nag³ówkowe.
 
-%description -l pt_BR devel
+%description devel -l pt_BR
 Arquivos de inclusão e bibliotecas para desenvolver aplicações com o
 WINE.
 
@@ -145,20 +146,28 @@ vcr=mciviscd.drv
 MPEGVideo=mciqtz.drv
 EOF
 
-
 gzip -9nf README WARRANTY LICENSE DEVELOPERS-HINTS ChangeLog BUGS AUTHORS ANNOUNCE
 
-%__spec_install_post        
-%{__arch_install_post}
-%{__os_install_post}
-chpax -p $RPM_BUILD_ROOT%{_bindir}/wine
-%{nil}
+echo "Strip executable binaries and shared object files."
+filelist=`find $RPM_BUILD_ROOT -type f ! -regex ".*ld-[0-9.]*so.*"`
+elfexelist=`echo $filelist | xargs -r file | \
+	awk '/ELF.*executable/ {print $1}' | cut -d: -f1`
+elfsharedlist=`echo $filelist | xargs -r file | \
+	awk '/LF.*shared object/ {print $1}' | cut -d: -f1`; \
+if [ -n "$elfexelist" ]; then \
+	strip -R .note -R .comment $elfexelist
+fi
+if [ -n "$elfsharedlist" ]; then
+	strip --strip-unneeded -R .note  -R .comment $elfsharedlist
+fi
 
-%post   -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
+/sbin/chpax -p $RPM_BUILD_ROOT%{_bindir}/wine
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%post   -p /sbin/ldconfig
+%postun -p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
