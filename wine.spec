@@ -8,10 +8,10 @@ Release:	2
 License:	distributable
 Group:		Applications/Emulators
 Source0:	ftp://metalab.unc.edu/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
-Source1:	wine.init
-Source2:	wine.reg
-Source3:	wine.systemreg
-Source4:	wine.userreg
+Source1:	%{name}.init
+Source2:	%{name}.reg
+Source3:	%{name}.systemreg
+Source4:	%{name}.userreg
 Patch0:		%{name}-fontcache.patch
 URL:		http://www.winehq.com/
 Exclusivearch:	%{ix86}
@@ -20,7 +20,7 @@ BuildRequires:	flex
 BuildRequires:	bison
 BuildRequires:	ncurses-devel
 BuildRequires:	OpenGL-devel
-BuildRequires:  freetype-devel >= 2.0.5
+BuildRequires:	freetype-devel >= 2.0.5
 BuildRequires:	chpax
 Requires:	OpenGL
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -63,7 +63,7 @@ Summary(pl):	Wine - pliki nag³owkowe
 Summary(pt_BR):	Biblioteca de desenvolvimento do wine
 Group:		Development/Libraries
 Requires:	%{name} = %{version}
- 
+
 %description devel
 Wine - header files.
 
@@ -109,8 +109,8 @@ install -d $RPM_BUILD_ROOT%{_mandir}/man1
 	localstatedir=$RPM_BUILD_ROOT%{_localstatedir} \
 	sharedstatedir=$RPM_BUILD_ROOT%{_sharedstatedir} \
 	mandir=$RPM_BUILD_ROOT%{_mandir} \
-	infodir=$RPM_BUILD_ROOT%{_infodir} 
-	
+	infodir=$RPM_BUILD_ROOT%{_infodir}
+
 install -d $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d \
         $RPM_BUILD_ROOT%{_winedir}/windows/{system,Desktop,Favorites,Fonts} \
         "$RPM_BUILD_ROOT%{_winedir}/windows/Start Menu/Programs/Startup" \
