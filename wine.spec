@@ -4,7 +4,7 @@ Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
 Version:	20011108
-Release:	3
+Release:	4
 License:	distributable
 Group:		Applications/Emulators
 Group(de):	Applikationen/Emulators
@@ -160,7 +160,7 @@ if [ -n "$elfsharedlist" ]; then
 	strip --strip-unneeded --remove-section=.note  --remove-section=.comment $elfsharedlist
 fi
 
-chpax -p $RPM_BUILD_ROOT/%{_bindir}/wine
+/sbin/chpax -p $RPM_BUILD_ROOT/%{_bindir}/wine
 
 %post   -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
