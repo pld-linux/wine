@@ -2,8 +2,8 @@ Summary:	Program that lets you launch Win applications
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Name:		wine
 Version:	20001202
-Release:	1
-License:	distributable
+Release:	2
+License:	Distributable
 Group:		Applications/Emulators
 Group(de):	Applikationen/Emulators
 Group(pl):	Aplikacje/Emulatory
