@@ -15,6 +15,7 @@ Source4:	%{name}.userreg
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-destdir.patch
 Patch2:		%{name}-ncurses.patch
+Patch3:		%{name}-ac-ksh.patch
 URL:		http://www.winehq.com/
 BuildRequires:	OpenGL-devel
 BuildRequires:	XFree86-devel
@@ -104,6 +105,7 @@ Wine - programy
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 # turn off compilation of some tools
 #sed -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in > .tmp
@@ -153,7 +155,7 @@ install -d $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d \
 	$RPM_BUILD_ROOT%{_winedir}/windows/{Profiles/Administrator,Recent} \
 	$RPM_BUILD_ROOT%{_winedir}/{"Program Files/Common Files","My Documents"}
 
-install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d/wine
+install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/wine
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}
 install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}
 install %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}
@@ -238,6 +240,7 @@ fi
 %attr(755,root,root) %{_bindir}/wineshelllink
 %attr(755,root,root) %{_bindir}/wineboot
 %attr(755,root,root) %{_libdir}/*.so*
+%dir %{_libdir}/wine
 %{_mandir}/man1/wine.*
 %{_mandir}/man5/wine.conf.*
 %config(noreplace) %{_sysconfdir}/wine.reg
