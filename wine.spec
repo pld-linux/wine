@@ -1,7 +1,7 @@
 Summary:	Program that lets you launch Win applications.
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows.
 Name:		wine
-Version:	20000430
+Version:	20000526
 Release:	1
 Copyright:	distributable
 Group:		Applications/Emulators
@@ -11,6 +11,8 @@ Url:		http://www.winehq.com
 Exclusivearch:	%{ix86}
 BuildRequires:	XFree86-devel
 BuildRequires:	xpm-devel
+BuildRequires:	flex
+#BuildRequires:	ncurses-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_prefix		/usr/X11R6
@@ -50,9 +52,11 @@ Wine - pliki nag³ówkowe.
 
 %build
 LDFLAGS="-s"; export LDFLAGS
+# TODO: Curses doesn't work.
 %configure \
     --disable-debug \
     --disable-trace \
+    --without-curses \
     --with-x
 
 make depend
@@ -80,9 +84,11 @@ make install \
 # there is something broken with make install 
 # it expects root privileges, and if invoked by user, makes some stupid link
 # instead of libs installation /by klakier
-
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.so
 cp -dp libwine.so* $RPM_BUILD_ROOT%{_libdir}
+
+# Make install forgots this link
+ln -s $RPM_BUILD_ROOT%{_libdir}/libuser{32,}.so
 
 cp wine.ini wine.conf.example
 install -d $RPM_BUILD_ROOT%{_sysconfdir}
@@ -114,9 +120,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc documentation wine.conf.example
 %attr(755,root,root) %{_bindir}/*
 %{_mandir}/man[15]/*
-%attr(755,root,root) %{_libdir}/lib*.so.*.*
+%attr(755,root,root) %{_libdir}/*
 #%{_libdir}/wine.sym
-%config %{_sysconfdir}/wine.conf
+%config(noreplace) %{_sysconfdir}/wine.conf
 
 %files devel
 %defattr(644,root,root,755)
