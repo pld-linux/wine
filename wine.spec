@@ -30,13 +30,13 @@ Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	20040813
+Version:	20040914
 Release:	1
 License:	LGPL
 Group:		Applications/Emulators
 #Source0:	http://dl.sourceforge.net/%{name}/Wine-%{version}.tar.gz
 Source0:	ftp://ftp.ibiblio.org/pub/Linux/ALPHA/%{name}/development/Wine-%{version}.tar.gz
-# Source0-md5:	7985bace8217f89c7ec5234c6f722f2e
+# Source0-md5:	17b7b504646498ca72aa7ba9f6462c23
 Source1:	%{name}.init
 Source2:	%{name}.reg
 Source3:	%{name}.systemreg
@@ -69,6 +69,7 @@ BuildRequires:	docbook-dtd31-sgml
 BuildRequires:	docbook-utils
 BuildRequires:	flex
 BuildRequires:	fontconfig-devel
+BuildRequires:	fontforge
 BuildRequires:	freetype-devel >= 2.0.5
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
 BuildRequires:	libjpeg-devel
@@ -278,8 +279,6 @@ sed -e "s|avitools||" programs/Makefile.in > .tmp
 mv -f .tmp programs/Makefile.in
 
 %build
-%{__libtoolize}
-%{__aclocal}
 %{__autoconf}
 %configure \
 	%{!?debug:--disable-debug} \
@@ -421,7 +420,6 @@ fi
 %attr(755,root,root) %{_bindir}/wineboot
 %attr(755,root,root) %{_bindir}/winebrowser
 %attr(755,root,root) %{_bindir}/winecfg
-%attr(755,root,root) %{_bindir}/wineclipsrv
 %attr(755,root,root) %{_bindir}/winedbg
 %attr(755,root,root) %{_bindir}/wine-kthread
 %attr(755,root,root) %{_bindir}/winelauncher
@@ -440,6 +438,7 @@ fi
 %config(missingok,noreplace) %verify(not size mtime md5) %{_sysconfdir}/wine.userreg
 %attr(754,root,root) %{_sysconfdir}/rc.d/init.d/wine
 %{_winedir}
+%{_datadir}/fonts/wine
 
 %files programs -f files.programs
 %defattr(644,root,root,755)
