@@ -10,7 +10,7 @@
 %bcond_without	pdf_docs	# build pdf docs
 %bcond_with	xlibs
 #
-# NOTE: wine detects following SONAMES for dlopen at build time:
+# NOTE: wine detects the following SONAMES for dlopen at build time:
 #   libcrypto,libssl (wininet.dll)
 #   libcups (winspool.dll.so,wineps.dll.so)
 #   libcurses/libncurses (wineconsole program)
@@ -19,7 +19,7 @@
 #   libGL (x11drv.dll.so,ddraw.dll.so)
 #   libjack (winejack.drv.so - explicit dependency in subpackage)
 #   libX11, libXext, libXi, libXrender (x11drv.dll.so)
-# thus requires requild after change of any of above.
+# thus requires rebuild after change of any of the above.
 #
 # JACK requires ALSA
 %if %{without alsa}
@@ -121,7 +121,7 @@ Ejecuta programas Windows en Linux.
 Wine jest programem dziêki któremu mo¿na uruchamiaæ programy napisane
 dla Microsoft Windows pod systemami unixowymi. Sk³ada siê on z
 loadera, który pozwala wczytywaæ i uruchamiaæ programy w formacie
-Microsoft Windows oraz z biblioteki, która implementuje API Windows
+Microsoft Windows, oraz z biblioteki, która implementuje API Windows
 przy u¿yciu odpowiedników Unixowych oraz z X11. Biblioteka mo¿e byæ
 tak¿e wykorzystana do przenoszenia aplikacji Win32 do Unixa.
 
