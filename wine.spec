@@ -50,6 +50,8 @@ BuildRequires:	tetex-fonts-type1-urw
 Requires:	OpenGL
 Requires(post):	/sbin/ldconfig
 Requires(post,preun):/sbin/chkconfig
+# link to wine/ntdll.dll.so, without any SONAME
+Provides:	libntdll.dll.so
 ExclusiveArch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
