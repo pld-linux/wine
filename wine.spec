@@ -43,6 +43,7 @@ BuildRequires:	tetex-metafont
 BuildRequires:	tetex-fonts-pazo
 BuildRequires:	tetex-fonts-stmaryrd
 BuildRequires:	tetex-fonts-type1-urw
+BuildRequires:	tetex-pdftex
 %{!?_without_sane:BuildRequires:	sane-backends-devel}
 Requires:	OpenGL
 Requires(post):	/sbin/ldconfig
