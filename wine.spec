@@ -424,6 +424,7 @@ fi
 %attr(755,root,root) %{_bindir}/wine-kthread
 %attr(755,root,root) %{_bindir}/wine-pthread
 %attr(755,root,root) %{_bindir}/wineboot
+%attr(755,root,root) %{_bindir}/winebrowser
 %attr(755,root,root) %{_bindir}/winecfg
 %attr(755,root,root) %{_bindir}/wineclipsrv
 %attr(755,root,root) %{_bindir}/winedbg
@@ -461,10 +462,12 @@ fi
 %attr(755,root,root) %{_bindir}/wmc
 %attr(755,root,root) %{_bindir}/wrc
 %{_includedir}/wine
-%{_mandir}/man1/winemaker.*
-%{_mandir}/man1/winebuild.*
-%{_mandir}/man1/wmc.*
-%{_mandir}/man1/wrc.*
+%{_mandir}/man1/widl.1*
+%{_mandir}/man1/winedump.1*
+%{_mandir}/man1/winemaker.1*
+%{_mandir}/man1/winebuild.1*
+%{_mandir}/man1/wmc.1*
+%{_mandir}/man1/wrc.1*
 %{_aclocaldir}/*.m4
 
 %if %{with pdf_docs}
