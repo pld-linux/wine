@@ -267,9 +267,8 @@ mv -f .tmp programs/Makefile.in
 %build
 %{__aclocal}
 %{__autoconf}
-CFLAGS="%{rpmcflags} -DALSA_PCM_OLD_HW_PARAMS_API"
-CPPFLAGS=$CFLAGS
-LDFLAGS="%{rpmldflags}"
+CPPFLAGS="-DALSA_PCM_OLD_HW_PARAMS_API"
+CFLAGS="%{rpmcflags} $CPPFLAGS"
 %configure \
 	%{!?debug:--disable-debug} \
 	%{!?debug:--disable-trace} \
