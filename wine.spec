@@ -4,10 +4,10 @@ Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
 Version:	20020509
-Release:	0.1
+Release:	0.2
 License:	GPL
 Group:		Applications/Emulators
-Source0:	ftp://metalab.unc.edu/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
+Source0:	ftp://metalab.unc.edu/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.bz2
 Source1:	%{name}.init
 Source2:	%{name}.reg
 Source3:	%{name}.systemreg
@@ -19,11 +19,14 @@ BuildRequires:	arts-devel
 BuildRequires:	bison
 BuildRequires:	chpax
 BuildRequires:	cups-devel
+BuildRequires:	docbook-dtd31-sgml
+BuildRequires:	docbook-utils
 BuildRequires:	flex
 BuildRequires:	freetype-devel >= 2.0.5
 BuildRequires:	libjpeg-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	OpenGL-devel
+BuildRequires:	openjade
 BuildRequires:	sane-backends-devel
 BuildRequires:	XFree86-devel
 Requires:	OpenGL
@@ -152,6 +155,8 @@ install -d $RPM_BUILD_ROOT%{_mandir}/man1
 (cd $RPM_BUILD_ROOT%{_bindir}
 find -name '*.so' | sed 's|^.|%attr(755,root,root) %{_bindir}|; s|.so$||') > programs.list
 
+install programs/winhelp/hlp2sgml $RPM_BUILD_ROOT%{_bindir}
+
 install -d $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d \
         $RPM_BUILD_ROOT%{_winedir}/windows/{system,Desktop,Favorites,Fonts} \
         "$RPM_BUILD_ROOT%{_winedir}/windows/Start Menu/Programs/Startup" \
@@ -178,8 +183,6 @@ videodisc=mcipionr.drv
 vcr=mciviscd.drv
 MPEGVideo=mciqtz.drv
 EOF
-
-gzip -9nf README DEVELOPERS-HINTS ChangeLog BUGS AUTHORS ANNOUNCE
 
 %if %{?debug:0}%{!?debug:1}
 echo "Strip executable binaries and shared object files."
@@ -220,7 +223,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc *.gz
+%doc README DEVELOPERS-HINTS ChangeLog BUGS AUTHORS ANNOUNCE
 %doc documentation/wine-user
 %attr(755,root,root) %{_bindir}/wine
 %attr(755,root,root) %{_bindir}/winebuild
