@@ -48,8 +48,6 @@ Wine - pliki nag³ówkowe.
 %setup -q
 
 %build
-
-#automake
 LDFLAGS="-s"; export LDFLAGS
 %configure \
     --disable-debug \
@@ -97,10 +95,11 @@ cat <<EOF >$RPM_BUILD_ROOT%{_sysconfdir}/wine.conf
 ;
 EOF
 
-gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man1/*
-gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man5/*
+strip --strip-unneeded $RPM_BUILD_ROOT%{_libdir}/*.so.*.*
+strip RPM_BUILD_ROOT%{_bindir}/*
 
-gzip -9nf README WARRANTY LICENSE DEVELOPERS-HINTS ChangeLog BUGS AUTHORS ANNOUNCE
+gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man*/* \
+	README WARRANTY LICENSE DEVELOPERS-HINTS ChangeLog BUGS AUTHORS ANNOUNCE
 
 %post   -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
@@ -113,12 +112,12 @@ rm -rf $RPM_BUILD_ROOT
 %doc {README,WARRANTY,LICENSE,DEVELOPERS-HINTS,ChangeLog,BUGS,AUTHORS,ANNOUNCE}.gz
 %doc documentation wine.conf.example
 %attr(755,root,root) %{_bindir}/*
-%{_mandir}/man1/*
-%{_mandir}/man5/*
-%attr(755,root,root) %{_libdir}/*.so*
+%{_mandir}/man[15]/*
+%attr(755,root,root) %{_libdir}/lib*.so.*.*
 %{_libdir}/wine.sym
 %config %{_sysconfdir}/wine.conf
 
 %files devel
 %defattr(644,root,root,755)
 %{_includedir}/wine
+%attr(755,root,root) %{_libdir}/lib*.so
