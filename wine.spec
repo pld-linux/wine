@@ -3,8 +3,8 @@ Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	20020904
-Release:	0.2
+Version:	20020710
+Release:	0.3
 License:	GPL
 Group:		Applications/Emulators
 Source0:	ftp://metalab.unc.edu/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
@@ -18,7 +18,7 @@ BuildRequires:	OpenGL-devel
 BuildRequires:	XFree86-devel
 %{!?_without_arts:BuildRequires:	arts-devel}
 BuildRequires:	bison
-BuildRequires:	chpax
+BuildRequires:	chpax >= 0.20020901-2
 %{!?_without_cups:BuildRequires:	cups-devel}
 BuildRequires:	docbook-dtd31-sgml
 BuildRequires:	docbook-utils
@@ -209,7 +209,7 @@ if [ -n "$elfsharedlist" ]; then
 fi
 %endif
 
-/sbin/chpax -p $RPM_BUILD_ROOT%{_bindir}/wine
+/sbin/chstk -p $RPM_BUILD_ROOT%{_bindir}/wine
 
 mv $RPM_BUILD_ROOT%{_datadir}/aclocal/wine.m4 $RPM_BUILD_ROOT%{_aclocaldir}
 
