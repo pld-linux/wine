@@ -1,0 +1,11 @@
+http://www.winehq.org/hypermail/wine-devel/2003/04/0300.html
+
+Index: tools/winebuild/import.c
+===================================================================
+RCS file: /home/wine/wine/tools/winebuild/import.c,v
+retrieving revision 1.48
+diff -r1.48 wine/tools/winebuild/import.c
+664a665,667
+>    if (*p == 'U') {
+>            if (p[1] == ' ') p+=2;
+>    }
