@@ -28,7 +28,7 @@ Patch2:		%{name}-ncurses.patch
 Patch3:		%{name}-ac-ksh.patch
 Patch4:		%{name}-binutils.patch
 Patch5:		%{name}-makedep.patch
-Patch6:         %{name}-dga.patch
+Patch6:		%{name}-dga.patch
 URL:		http://www.winehq.com/
 BuildRequires:	OpenGL-devel
 BuildRequires:	XFree86-devel
@@ -155,12 +155,11 @@ mv -f .tmp programs/Makefile.in
 CPPFLAGS="-I/usr/include/ncurses"; export CPPFLAGS
 CFLAGS="%{rpmcflags} $CPPFLAGS"
 %configure \
-%{!?debug:	--disable-debug} \
-%{!?debug:	--disable-trace} \
+	%{!?debug:--disable-debug} \
+	%{!?debug:--disable-trace} \
 	--enable-curses \
 	--enable-opengl \
 	--with-x
-
 %{__make} depend
 %{__make}
 %{__make} -C programs
