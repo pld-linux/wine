@@ -1,9 +1,10 @@
 #
 # Conditional build:
-# _without_arts
-# _without_cups
-# _without_sane
+# _without_arts		- without arts support
+# _without_cups		- without CUPS printing support
+# _without_sane		- without TWAIN scanning support (through SANE)
 #
+# maybe TODO: alsa,jack,nas BRs/checks (see dlls/winmm/wine*)
 Summary:	Program that lets you launch Win applications
 Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
@@ -102,18 +103,21 @@ Group:		Applications
 Requires:	%{name} = %{version}
 
 %description programs
-Wine - programs
+Wine - programs.
 
 %description programs -l pl
-Wine - programy
+Wine - programy.
 
 %package doc-pdf
-Summary:	Wine documentations in PDF
+Summary:	Wine documentation in PDF
 Summary(pl):	Dokumentacja Wine w formacie PDF
 Group:		Documentation
 
 %description doc-pdf
-Wine - docs in PDF
+Wine documentation in PDF format.
+
+%description doc-pdf -l pl
+Dokumentacja Wine w formacie PDF.
 
 %prep
 %setup -q
