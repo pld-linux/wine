@@ -1,9 +1,15 @@
+#
+# Conditional build:
+# _without_arts
+# _without_cups
+# _without_sane
+#
 Summary:	Program that lets you launch Win applications
 Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	20030115
+Version:	20030219
 Release:	1
 License:	GPL
 Group:		Applications/Emulators
