@@ -30,13 +30,13 @@ Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	20050111
+Version:	20050211
 Release:	1
 License:	LGPL
 Group:		Applications/Emulators
 #Source0:	http://dl.sourceforge.net/%{name}/Wine-%{version}.tar.gz
 Source0:	ftp://ftp.ibiblio.org/pub/Linux/ALPHA/%{name}/development/Wine-%{version}.tar.gz
-# Source0-md5:	33f80e2c7a228912a3ab28fc163550b3
+# Source0-md5:	19c532b9b344d1b197ee8d55289ebf1c
 Source1:	%{name}.init
 Source2:	%{name}.reg
 Source3:	%{name}.systemreg
@@ -275,9 +275,8 @@ Sterownik NAS dla implementacji mm.dll (systemu multimediów) w Wine.
 #%%patch4 -p1
 
 # turn off compilation of some tools
-#sed -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in > .tmp
-sed -e "s|avitools||" programs/Makefile.in > .tmp
-mv -f .tmp programs/Makefile.in
+sed -i -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in
+#sed -i -e "s|avitools||" programs/Makefile.in
 
 %build
 %{__autoconf}
@@ -440,6 +439,7 @@ fi
 %attr(754,root,root) %{_sysconfdir}/rc.d/init.d/wine
 %{_winedir}
 %{_datadir}/fonts/wine
+%{_desktopdir}/wine.desktop
 
 %files programs -f files.programs
 %defattr(644,root,root,755)
