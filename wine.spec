@@ -4,7 +4,7 @@ Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
 Version:	20011108
-Release:	2
+Release:	3
 License:	distributable
 Group:		Applications/Emulators
 Group(de):	Applikationen/Emulators
@@ -23,6 +23,7 @@ BuildRequires:	bison
 BuildRequires:	ncurses-devel
 BuildRequires:	OpenGL-devel
 BuildRequires:  freetype-devel >= 2.0.5
+BuildRequires:	chpax
 Requires:	OpenGL
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -143,6 +144,8 @@ videodisc=mcipionr.drv
 vcr=mciviscd.drv
 MPEGVideo=mciqtz.drv
 EOF
+
+chpax -p $RPM_BUILD_ROOT/%{_bindir}/wine
 
 gzip -9nf README WARRANTY LICENSE DEVELOPERS-HINTS ChangeLog BUGS AUTHORS ANNOUNCE
 
