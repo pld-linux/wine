@@ -123,7 +123,7 @@ Wine jest programem dziêki któremu mo¿na uruchamiaæ programy napisane
 dla Microsoft Windows pod systemami uniksowymi. Sk³ada siê on z
 loadera, który pozwala wczytywaæ i uruchamiaæ programy w formacie
 Microsoft Windows, oraz z biblioteki, która implementuje API Windows
-przy u¿yciu odpowiedników Uniksowych oraz z X11. Biblioteka mo¿e byæ
+przy u¿yciu odpowiedników uniksowych oraz z X11. Biblioteka mo¿e byæ
 tak¿e wykorzystana do przenoszenia aplikacji Win32 do Uniksa.
 
 %description -l pt_BR
