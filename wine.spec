@@ -8,6 +8,7 @@ Group:		Applications/Emulators
 Group(de):	Applikationen/Emulators
 Group(pl):	Aplikacje/Emulatory
 Source0:	ftp://metalab.unc.edu/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
+Patch0:		%{name}-fontcache.patch
 URL:		http://www.winehq.com/
 Exclusivearch:	%{ix86}
 BuildRequires:	XFree86-devel
@@ -55,6 +56,7 @@ Wine - pliki nag³ówkowe.
 
 %prep
 %setup -q
+%patch -p1
 
 %build
 %configure2_13 \
