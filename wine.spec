@@ -17,6 +17,8 @@ URL:		http://www.winehq.com/
 BuildRequires:	OpenGL-devel
 BuildRequires:	XFree86-devel
 %{!?_without_arts:BuildRequires:	arts-devel}
+BuildRequires:	autoconf
+BuildRequires:	automake
 BuildRequires:	bison
 BuildRequires:	chpax >= 0.20020901-2
 %{!?_without_cups:BuildRequires:	cups-devel}
@@ -108,17 +110,18 @@ sed -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in > .tmp
 mv -f .tmp programs/Makefile.in
 
 %build
-#aclocal
-#autoconf
+%{__aclocal}
+%{__autoconf}
+
+# configure can't find ncurses w/o this
 CPPFLAGS="-I/usr/include/ncurses"; export CPPFLAGS
 CFLAGS="%{rpmcflags} $CPPFLAGS"
 %configure \
 %{!?debug:	--disable-debug} \
 %{!?debug:	--disable-trace} \
 	--enable-curses \
-	--enable-opengl \
-	--with-x
-
+	--enable-opengl
+exit 1
 %{__make} depend
 %{__make}
 %{__make} -C programs
