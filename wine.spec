@@ -92,7 +92,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_winedir		%{_datadir}/%{name}
 
-%define		getsoname()	%((objdump -p %{1} 2>/dev/null || echo SONAME ERROR) | awk  '/SONAME/ { print $2; s=1 }; END { if(s==0) print "ERROR" }')
+%define		getsoname()	%((objdump -p %{1} 2>/dev/null || echo SONAME ERROR) | awk '/SONAME/ { print $2; s=1 }; END { if(s==0) print "ERROR" }')
 
 %description
 Wine is a program which allows running Microsoft Windows programs
@@ -290,10 +290,10 @@ db2html winelib-user.sgml
 %endif
 
 %if %{with pdf_docs}
-db2pdf 	wine-user.sgml
-db2pdf  wine-devel.sgml
-db2pdf  wine-faq.sgml
-db2pdf  winelib-user.sgml
+db2pdf wine-user.sgml
+db2pdf wine-devel.sgml
+db2pdf wine-faq.sgml
+db2pdf winelib-user.sgml
 %endif
 cd -
 
@@ -314,8 +314,8 @@ install aclocal.m4 $RPM_BUILD_ROOT%{_aclocaldir}/wine.m4
 #mv -f $RPM_BUILD_ROOT{/usr/X11R6/share/aclocal,%{_aclocaldir}}/wine.m4
 
 install -d $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d \
-        $RPM_BUILD_ROOT%{_winedir}/windows/{system,Desktop,Favorites,Fonts} \
-        "$RPM_BUILD_ROOT%{_winedir}/windows/Start Menu/Programs/Startup" \
+	$RPM_BUILD_ROOT%{_winedir}/windows/{system,Desktop,Favorites,Fonts} \
+	"$RPM_BUILD_ROOT%{_winedir}/windows/Start Menu/Programs/Startup" \
 	$RPM_BUILD_ROOT%{_winedir}/windows/{SendTo,ShellNew,system32,NetHood} \
 	$RPM_BUILD_ROOT%{_winedir}/windows/{Profiles/Administrator,Recent} \
 	$RPM_BUILD_ROOT%{_winedir}/{"Program Files/Common Files","My Documents"}
@@ -351,7 +351,7 @@ if [ -n "$elfexelist" ]; then \
 	strip -R .note -R .comment $elfexelist
 fi
 if [ -n "$elfsharedlist" ]; then
-	strip --strip-unneeded -R .note  -R .comment $elfsharedlist
+	strip --strip-unneeded -R .note -R .comment $elfsharedlist
 fi
 %endif
 
