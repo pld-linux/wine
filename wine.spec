@@ -5,7 +5,7 @@ Version:	20000326
 Release:	1
 Copyright:	distributable
 Group:		Applications/Emulators
-Group(pl):	Applikacje/Emulatory
+Group(pl):	Aplikacje/Emulatory
 Source0:	ftp://metalab.unc.edu/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
 Url:		http://www.winehq.com
 Exclusivearch:	%{ix86}
