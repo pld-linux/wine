@@ -1,14 +1,14 @@
---- wine-20030813/tools/winebuild/import.c.wiget	2003-08-16 00:34:53.000000000 +0200
-+++ wine-20030813/tools/winebuild/import.c	2003-08-16 00:35:10.000000000 +0200
+--- wine-20031212/tools/winebuild/import.c~	2003-12-17 15:06:03.000000000 +0100
++++ wine-20031212/tools/winebuild/import.c	2003-12-17 15:09:05.000000000 +0100
 @@ -662,9 +662,11 @@
- /* read in the list of undefined symbols */
- void read_undef_symbols( char **argv )
  {
-+#if 0
+     FILE *f;
+     char buffer[1024];
++#ifdef 0
     if (*p == 'U') {
             if (p[1] == ' ') p+=2;
     }
-+#endif
-     FILE *f;
-     char buffer[1024];
++#endif 
      int err;
+     const char *name;
+ 
