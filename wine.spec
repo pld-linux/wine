@@ -22,6 +22,7 @@ Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-destdir.patch
 Patch2:		%{name}-ncurses.patch
 Patch3:		%{name}-ac-ksh.patch
+Patch4:		%{name}-binutils.patch
 URL:		http://www.winehq.com/
 BuildRequires:	OpenGL-devel
 BuildRequires:	XFree86-devel
@@ -112,6 +113,7 @@ Wine - programy
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p0
 
 # turn off compilation of some tools
 #sed -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in > .tmp
