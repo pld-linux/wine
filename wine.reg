@@ -27,7 +27,7 @@ WINE REGISTRY Version 2
 "Device" = "/dev/fd0"
 
 [Drive C]
-"Path" = "/usr/share/wine"
+"Path" = "/usr/X11R6/share/wine"
 "Type" = "hd"
 "Label" = "MS-DOS"
 "Filesystem" = "win95"
