@@ -433,6 +433,7 @@ fi
 %attr(755,root,root) %{_libdir}/*.so*
 %dir %{_libdir}/wine
 %{_mandir}/man1/wine.*
+%{_mandir}/man1/winedbg.1*
 %{_mandir}/man5/wine.conf.*
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/wine.reg
 %config(missingok,noreplace) %verify(not size mtime md5) %{_sysconfdir}/wine.systemreg
