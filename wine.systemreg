@@ -71,7 +71,7 @@ WINE REGISTRY Version 2
 
 [Software\\Microsoft\\Windows NT\\CurrentVersion\\AeDebug] 973650384
 "Auto"=dword:01000000
-"Debugger"="/usr/bin/winedbg %ld %ld"
+"Debugger"="/usr/X11R6/bin/winedbg %ld %ld"
 
 [System\\CurrentControlSet\\Control\\ComputerName\\ComputerName] 973650321
 "ComputerName"="spock.home.bero.org"
