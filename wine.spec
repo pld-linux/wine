@@ -4,12 +4,16 @@ Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
 Version:	20011108
-Release:	1
+Release:	2
 License:	distributable
 Group:		Applications/Emulators
 Group(de):	Applikationen/Emulators
 Group(pl):	Aplikacje/Emulatory
 Source0:	ftp://metalab.unc.edu/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
+Source1:	wine.init
+Source2:	wine.reg
+Source3:	wine.systemreg
+Source4:	wine.userreg
 Patch0:		%{name}-fontcache.patch
 URL:		http://www.winehq.com/
 Exclusivearch:	%{ix86}
@@ -25,6 +29,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_noautoreqdep	libGL.so.1 libGLU.so.1
 %define		_prefix		/usr/X11R6
 %define		_mandir		%{_prefix}/man
+%define		_winedir	%{_datadir}/%{name}
 
 %description
 Wine is a program which allows running Microsoft Windows programs
@@ -112,16 +117,31 @@ install -d $RPM_BUILD_ROOT%{_mandir}/man1
 	mandir=$RPM_BUILD_ROOT%{_mandir} \
 	infodir=$RPM_BUILD_ROOT%{_infodir} 
 	
-cp -f documentation/samples/config wine.conf.example
-install -d $RPM_BUILD_ROOT%{_sysconfdir}
-cat <<EOF >$RPM_BUILD_ROOT%{_sysconfdir}/wine.conf
-;
-; You can find example wine.conf file in %{_docdir}/%{name}-%{version}/wine.conf.example
-; More information: 'man wine.conf' or http://www.winehq.com
-; 
-; Przyk³adowy plik konfiguracyjny jest w %{_docdir}/%{name}-%{version}/wine.conf.example
-; Wiêcej informacji: 'man wine.conf' lub na stronach WINE: http://www.winehq.com
-;
+install -d $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d \
+        $RPM_BUILD_ROOT%{_winedir}/windows/{system,Desktop,Favorites,Fonts} \
+        "$RPM_BUILD_ROOT%{_winedir}/windows/Start Menu/Programs/Startup" \
+	$RPM_BUILD_ROOT%{_winedir}/windows/{SendTo,ShellNew,system32,NetHood} \
+	$RPM_BUILD_ROOT%{_winedir}/windows/{Profiles/Administrator,Recent} \
+	$RPM_BUILD_ROOT%{_winedir}/{"Program Files/Common Files","My Documents"}
+
+install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d/wine
+install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}
+install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}
+install %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}
+
+touch $RPM_BUILD_ROOT%{_winedir}/{autoexec.bat,config.sys,windows/win.ini}
+touch $RPM_BUILD_ROOT%{_winedir}/windows/system/{shell.dll,shell32.dll}
+touch $RPM_BUILD_ROOT%{_winedir}/windows/system/{winsock.dll,wsock32.dll}
+
+cat >$RPM_BUILD_ROOT%{_winedir}/windows/system.ini <<EOF
+[mci]
+cdaudio=mcicda.drv
+sequencer=mciseq.drv
+waveaudio=mciwave.drv
+avivideo=mciavi.drv
+videodisc=mcipionr.drv
+vcr=mciviscd.drv
+MPEGVideo=mciqtz.drv
 EOF
 
 gzip -9nf README WARRANTY LICENSE DEVELOPERS-HINTS ChangeLog BUGS AUTHORS ANNOUNCE
@@ -135,11 +155,15 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc {README,WARRANTY,LICENSE,DEVELOPERS-HINTS,ChangeLog,BUGS,AUTHORS,ANNOUNCE}.gz
-%doc documentation wine.conf.example
+%doc documentation
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{_libdir}/*.so*
 %{_mandir}/man[15]/*
-%config(noreplace) %{_sysconfdir}/wine.conf
+%config(noreplace) %{_sysconfdir}/wine.reg
+%config(missingok) %{_sysconfdir}/wine.systemreg
+%config(missingok) %{_sysconfdir}/wine.userreg
+%attr(754,root,root) %{_sysconfdir}/rc.d/init.d/wine
+%{_winedir}
 
 %files devel
 %defattr(644,root,root,755)
