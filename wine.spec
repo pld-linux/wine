@@ -31,7 +31,7 @@ Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
 Version:	20050310
-Release:	1
+Release:	1.1
 License:	LGPL
 Group:		Applications/Emulators
 #Source0:	http://dl.sourceforge.net/%{name}/Wine-%{version}.tar.gz
@@ -46,6 +46,8 @@ Patch1:		%{name}-destdir.patch
 Patch2:		%{name}-ncurses.patch
 Patch3:		%{name}-makedep.patch
 #Patch4:		%{name}-dga.patch
+# DirectX support from http://www.oliverthered.f2s.com/projects/wine/index.html
+Patch5:		http://www.oliverthered.f2s.com/projects/wine/files/d3d9patch.2005-03-10.diff.bz2
 URL:		http://www.winehq.org/
 %if %{with xlibs}
 BuildRequires:	libSM-devel
@@ -272,6 +274,7 @@ Sterownik NAS dla implementacji mm.dll (systemu multimediów) w Wine.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch5 -p2
 
 # turn off compilation of some tools
 sed -i -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in
