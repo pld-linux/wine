@@ -1,7 +1,7 @@
 Summary:	Program that lets you launch Win applications.
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows.
 Name:		wine
-Version:	20000526
+Version:	20000614
 Release:	2
 Copyright:	distributable
 Group:		Applications/Emulators
@@ -26,7 +26,7 @@ equivalents. The library may also be used for porting Win32 code into
 native Unix executables.
 
 %description -l pl
-Wine iest programem dziêki któremu mo¿na uruchamiaæ programy napisane dla
+Wine jest programem dziêki któremu mo¿na uruchamiaæ programy napisane dla
 Microsoft Windows pod systemami unixowymi. Sk³ada siê on z loadera, który
 pozwala wczytywaæ i uruchamiaæ programy w formacie Microsoft Windows oraz z
 biblioteki, która implementuje API Windows przy u¿yciu odpowiedników
