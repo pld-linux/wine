@@ -82,7 +82,7 @@ install -d $RPM_BUILD_ROOT%{_mandir}/man1
 	mandir=$RPM_BUILD_ROOT%{_mandir} \
 	infodir=$RPM_BUILD_ROOT%{_infodir} 
 	
-cp wine.ini wine.conf.example
+cp documentation/samples/config wine.conf.example
 install -d $RPM_BUILD_ROOT%{_sysconfdir}
 cat <<EOF >$RPM_BUILD_ROOT%{_sysconfdir}/wine.conf
 ;
@@ -107,12 +107,11 @@ rm -rf $RPM_BUILD_ROOT
 %doc {README,WARRANTY,LICENSE,DEVELOPERS-HINTS,ChangeLog,BUGS,AUTHORS,ANNOUNCE}.gz
 %doc documentation wine.conf.example
 %attr(755,root,root) %{_bindir}/*
-%{_mandir}/man[15]/*
 %attr(755,root,root) %{_libdir}/*.so*
-#%{_libdir}/wine.sym
+%{_mandir}/man[15]/*
 %config(noreplace) %{_sysconfdir}/wine.conf
 
 %files devel
 %defattr(644,root,root,755)
 %{_includedir}/wine
-#%attr(755,root,root) %{_libdir}/lib*.so
+%{_libdir}/*.a
