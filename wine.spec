@@ -32,6 +32,8 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_mandir		%{_prefix}/man
 %define		_winedir	%{_datadir}/%{name}
 
+%define		no_install_post_strip	1
+
 %description
 Wine is a program which allows running Microsoft Windows programs
 (including DOS, Windows 3.x and Win32 executables) on Unix. It
@@ -145,9 +147,20 @@ vcr=mciviscd.drv
 MPEGVideo=mciqtz.drv
 EOF
 
-chpax -p $RPM_BUILD_ROOT/%{_bindir}/wine
 
 gzip -9nf README WARRANTY LICENSE DEVELOPERS-HINTS ChangeLog BUGS AUTHORS ANNOUNCE
+
+filelist=`find $RPM_BUILD_ROOT -type f ! -regex ".*ld-[0-9.]*so.*"`
+elfexelist=`echo $filelist | xargs -r file | awk '/ELF.*executable/ {print $1}' | cut -d: -f1`
+elfsharedlist=`echo $filelist | xargs -r file | awk '/LF.*shared object/ {print $1}' | cut -d: -f1`
+if [ -n "$elfexelist" ]; then 
+	strip --remove-section=.note  --remove-section=.comment $elfexelist
+fi
+if [ -n "$elfsharedlist" ]; then 
+	strip --strip-unneeded --remove-section=.note  --remove-section=.comment $elfsharedlist
+fi
+
+chpax -p $RPM_BUILD_ROOT/%{_bindir}/wine
 
 %post   -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
