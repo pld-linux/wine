@@ -2,7 +2,7 @@ Summary:	Program that lets you launch Win applications.
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows.
 Name:		wine
 Version:	20000526
-Release:	1
+Release:	2
 Copyright:	distributable
 Group:		Applications/Emulators
 Group(pl):	Aplikacje/Emulatory
@@ -81,15 +81,6 @@ make install \
 	mandir=$RPM_BUILD_ROOT%{_mandir} \
 	infodir=$RPM_BUILD_ROOT%{_infodir} 
 	
-# there is something broken with make install 
-# it expects root privileges, and if invoked by user, makes some stupid link
-# instead of libs installation /by klakier
-rm -f $RPM_BUILD_ROOT%{_libdir}/*.so
-cp -dp libwine.so* $RPM_BUILD_ROOT%{_libdir}
-
-# Make install forgots this link
-ln -s $RPM_BUILD_ROOT%{_libdir}/libuser{32,}.so
-
 cp wine.ini wine.conf.example
 install -d $RPM_BUILD_ROOT%{_sysconfdir}
 cat <<EOF >$RPM_BUILD_ROOT%{_sysconfdir}/wine.conf
