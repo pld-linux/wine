@@ -42,10 +42,8 @@ Source4:	%{name}.userreg
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-destdir.patch
 Patch2:		%{name}-ncurses.patch
-Patch3:		%{name}-binutils.patch
-Patch4:		%{name}-makedep.patch
-Patch5:		%{name}-dga.patch
-Patch6:		%{name}-winebuild.patch
+Patch3:		%{name}-makedep.patch
+Patch4:		%{name}-dga.patch
 URL:		http://www.winehq.org/
 BuildRequires:	OpenGL-devel
 BuildRequires:	XFree86-devel
@@ -260,10 +258,8 @@ Sterownik NAS dla implementacji mm.dll (systemu multimediów) w Wine.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p0
+%patch3 -p1
 %patch4 -p1
-%patch5 -p1
-%patch6 -p1
 
 # turn off compilation of some tools
 #sed -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in > .tmp
