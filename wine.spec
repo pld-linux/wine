@@ -209,7 +209,7 @@ if [ -n "$elfsharedlist" ]; then
 fi
 %endif
 
-/sbin/chstk -p $RPM_BUILD_ROOT%{_bindir}/wine
+/sbin/chstk -e $RPM_BUILD_ROOT%{_bindir}/wine
 
 mv $RPM_BUILD_ROOT%{_datadir}/aclocal/wine.m4 $RPM_BUILD_ROOT%{_aclocaldir}
 
