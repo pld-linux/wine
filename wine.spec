@@ -4,7 +4,7 @@ Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
 Version:	20020228
-Release:	1.0
+Release:	2
 License:	distributable
 Group:		Applications/Emulators
 Source0:	ftp://metalab.unc.edu/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
@@ -99,7 +99,9 @@ sed -e "s|winetest||;s|avitools||" programs/Makefile.in > .tmp
 mv -f .tmp programs/Makefile.in
 
 %build
-%configure2_13 \
+aclocal
+autoconf
+%configure \
 %{!?debug:	--disable-debug} \
 %{!?debug:	--disable-trace} \
 	--enable-curses \
