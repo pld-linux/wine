@@ -7,7 +7,7 @@ Version:	20020509
 Release:	0.2
 License:	GPL
 Group:		Applications/Emulators
-Source0:	ftp://metalab.unc.edu/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.bz2
+Source0:	ftp://metalab.unc.edu/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
 Source1:	%{name}.init
 Source2:	%{name}.reg
 Source3:	%{name}.systemreg
