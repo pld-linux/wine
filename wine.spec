@@ -5,7 +5,7 @@ Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
 Version:	20020411
 Release:	1
-License:	distributable
+License:	GPL
 Group:		Applications/Emulators
 Source0:	ftp://metalab.unc.edu/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
 Source1:	%{name}.init
@@ -99,8 +99,8 @@ sed -e "s|winetest||;s|avitools||" programs/Makefile.in > .tmp
 mv -f .tmp programs/Makefile.in
 
 %build
-aclocal
-autoconf
+#aclocal
+#autoconf
 %configure \
 %{!?debug:	--disable-debug} \
 %{!?debug:	--disable-trace} \
@@ -134,7 +134,8 @@ install -d $RPM_BUILD_ROOT%{_mandir}/man1
 	localstatedir=$RPM_BUILD_ROOT%{_localstatedir} \
 	sharedstatedir=$RPM_BUILD_ROOT%{_sharedstatedir} \
 	mandir=$RPM_BUILD_ROOT%{_mandir} \
-	infodir=$RPM_BUILD_ROOT%{_infodir}
+	infodir=$RPM_BUILD_ROOT%{_infodir} \
+	dlldir=$RPM_BUILD_ROOT%{_libdir}/wine
 
 %{__make} -C programs install \
 	prefix=$RPM_BUILD_ROOT%{_prefix} \
@@ -170,7 +171,7 @@ vcr=mciviscd.drv
 MPEGVideo=mciqtz.drv
 EOF
 
-gzip -9nf README WARRANTY LICENSE DEVELOPERS-HINTS ChangeLog BUGS AUTHORS ANNOUNCE
+gzip -9nf README DEVELOPERS-HINTS ChangeLog BUGS AUTHORS ANNOUNCE
 
 %if %{?debug:0}%{!?debug:1}
 echo "Strip executable binaries and shared object files."
@@ -226,6 +227,7 @@ fi
 %attr(755,root,root) %{_bindir}/fnt2bdf
 %attr(755,root,root) %{_bindir}/function_grep.pl
 %attr(755,root,root) %{_libdir}/*.so*
+%{_libdir}/wine
 %{_mandir}/man[15]/*
 %config(noreplace) %{_sysconfdir}/wine.reg
 %config(missingok) %{_sysconfdir}/wine.systemreg
