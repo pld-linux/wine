@@ -1,9 +1,9 @@
 #
 # Conditional build:
-# _without_arts		- without arts support
-# _without_cups		- without CUPS printing support
-# _without_sane		- without TWAIN scanning support (through SANE)
-# _with_pdf_docs	- build pdf docs (missing BR)
+%bcond_without arts     # without arts support
+%bcond_without cups     # without CUPS printing support
+%bcond_without sane     # without TWAIN scanning support (through SANE)
+%bcond_with    pdf_docs # build pdf docs (missing BR)
 #
 # maybe TODO: alsa,jack,nas BRs/checks (see dlls/winmm/wine*)
 Summary:	Program that lets you launch Win applications
@@ -29,10 +29,10 @@ Patch4:		%{name}-binutils.patch
 URL:		http://www.winehq.com/
 BuildRequires:	OpenGL-devel
 BuildRequires:	XFree86-devel
-%{!?_without_arts:BuildRequires:	arts-devel}
+%{?with_arts:BuildRequires:	arts-devel}
 BuildRequires:	bison
 BuildRequires:	chpax >= 0.20020901-2
-%{!?_without_cups:BuildRequires:	cups-devel}
+%{?with_cups:BuildRequires:	cups-devel}
 BuildRequires:	docbook-dtd31-sgml
 BuildRequires:	docbook-utils
 BuildRequires:	flex
@@ -40,11 +40,13 @@ BuildRequires:	freetype-devel >= 2.0.5
 BuildRequires:	libjpeg-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	openjade
+%if %{with pdf_docs}
 BuildRequires:	tetex-metafont
 BuildRequires:	tetex-fonts-pazo
 BuildRequires:	tetex-fonts-stmaryrd
 BuildRequires:	tetex-fonts-type1-urw
-%{!?_without_sane:BuildRequires:	sane-backends-devel}
+%endif
+%{?with_sane:BuildRequires:	sane-backends-devel}
 Requires:	OpenGL
 Requires(post):	/sbin/ldconfig
 Requires(post,preun):/sbin/chkconfig
@@ -161,7 +163,7 @@ db2html wine-devel.sgml
 db2html wine-faq.sgml
 db2html winelib-user.sgml
 
-%if %{?_with_pdf_docs:1}0
+%if %{with pdf_docs}
 db2pdf 	wine-user.sgml
 db2pdf  wine-devel.sgml
 db2pdf  wine-faq.sgml
@@ -311,7 +313,7 @@ fi
 %{_mandir}/man1/wrc.*
 %{_aclocaldir}/*.m4
 
-%if %{?_with_pdf_docs:1}0
+%if %{with pdf_docs}
 %files doc-pdf
 %defattr(644,root,root,755)
 %doc documentation/*.pdf
