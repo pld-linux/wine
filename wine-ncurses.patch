@@ -1,0 +1,17 @@
+diff -ruN wine-20021125/configure.ac wine-20021125-/configure.ac
+--- wine-20021125/configure.ac	Mon Nov 25 22:12:26 2002
++++ wine-20021125-/configure.ac	Wed Dec 11 21:24:51 2002
+@@ -354,11 +354,11 @@
+     AC_CHECK_HEADERS(ncurses.h,
+         [AC_CHECK_LIB(ncurses,waddch,
+             [AC_DEFINE(HAVE_LIBNCURSES, 1, [Define if you have the ncurses library (-lncurses)])
+-             CURSESLIBS="-lncurses"],
++             CURSESLIBS="-lncurses -ltinfo"],
+              [AC_CHECK_HEADERS(curses.h,
+                  [AC_CHECK_LIB(curses,waddch,
+                      [AC_DEFINE(HAVE_LIBCURSES, 1, [Define if you have the curses library (-lcurses)])
+-                      CURSESLIBS="-lcurses"])])])])
++                      CURSESLIBS="-lcurses -ltinfo"])])])])
+     saved_libs="$LIBS"
+     LIBS="$CURSESLIBS $LIBS"
+     AC_CHECK_FUNCS(getbkgd resizeterm)
