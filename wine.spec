@@ -1,7 +1,7 @@
-Summary:	Program that lets you launch Win applications.
-Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows.
+Summary:	Program that lets you launch Win applications
+Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Name:		wine
-Version:	20001026
+Version:	20001202
 Release:	1
 License:	distributable
 Group:		Applications/Emulators
@@ -56,10 +56,10 @@ Wine - pliki nag³ówkowe.
 %build
 # TODO: Curses doesn't work.
 %configure \
-    --disable-debug \
-    --disable-trace \
-    --without-curses \
-    --with-x
+	--disable-debug \
+	--disable-trace \
+	--without-curses \
+	--with-x
 
 %{__make} depend
 %{__make}
