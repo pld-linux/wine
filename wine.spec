@@ -4,7 +4,7 @@ Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
 Version:	20020904
-Release:	0.1
+Release:	0.2
 License:	GPL
 Group:		Applications/Emulators
 Source0:	ftp://metalab.unc.edu/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
@@ -236,7 +236,7 @@ fi
 %files
 %defattr(644,root,root,755)
 %doc README DEVELOPERS-HINTS ChangeLog BUGS AUTHORS ANNOUNCE
-%doc documentation/wine-user
+%doc documentation/{wine-user,samples,status}
 %attr(755,root,root) %{_bindir}/widl
 %attr(755,root,root) %{_bindir}/wine
 %attr(755,root,root) %{_bindir}/winebuild
