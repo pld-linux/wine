@@ -4,7 +4,7 @@ Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
 Version:	20020122
-Release:	4
+Release:	5
 License:	distributable
 Group:		Applications/Emulators
 Source0:	ftp://metalab.unc.edu/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
@@ -93,7 +93,9 @@ Wine - programy
 %prep
 %setup -q
 %patch -p1
-sed -e "s|winetest||" programs/Makefile.in > .tmp
+
+# turn off compilation of some tools
+sed -e "s|winetest||;s|avitools||" programs/Makefile.in > .tmp
 mv -f .tmp programs/Makefile.in
 
 %build
@@ -209,7 +211,18 @@ fi
 %defattr(644,root,root,755)
 %doc *.gz
 %doc documentation/wine-user
-%attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_bindir}/wine
+%attr(755,root,root) %{_bindir}/winebuild
+%attr(755,root,root) %{_bindir}/winemaker
+%attr(755,root,root) %{_bindir}/wineserver
+%attr(755,root,root) %{_bindir}/wineclipsrv
+%attr(755,root,root) %{_bindir}/winelauncher
+%attr(755,root,root) %{_bindir}/wineshelllink
+%attr(755,root,root) %{_bindir}/winedump
+%attr(755,root,root) %{_bindir}/wrc
+%attr(755,root,root) %{_bindir}/wmc
+%attr(755,root,root) %{_bindir}/fnt2bdf
+%attr(755,root,root) %{_bindir}/function_grep.pl
 %attr(755,root,root) %{_libdir}/*.so*
 %{_mandir}/man[15]/*
 %config(noreplace) %{_sysconfdir}/wine.reg
@@ -220,8 +233,8 @@ fi
 
 %files programs -f programs.list
 %defattr(644,root,root,755)
+%attr (755,root,root) %{_bindir}/hlp2sgml
 %{_bindir}/*.so
-#%%attr(755,root,root) %%{_bindir}/{%%(ls *.so | sed s/\.so/,/g | sed s/,$//)}
 
 %files devel
 %defattr(644,root,root,755)
