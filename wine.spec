@@ -107,6 +107,11 @@ Wine - programs
 %description programs -l pl
 Wine - programy
 
+%package doc-pdf
+Summary:	Wine documentations in PDF
+Summary(pl):	Dokumentacja Wine w formacie PDF
+Group:		Documentation
+
 %prep
 %setup -q
 %patch0 -p1
@@ -140,7 +145,13 @@ CFLAGS="%{rpmcflags} $CPPFLAGS"
 cd documentation
 db2html wine-user.sgml
 db2html wine-devel.sgml
+db2html wine-faq.sgml
 db2html winelib-user.sgml
+
+db2pdf 	wine-user.sgml
+db2pdf  wine-devel.sgml
+db2pdf  wine-faq.sgml
+db2pdf  winelib-user.sgml
 cd -
 
 %install
@@ -240,7 +251,7 @@ fi
 %files -f files.so
 %defattr(644,root,root,755)
 %doc README DEVELOPERS-HINTS ChangeLog BUGS AUTHORS ANNOUNCE
-%doc documentation/{wine-user,samples,status}
+%doc documentation/{wine-user,samples,status,wine-faq}
 %attr(755,root,root) %{_bindir}/wine
 %attr(755,root,root) %{_bindir}/wineboot
 %attr(755,root,root) %{_bindir}/winecfg
@@ -284,3 +295,7 @@ fi
 %{_mandir}/man1/wmc.*
 %{_mandir}/man1/wrc.*
 %{_aclocaldir}/*.m4
+
+%files doc-pdf
+%defattr(644,root,root,755)
+%doc documentation/*.pdf
