@@ -91,7 +91,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_winedir		%{_datadir}/%{name}
 
-%define		getsoname()	%((objdump -p %{1} 2>/dev/null || echo SONAME ERROR) | awk  '/SONAME/ { print $2 }' | sed -e 's/^$/ERROR/')
+%define		getsoname()	%((objdump -p %{1} 2>/dev/null || echo SONAME ERROR) | awk  '/SONAME/ { print $2; s=1 }; END { if(s==0) print "ERROR" }')
 
 %description
 Wine is a program which allows running Microsoft Windows programs
