@@ -13,7 +13,7 @@ Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
 Version:	20030911
-Release:	0.1
+Release:	0.2
 License:	GPL
 Group:		Applications/Emulators
 Source0:	http://dl.sf.net/wine/Wine-%{version}.tar.gz
@@ -30,6 +30,7 @@ Patch4:		%{name}-binutils.patch
 Patch5:		%{name}-makedep.patch
 Patch6:		%{name}-dga.patch
 Patch7:		%{name}-winebuild.patch
+Patch8:		%{name}-cdrom-segv.patch
 URL:		http://www.winehq.com/
 BuildRequires:	OpenGL-devel
 BuildRequires:	XFree86-devel
@@ -145,6 +146,7 @@ Dokumentacja Wine w formacie PDF.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
 
 # turn off compilation of some tools
 #sed -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in > .tmp
