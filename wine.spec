@@ -107,13 +107,13 @@ Wine - programs
 %description programs -l pl
 Wine - programy
 
-%description doc-pdf
-Wine - docs in PDF
-
 %package doc-pdf
 Summary:	Wine documentations in PDF
 Summary(pl):	Dokumentacja Wine w formacie PDF
 Group:		Documentation
+
+%description doc-pdf
+Wine - docs in PDF
 
 %prep
 %setup -q
