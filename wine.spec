@@ -1,8 +1,7 @@
-
 Summary:	Program that lets you launch Win applications.
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows.
 Name:		wine
-Version:	20000130
+Version:	20000227
 Release:	1
 Copyright:	distributable
 Group:		Applications/Emulators
@@ -12,9 +11,19 @@ Url:		http://www.winehq.com
 Exclusivearch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
+%define		_prefix		/usr/X11R6
+
 %description
+Wine is a program which allows running Microsoft Windows programs
+(including DOS, Windows 3.x and Win32 executables) on Unix.  It
+consists of a program loader which loads and executes a Microsoft
+Windows binary, and a library that implements Windows API calls using
+their Unix or X11 equivalents. The library may also be used for
+porting Win32 code into native Unix executables.
 
 %description -l pl
+Wine iest programem dziêki któremu mo¿na uruchamiaæ programy napisane
+dla Microsoft Windows pod systemami unixowymi.
 
 %package devel
 Summary:        Wine - header files
@@ -36,7 +45,11 @@ Wine - pliki nag³ówkowe.
 
 #automake
 LDFLAGS="-s"; export LDFLAGS
-%configure
+%configure \
+    --disable-debug \
+    --disable-trace \
+    --with-x
+
 make depend
 make
 
