@@ -3,7 +3,7 @@ Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	20021219
+Version:	20030115
 Release:	1
 License:	GPL
 Group:		Applications/Emulators
@@ -39,8 +39,6 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_noautoreqdep		libGL.so.1 libGLU.so.1
 %define		no_install_post_strip	1
 
-%define		_prefix			/usr/X11R6
-%define		_mandir			%{_prefix}/man
 %define		_winedir		%{_datadir}/%{name}
 
 %description
