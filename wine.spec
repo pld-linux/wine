@@ -130,7 +130,7 @@ cd documentation
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_mandir}/man1
+install -d $RPM_BUILD_ROOT{%{_mandir}/man1,%{_aclocaldir}}
 
 %{__make} install \
 	prefix=$RPM_BUILD_ROOT%{_prefix} \
@@ -210,6 +210,8 @@ fi
 %endif
 
 /sbin/chpax -p $RPM_BUILD_ROOT%{_bindir}/wine
+
+mv $RPM_BUILD_ROOT%{_datadir}/aclocal/wine.m4 $RPM_BUILD_ROOT%{_aclocaldir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
