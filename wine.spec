@@ -45,8 +45,8 @@ Patch2:		%{name}-ncurses.patch
 Patch3:		%{name}-makedep.patch
 Patch4:		%{name}-dga.patch
 URL:		http://www.winehq.org/
-BuildRequires:	OpenGL-devel
-BuildRequires:	XFree86-devel
+BuildRequires:	XFree86-OpenGL-devel-base
+BuildRequires:	XFree86-OpenGL-devel
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 %{?with_arts:BuildRequires:	artsc-devel}
 BuildRequires:	autoconf
@@ -231,9 +231,7 @@ Group:		Applications/Emulators
 Requires:	%{name} = %{version}
 Requires:	jack-audio-connection-kit
 # dlopened by SONAME detected at build time
-%if %{with jack}
-Requires:	%{getsoname /usr/lib/libjack.so}
-%endif
+%{?with_jack:Requires:	%{getsoname /usr/lib/libjack.so}}
 
 %description drv-jack
 JACK driver for WINE mm.dll (multimedia system) implementation.
@@ -269,8 +267,9 @@ mv -f .tmp programs/Makefile.in
 %build
 %{__aclocal}
 %{__autoconf}
-CPPFLAGS="-I/usr/include/ncurses -DALSA_PCM_OLD_HW_PARAMS_API"; export CPPFLAGS
-CFLAGS="%{rpmcflags} $CPPFLAGS"
+CFLAGS="%{rpmcflags} -DALSA_PCM_OLD_HW_PARAMS_API"
+CPPFLAGS=$CFLAGS
+LDFLAGS="%{rpmldflags}"
 %configure \
 	%{!?debug:--disable-debug} \
 	%{!?debug:--disable-trace} \
