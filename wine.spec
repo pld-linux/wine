@@ -3,6 +3,7 @@
 # _without_arts		- without arts support
 # _without_cups		- without CUPS printing support
 # _without_sane		- without TWAIN scanning support (through SANE)
+# _with_pdf_docs	- build pdf docs (missing BR)
 #
 # maybe TODO: alsa,jack,nas BRs/checks (see dlls/winmm/wine*)
 Summary:	Program that lets you launch Win applications
@@ -160,10 +161,12 @@ db2html wine-devel.sgml
 db2html wine-faq.sgml
 db2html winelib-user.sgml
 
+%if %{?_with_pdf_docs:1}0
 db2pdf 	wine-user.sgml
 db2pdf  wine-devel.sgml
 db2pdf  wine-faq.sgml
 db2pdf  winelib-user.sgml
+%endif
 cd -
 
 %install
@@ -308,6 +311,8 @@ fi
 %{_mandir}/man1/wrc.*
 %{_aclocaldir}/*.m4
 
+%if %{?_with_pdf_docs:1}0
 %files doc-pdf
 %defattr(644,root,root,755)
 %doc documentation/*.pdf
+%endif
