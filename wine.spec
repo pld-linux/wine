@@ -31,7 +31,7 @@ Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
 Version:	20040813
-Release:	0.1
+Release:	1
 License:	LGPL
 Group:		Applications/Emulators
 #Source0:	http://dl.sourceforge.net/%{name}/Wine-%{version}.tar.gz
