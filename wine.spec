@@ -9,7 +9,7 @@ Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	20030408
+Version:	20030508
 Release:	1
 License:	GPL
 Group:		Applications/Emulators
@@ -138,9 +138,9 @@ CFLAGS="%{rpmcflags} $CPPFLAGS"
 %{__make} -C programs/regapi
 
 cd documentation
-./db2html-winehq wine-user.sgml
-./db2html-winehq wine-devel.sgml
-./db2html-winehq winelib-user.sgml
+db2html wine-user.sgml
+db2html wine-devel.sgml
+db2html winelib-user.sgml
 cd -
 
 %install
@@ -242,12 +242,13 @@ fi
 %doc README DEVELOPERS-HINTS ChangeLog BUGS AUTHORS ANNOUNCE
 %doc documentation/{wine-user,samples,status}
 %attr(755,root,root) %{_bindir}/wine
+%attr(755,root,root) %{_bindir}/wineboot
+%attr(755,root,root) %{_bindir}/winecfg
+%attr(755,root,root) %{_bindir}/wineclipsrv
 %attr(755,root,root) %{_bindir}/winedbg
 %attr(755,root,root) %{_bindir}/winelauncher
 %attr(755,root,root) %{_bindir}/wineserver
-%attr(755,root,root) %{_bindir}/wineclipsrv
 %attr(755,root,root) %{_bindir}/wineshelllink
-%attr(755,root,root) %{_bindir}/wineboot
 %attr(755,root,root) %{_libdir}/*.so*
 %dir %{_libdir}/wine
 %{_mandir}/man1/wine.*
@@ -264,18 +265,18 @@ fi
 %files devel
 %defattr(644,root,root,755)
 %doc documentation/{wine-devel,winelib-user,HOWTO-winelib}
-%attr(755,root,root) %{_bindir}/winebuild
-%attr(755,root,root) %{_bindir}/winemaker
-%attr(755,root,root) %{_bindir}/winedump
-%attr(755,root,root) %{_bindir}/winewrap
-%attr(755,root,root) %{_bindir}/winegcc
-%attr(755,root,root) %{_bindir}/wineg++
-%attr(755,root,root) %{_bindir}/wrc
-%attr(755,root,root) %{_bindir}/wmc
-%attr(755,root,root) %{_bindir}/widl
-%attr(755,root,root) %{_bindir}/hlp2sgml
 %attr(755,root,root) %{_bindir}/fnt2bdf
 %attr(755,root,root) %{_bindir}/function_grep.pl
+%attr(755,root,root) %{_bindir}/hlp2sgml
+%attr(755,root,root) %{_bindir}/widl
+%attr(755,root,root) %{_bindir}/winebuild
+%attr(755,root,root) %{_bindir}/winedump
+%attr(755,root,root) %{_bindir}/wineg++
+%attr(755,root,root) %{_bindir}/winegcc
+%attr(755,root,root) %{_bindir}/winemaker
+%attr(755,root,root) %{_bindir}/winewrap
+%attr(755,root,root) %{_bindir}/wmc
+%attr(755,root,root) %{_bindir}/wrc
 %{_includedir}/wine
 %{_libdir}/*.a
 %{_mandir}/man1/winemaker.*
