@@ -29,8 +29,8 @@ Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	20031212
-Release:	0.1
+Version:	20040121
+Release:	1
 License:	GPL
 Group:		Applications/Emulators
 Source0:	http://dl.sourceforge.net/%{name}/Wine-%{version}.tar.gz
@@ -261,7 +261,7 @@ Sterownik NAS dla implementacji mm.dll (systemu multimediów) w Wine.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
+#%patch3 -p1
 %patch4 -p0
 %patch5 -p1
 %patch6 -p1
