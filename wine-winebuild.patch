@@ -1,14 +1,15 @@
---- wine-20031212/tools/winebuild/import.c~	2003-12-17 15:06:03.000000000 +0100
-+++ wine-20031212/tools/winebuild/import.c	2003-12-17 15:09:05.000000000 +0100
-@@ -662,9 +662,11 @@
+--- wine-20031212/tools/winebuild/import.c~	2003-12-17 15:18:30.000000000 +0100
++++ wine-20031212/tools/winebuild/import.c	2003-12-17 15:19:33.000000000 +0100
+@@ -662,9 +662,9 @@
  {
      FILE *f;
      char buffer[1024];
-+#ifdef 0
-    if (*p == 'U') {
-            if (p[1] == ' ') p+=2;
-    }
-+#endif 
+-   if (*p == 'U') {
+-           if (p[1] == ' ') p+=2;
+-   }
++//   if (*p == 'U') {
++//           if (p[1] == ' ') p+=2;
++//   }
      int err;
      const char *name;
  
