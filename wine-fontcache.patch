@@ -1,0 +1,13 @@
+diff -urN wine-20010824/graphics/x11drv/xfont.c wine-20010824.new/graphics/x11drv/xfont.c
+--- wine-20010824/graphics/x11drv/xfont.c	Sun Sep  2 16:11:26 2001
++++ wine-20010824.new/graphics/x11drv/xfont.c	Wed Sep  5 11:03:09 2001
+@@ -2187,7 +2187,8 @@
+ 			       pfi->cptable >= (UINT16)X11DRV_CPTABLE_COUNT ||
+ 			      (int)(pfi->next) != j++ ) goto fail;
+ 
+-			   if( pfi->df.dfPixHeight == 0 ) goto fail;
++// To strict font checking - commented
++//			   if( pfi->df.dfPixHeight == 0 ) goto fail; 
+ 
+ 			   pfi->df.dfFace = pfr->lfFaceName;
+ 			   if( pfi->fi_flags & FI_SCALABLE )
