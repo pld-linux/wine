@@ -30,13 +30,13 @@ Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	20040408
+Version:	20040505
 Release:	1
 License:	LGPL
 Group:		Applications/Emulators
 #Source0:	http://dl.sourceforge.net/%{name}/Wine-%{version}.tar.gz
 Source0:	ftp://ftp.ibiblio.org/pub/Linux/ALPHA/%{name}/development/Wine-%{version}.tar.gz
-# Source0-md5:	af9268ee2f20d517cef844134212088e	
+# Source0-md5:	80db8c5c0ca2e0733bf232017a558757
 Source1:	%{name}.init
 Source2:	%{name}.reg
 Source3:	%{name}.systemreg
@@ -281,7 +281,7 @@ mv -f .tmp programs/Makefile.in
 %{__libtoolize}
 %{__aclocal}
 %{__autoconf}
-CPPFLAGS="-DALSA_PCM_OLD_HW_PARAMS_API"
+%{?with_alsa:CPPFLAGS="-DALSA_PCM_OLD_HW_PARAMS_API"}
 CFLAGS="%{rpmcflags} $CPPFLAGS"
 %configure \
 	%{!?debug:--disable-debug} \
