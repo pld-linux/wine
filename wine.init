@@ -6,7 +6,7 @@
 #
 # chkconfig:	2345 95 10
 #
-# description:	Allow users to run Windows(tm) applications by just clicking
+# description:	Allow users to run Windows(tm) applications by just clicking \
 # 		on them (or typing ./file.exe)
 #
 
