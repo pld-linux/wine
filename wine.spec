@@ -59,14 +59,14 @@ LDFLAGS="-s"; export LDFLAGS
     --without-curses \
     --with-x
 
-make depend
+%{__make} depend
 make
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_mandir}/man1
 
-make install \
+%{__make} install \
 	prefix=$RPM_BUILD_ROOT%{_prefix} \
 	exec-prefix=$RPM_BUILD_ROOT%{_exec_prefix} \
         bindir=$RPM_BUILD_ROOT%{_bindir} \
