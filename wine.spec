@@ -35,8 +35,8 @@ Release:	1
 License:	LGPL
 Group:		Applications/Emulators
 #Source0:	http://dl.sourceforge.net/%{name}/Wine-%{version}.tar.gz
-Source0:	ftp://ftp.ibiblio.org/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
-# Source0-md5:	6d0a23943481e703a7d3538269f788e0
+Source0:	ftp://ftp.ibiblio.org/pub/Linux/ALPHA/%{name}/development/Wine-%{version}.tar.gz
+# Source0-md5:	af9268ee2f20d517cef844134212088e	
 Source1:	%{name}.init
 Source2:	%{name}.reg
 Source3:	%{name}.systemreg
