@@ -51,7 +51,7 @@ URL:		http://www.winehq.org/
 BuildRequires:	OpenGL-devel
 BuildRequires:	XFree86-devel
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
-%{?with_arts:BuildRequires:	arts-devel}
+%{?with_arts:BuildRequires:	artsc-devel}
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
