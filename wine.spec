@@ -211,8 +211,6 @@ fi
 
 /sbin/chstk -e $RPM_BUILD_ROOT%{_bindir}/wine
 
-mv $RPM_BUILD_ROOT%{_datadir}/aclocal/wine.m4 $RPM_BUILD_ROOT%{_aclocaldir}
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -278,6 +276,5 @@ fi
 %files devel
 %defattr(644,root,root,755)
 %doc documentation/{wine-devel,winelib-user,HOWTO-winelib}
-%{_aclocaldir}/wine.m4
 %{_includedir}/wine
 %{_libdir}/*.a
