@@ -15,6 +15,7 @@ Release:	2
 License:	GPL
 Group:		Applications/Emulators
 Source0:	ftp://metalab.unc.edu/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
+# Source0-md5:	15ae091974c28c38c71e29fe64eacad7
 Source1:	%{name}.init
 Source2:	%{name}.reg
 Source3:	%{name}.systemreg
