@@ -4,7 +4,7 @@ Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
 Version:	20020411
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/Emulators
 Source0:	ftp://metalab.unc.edu/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
@@ -14,15 +14,21 @@ Source3:	%{name}.systemreg
 Source4:	%{name}.userreg
 Patch0:		%{name}-fontcache.patch
 URL:		http://www.winehq.com/
-Exclusivearch:	%{ix86}
-BuildRequires:	XFree86-devel
-BuildRequires:	flex
+ExclusiveArch:	%{ix86}
+BuildRequires:	arts-devel
 BuildRequires:	bison
+BuildRequires:	chpax
+BuildRequires:	cups-devel
+BuildRequires:	flex
+BuildRequires:	freetype-devel >= 2.0.5
+BuildRequires:	libjpeg-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	OpenGL-devel
-BuildRequires:	freetype-devel >= 2.0.5
-BuildRequires:	chpax
+BuildRequires:	sane-backends-devel
+BuildRequires:	XFree86-devel
 Requires:	OpenGL
+Requires(post): ldconfig
+Requires(post,preun): chkconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_noautoreqdep		libGL.so.1 libGLU.so.1
@@ -101,6 +107,8 @@ mv -f .tmp programs/Makefile.in
 %build
 #aclocal
 #autoconf
+CPPFLAGS="-I/usr/include/ncurses"; export CPPFLAGS
+CFLAGS="%{rpmcflags} $CPPFLAGS"
 %configure \
 %{!?debug:	--disable-debug} \
 %{!?debug:	--disable-trace} \
