@@ -3,7 +3,7 @@
 %bcond_without	alsa		# don't build ALSA mm driver
 %bcond_without	arts		# don't build aRts mm driver
 %bcond_without	jack		# don't build JACK mm driver
-%bcond_with	nas		# don't build NAS mm driver
+%bcond_without	nas		# don't build NAS mm driver
 %bcond_without	sane		# don't build TWAIN DLL with scanning support (through SANE)
 %bcond_without	cups		# without CUPS printing support in winspool,wineps DLLs
 %bcond_without	html_docs	# build html docs
@@ -30,7 +30,7 @@ Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
 Version:	20031212
-Release:	1
+Release:	0.1
 License:	GPL
 Group:		Applications/Emulators
 Source0:	http://dl.sf.net/wine/Wine-%{version}.tar.gz
@@ -75,6 +75,7 @@ BuildRequires:	opensp >= 1:1.5.1
 BuildRequires:	openssl-devel
 %if %{with pdf_docs}
 BuildRequires:	tetex-metafont
+BuildRequires:	tetex-fonts-jknappen
 BuildRequires:	tetex-fonts-pazo
 BuildRequires:	tetex-fonts-stmaryrd
 BuildRequires:	tetex-fonts-type1-urw
@@ -285,7 +286,7 @@ CFLAGS="%{rpmcflags} $CPPFLAGS"
 %{__make} depend
 %{__make}
 %{__make} -C programs
-%{__make} -C programs/regapi
+#%{__make} -C programs/regapi
 
 cd documentation
 %if %{with html_docs}
