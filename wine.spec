@@ -12,6 +12,7 @@ URL:		http://www.winehq.com/
 Exclusivearch:	%{ix86}
 BuildRequires:	XFree86-devel
 BuildRequires:	flex
+BuildRequires:	bison
 #BuildRequires:	ncurses-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
