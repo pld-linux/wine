@@ -3,7 +3,7 @@ Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	20020710
+Version:	20021125
 Release:	1
 License:	GPL
 Group:		Applications/Emulators
@@ -13,6 +13,8 @@ Source2:	%{name}.reg
 Source3:	%{name}.systemreg
 Source4:	%{name}.userreg
 Patch0:		%{name}-fontcache.patch
+Patch1:		%{name}-destdir.patch
+Patch2:		%{name}-ncurses.patch
 URL:		http://www.winehq.com/
 BuildRequires:	OpenGL-devel
 BuildRequires:	XFree86-devel
@@ -101,15 +103,17 @@ Wine - programy
 
 %prep
 %setup -q
-%patch -p1
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 # turn off compilation of some tools
 sed -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in > .tmp
 mv -f .tmp programs/Makefile.in
 
 %build
-#aclocal
-#autoconf
+%{__aclocal}
+%{__autoconf}
 CPPFLAGS="-I/usr/include/ncurses"; export CPPFLAGS
 CFLAGS="%{rpmcflags} $CPPFLAGS"
 %configure \
@@ -122,6 +126,7 @@ CFLAGS="%{rpmcflags} $CPPFLAGS"
 %{__make} depend
 %{__make}
 %{__make} -C programs
+%{__make} -C programs/regapi
 
 cd documentation
 ./db2html-winehq wine-user.sgml
@@ -133,37 +138,8 @@ cd -
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_mandir}/man1,%{_aclocaldir}}
 
-%{__make} install \
-	prefix=$RPM_BUILD_ROOT%{_prefix} \
-	exec-prefix=$RPM_BUILD_ROOT%{_exec_prefix} \
-        bindir=$RPM_BUILD_ROOT%{_bindir} \
-	sbindir=$RPM_BUILD_ROOT%{_sbindir} \
-	sysconfdir=$RPM_BUILD_ROOT%{_sysconfdir} \
-	datadir=$RPM_BUILD_ROOT%{_datadir} \
-	includedir=$RPM_BUILD_ROOT%{_includedir}/wine \
-	libdir=$RPM_BUILD_ROOT%{_libdir} \
-	libexecdir=$RPM_BUILD_ROOT%{_libexecdir} \
-	localstatedir=$RPM_BUILD_ROOT%{_localstatedir} \
-	sharedstatedir=$RPM_BUILD_ROOT%{_sharedstatedir} \
-	mandir=$RPM_BUILD_ROOT%{_mandir} \
-	infodir=$RPM_BUILD_ROOT%{_infodir} \
-	dlldir=$RPM_BUILD_ROOT%{_libdir}/wine
-
-%{__make} -C programs install \
-	prefix=$RPM_BUILD_ROOT%{_prefix} \
-	exec-prefix=$RPM_BUILD_ROOT%{_exec_prefix} \
-        bindir=$RPM_BUILD_ROOT%{_bindir} \
-	sbindir=$RPM_BUILD_ROOT%{_sbindir} \
-	sysconfdir=$RPM_BUILD_ROOT%{_sysconfdir} \
-	datadir=$RPM_BUILD_ROOT%{_datadir} \
-	includedir=$RPM_BUILD_ROOT%{_includedir}/wine \
-	libdir=$RPM_BUILD_ROOT%{_libdir} \
-	libexecdir=$RPM_BUILD_ROOT%{_libexecdir} \
-	localstatedir=$RPM_BUILD_ROOT%{_localstatedir} \
-	sharedstatedir=$RPM_BUILD_ROOT%{_sharedstatedir} \
-	mandir=$RPM_BUILD_ROOT%{_mandir} \
-	infodir=$RPM_BUILD_ROOT%{_infodir} \
-	dlldir=$RPM_BUILD_ROOT%{_libdir}/wine
+%{__make} install DESTDIR=$RPM_BUILD_ROOT
+%{__make} -C programs install DESTDIR=$RPM_BUILD_ROOT
 
 install programs/winhelp/hlp2sgml	$RPM_BUILD_ROOT%{_bindir}
 install tools/fnt2bdf			$RPM_BUILD_ROOT%{_bindir}
@@ -171,14 +147,14 @@ install tools/fnt2bdf			$RPM_BUILD_ROOT%{_bindir}
 install aclocal.m4 $RPM_BUILD_ROOT%{_aclocaldir}/wine.m4
 #mv -f $RPM_BUILD_ROOT{/usr/X11R6/share/aclocal,%{_aclocaldir}}/wine.m4
 
-install -d $RPM_BUILD_ROOT/etc/rc.d/init.d \
+install -d $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d \
         $RPM_BUILD_ROOT%{_winedir}/windows/{system,Desktop,Favorites,Fonts} \
         "$RPM_BUILD_ROOT%{_winedir}/windows/Start Menu/Programs/Startup" \
 	$RPM_BUILD_ROOT%{_winedir}/windows/{SendTo,ShellNew,system32,NetHood} \
 	$RPM_BUILD_ROOT%{_winedir}/windows/{Profiles/Administrator,Recent} \
 	$RPM_BUILD_ROOT%{_winedir}/{"Program Files/Common Files","My Documents"}
 
-install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/wine
+install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d/wine
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}
 install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}
 install %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}
@@ -266,7 +242,7 @@ fi
 %config(noreplace) %{_sysconfdir}/wine.reg
 %config(missingok) %{_sysconfdir}/wine.systemreg
 %config(missingok) %{_sysconfdir}/wine.userreg
-%attr(754,root,root) /etc/rc.d/init.d/wine
+%attr(754,root,root) %{_sysconfdir}/rc.d/init.d/wine
 %{_winedir}
 
 %files programs -f files.programs
