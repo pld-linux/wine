@@ -32,8 +32,6 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_mandir		%{_prefix}/man
 %define		_winedir	%{_datadir}/%{name}
 
-%define		no_install_post_strip	1
-
 %description
 Wine is a program which allows running Microsoft Windows programs
 (including DOS, Windows 3.x and Win32 executables) on Unix. It
