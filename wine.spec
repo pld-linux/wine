@@ -34,6 +34,8 @@ URL:		http://www.winehq.com/
 BuildRequires:	OpenGL-devel
 BuildRequires:	XFree86-devel
 %{?with_arts:BuildRequires:	arts-devel}
+BuildRequires:	autoconf
+BuildRequires:	automake
 BuildRequires:	bison
 BuildRequires:	chpax >= 0.20020901-2
 %{?with_cups:BuildRequires:	cups-devel}
@@ -187,8 +189,11 @@ cd -
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_mandir}/man1,%{_aclocaldir}}
 
-%{__make} install DESTDIR=$RPM_BUILD_ROOT
-%{__make} -C programs install DESTDIR=$RPM_BUILD_ROOT
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT
+
+%{__make} -C programs install \
+	DESTDIR=$RPM_BUILD_ROOT
 
 install programs/winhelp/hlp2sgml	$RPM_BUILD_ROOT%{_bindir}
 install tools/fnt2bdf			$RPM_BUILD_ROOT%{_bindir}
