@@ -235,7 +235,6 @@ fi
 %defattr(644,root,root,755)
 %doc README DEVELOPERS-HINTS ChangeLog BUGS AUTHORS ANNOUNCE
 %doc documentation/{wine-user,samples,status}
-%attr(755,root,root) %{_bindir}/widl
 %attr(755,root,root) %{_bindir}/wine
 %attr(755,root,root) %{_bindir}/winebuild
 %attr(755,root,root) %{_bindir}/winemaker
