@@ -45,6 +45,7 @@ Patch1:		%{name}-destdir.patch
 Patch2:		%{name}-ncurses.patch
 Patch3:		%{name}-makedep.patch
 Patch4:		%{name}-dga.patch
+Patch5:		%{name}-doc.patch
 URL:		http://www.winehq.org/
 %if %{with xlibs}
 BuildRequires:	libSM-devel
@@ -270,6 +271,7 @@ Sterownik NAS dla implementacji mm.dll (systemu multimediów) w Wine.
 %patch2 -p1
 %patch3 -p1
 #%patch4 -p1
+%patch5 -p1
 
 # turn off compilation of some tools
 #sed -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in > .tmp
