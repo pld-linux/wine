@@ -31,7 +31,7 @@ Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
 Version:	20040121
 Release:	1
-License:	GPL
+License:	LGPL
 Group:		Applications/Emulators
 Source0:	http://dl.sourceforge.net/%{name}/Wine-%{version}.tar.gz
 # Source0-md5:	33cf9c11e5208175bad540c0e822183e
