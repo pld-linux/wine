@@ -240,7 +240,7 @@ Sterownik aRts dla implementacji mm.dll (systemu multimediów) w Wine.
 
 %package drv-jack
 Summary:	JACK driver for WINE mm.dll implementation
-Summary(pl):	Sterownik JACK dla implementacji mm.dll w Wine
+Summary(pl):	Sterownik JACK-a dla implementacji mm.dll w Wine
 Group:		Applications/Emulators
 Requires:	%{name} = %{version}-%{release}
 Requires:	jack-audio-connection-kit
@@ -251,7 +251,8 @@ Requires:	jack-audio-connection-kit
 JACK driver for WINE mm.dll (multimedia system) implementation.
 
 %description drv-jack -l pl
-Sterownik JACK dla implementacji mm.dll (systemu multimediów) w Wine.
+Sterownik JACK-a dla implementacji mm.dll (systemu multimediów) w
+Wine.
 
 %package drv-nas
 Summary:	NAS driver for WINE mm.dll implementation
