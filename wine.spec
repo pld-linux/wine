@@ -81,7 +81,7 @@ BuildRequires:	ncurses-devel
 BuildRequires:	openjade >= 1:1.3.3-0.pre1
 BuildRequires:	opensp >= 1:1.5.1
 %endif
-BuildRequires:	openssl-devel
+BuildRequires:	openssl-devel >= 0.9.7d
 %if %{with pdf_docs}
 BuildRequires:	tetex-latex-cyrillic
 BuildRequires:	tetex-metafont
