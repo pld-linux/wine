@@ -4,7 +4,7 @@ Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
 Version:	20020122
-Release:	5
+Release:	6
 License:	distributable
 Group:		Applications/Emulators
 Source0:	ftp://metalab.unc.edu/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
@@ -193,7 +193,7 @@ rm -rf $RPM_BUILD_ROOT
 %post
 /sbin/ldconfig
 /sbin/chkconfig --add wine
-if [ ! -f /var/lock/subsys/wine ]
+if [ ! -f /var/lock/subsys/wine ]; then
 	echo "Run \"/etc/rc.d/init.d/wine start\" to start wine service." >&2
 fi
 
