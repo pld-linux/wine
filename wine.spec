@@ -127,6 +127,7 @@ cd documentation
 ./db2html-winehq wine-user.sgml
 ./db2html-winehq wine-devel.sgml
 ./db2html-winehq winelib-user.sgml
+cd -
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -179,6 +180,8 @@ install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}
 install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}
 install %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}
 
+mv -f $RPM_BUILD_ROOT{/usr/X11R6/share/aclocal,%{_aclocaldir}}/wine.m4
+
 touch $RPM_BUILD_ROOT%{_winedir}/{autoexec.bat,config.sys,windows/win.ini}
 touch $RPM_BUILD_ROOT%{_winedir}/windows/system/{shell.dll,shell32.dll}
 touch $RPM_BUILD_ROOT%{_winedir}/windows/system/{winsock.dll,wsock32.dll}
@@ -211,6 +214,21 @@ fi
 
 /sbin/chstk -e $RPM_BUILD_ROOT%{_bindir}/wine
 
+programs="notepad progman regedit regsvr32 uninstaller wcmd wineconsole winefile winemine winepath winhelp"
+cd $RPM_BUILD_ROOT%{_libdir}/wine
+for f in *.so; do
+	other_so_list="$other_so_list\n%attr(755,root,root) %{_libdir}/wine/$f"
+done
+cd -
+for p in $programs; do 
+	programs_list="$programs_list\n%attr(755,root,root) %{_bindir}/$p"
+	exe_so_list="$exe_so_list\n%attr(755,root,root) %{_libdir}/wine/$p.exe.so"
+	other_so_list="`echo "$other_so_list" | grep -v "$p\.exe\.so$"`"
+done
+echo "$programs_list" > files.programs
+echo "$exe_so_list" >> files.programs
+echo "$other_so_list" > files.so
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -231,51 +249,43 @@ fi
 
 %postun -p /sbin/ldconfig
 
-%files
+%files -f files.so
 %defattr(644,root,root,755)
 %doc README DEVELOPERS-HINTS ChangeLog BUGS AUTHORS ANNOUNCE
 %doc documentation/{wine-user,samples,status}
 %attr(755,root,root) %{_bindir}/wine
-%attr(755,root,root) %{_bindir}/winebuild
-%attr(755,root,root) %{_bindir}/winemaker
+%attr(755,root,root) %{_bindir}/winedbg
 %attr(755,root,root) %{_bindir}/wineserver
 %attr(755,root,root) %{_bindir}/wineclipsrv
-%attr(755,root,root) %{_bindir}/winelauncher
 %attr(755,root,root) %{_bindir}/wineshelllink
-%attr(755,root,root) %{_bindir}/winedump
-%attr(755,root,root) %{_bindir}/wrc
-%attr(755,root,root) %{_bindir}/wmc
-%attr(755,root,root) %{_bindir}/widl
-%attr(755,root,root) %{_bindir}/fnt2bdf
-%attr(755,root,root) %{_bindir}/function_grep.pl
 %attr(755,root,root) %{_libdir}/*.so*
-%{_libdir}/wine
-%{_mandir}/man[15]/*
+%{_mandir}/man1/wine.*
+%{_mandir}/man5/wine.conf.*
 %config(noreplace) %{_sysconfdir}/wine.reg
 %config(missingok) %{_sysconfdir}/wine.systemreg
 %config(missingok) %{_sysconfdir}/wine.userreg
 %attr(754,root,root) %{_sysconfdir}/rc.d/init.d/wine
 %{_winedir}
 
-%files programs
+%files programs -f files.programs
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/hlp2sgml
-%attr(755,root,root) %{_bindir}/notepad
-%attr(755,root,root) %{_bindir}/progman
-%attr(755,root,root) %{_bindir}/regedit
-%attr(755,root,root) %{_bindir}/regsvr32
-%attr(755,root,root) %{_bindir}/uninstaller
-%attr(755,root,root) %{_bindir}/wcmd
-%attr(755,root,root) %{_bindir}/wineconsole
-%attr(755,root,root) %{_bindir}/winedbg
-%attr(755,root,root) %{_bindir}/winefile
-%attr(755,root,root) %{_bindir}/winemine
-%attr(755,root,root) %{_bindir}/winepath
-%attr(755,root,root) %{_bindir}/winhelp
 
 %files devel
 %defattr(644,root,root,755)
 %doc documentation/{wine-devel,winelib-user,HOWTO-winelib}
+%attr(755,root,root) %{_bindir}/winebuild
+%attr(755,root,root) %{_bindir}/winemaker
+%attr(755,root,root) %{_bindir}/winedump
+%attr(755,root,root) %{_bindir}/wrc
+%attr(755,root,root) %{_bindir}/wmc
+%attr(755,root,root) %{_bindir}/widl
+%attr(755,root,root) %{_bindir}/hlp2sgml
+%attr(755,root,root) %{_bindir}/fnt2bdf
+%attr(755,root,root) %{_bindir}/function_grep.pl
 %{_includedir}/wine
 %{_libdir}/*.a
+%{_mandir}/man1/winemaker.*
+%{_mandir}/man1/winebuild.*
+%{_mandir}/man1/wmc.*
+%{_mandir}/man1/wrc.*
 %{_aclocaldir}/*.m4
