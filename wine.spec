@@ -29,8 +29,8 @@ BuildRequires:	ncurses-devel
 BuildRequires:	openjade
 %{!?_without_sane:BuildRequires:	sane-backends-devel}
 Requires:	OpenGL
-Requires(post):	ldconfig
-Requires(post,preun):chkconfig
+Requires(post):	/sbin/ldconfig
+Requires(post,preun):/sbin/chkconfig
 ExclusiveArch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
