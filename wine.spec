@@ -191,19 +191,20 @@ fi
 
 programs="notepad progman regedit regsvr32 uninstaller wineconsole winefile winemine winepath winhelp wcmd"
 
+BZZZ=`pwd`
+rm -f files.so;		touch files.so
+rm -f files.programs;	touch files.programs
 cd $RPM_BUILD_ROOT%{_libdir}/wine
 for f in *.so; do
-	other_so_list="$other_so_list\n%attr(755,root,root) %{_libdir}/wine/$f"
+	echo "%attr(755,root,root) %{_libdir}/wine/$f" >>$BZZZ/files.so
 done
 cd -
 for p in $programs; do 
-	programs_list="$programs_list\n%attr(755,root,root) %{_bindir}/$p"
-	exe_so_list="$exe_so_list\n%attr(755,root,root) %{_libdir}/wine/$p.exe.so"
-	other_so_list="`echo "$other_so_list" | grep -v "$p\.exe\.so$"`"
+	echo "%attr(755,root,root) %{_bindir}/$p" >> files.programs
+	echo "%attr(755,root,root) %{_libdir}/wine/$p.exe.so" >> files.programs
+	grep -v "$p\.exe\.so$" files.so > files.so.
+	mv -f files.so. files.so
 done
-echo "$programs_list" > files.programs
-echo "$exe_so_list" >> files.programs
-echo "$other_so_list" > files.so
 
 %clean
 rm -rf $RPM_BUILD_ROOT
