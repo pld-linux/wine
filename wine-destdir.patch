@@ -1,0 +1,25 @@
+--- wine/Make.rules.in.orig	2002-08-07 10:09:42.000000000 +0200
++++ wine/Make.rules.in	2002-08-07 10:14:35.000000000 +0200
+@@ -99,14 +99,14 @@
+ INSTALL_DATA    = @INSTALL_DATA@ $(INSTALL_DATA_FLAGS)
+ prefix          = @prefix@
+ exec_prefix     = @exec_prefix@
+-bindir          = @bindir@
+-libdir          = @libdir@
+-datadir         = @datadir@
+-infodir         = @infodir@
+-mandir          = @mandir@
+-sysconfdir      = @sysconfdir@
+-includedir      = @includedir@/wine
+-dlldir          = @libdir@/wine
++bindir          = $(DESTDIR)/@bindir@
++libdir          = $(DESTDIR)/@libdir@
++datadir         = $(DESTDIR)/@datadir@
++infodir         = $(DESTDIR)/@infodir@
++mandir          = $(DESTDIR)/@mandir@
++sysconfdir      = $(DESTDIR)/@sysconfdir@/wine
++includedir      = $(DESTDIR)/@includedir@/wine
++dlldir          = $(DESTDIR)/@libdir@/wine
+ prog_manext     = 1
+ conf_manext     = 5
+ CLEAN_FILES     = *.o *.a *.so *.ln *.$(LIBEXT) \\\#*\\\# *~ *% .\\\#* *.bak *.orig *.rej \
