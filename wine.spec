@@ -30,13 +30,13 @@ Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	20040505
-Release:	1
+Version:	20040615
+Release:	0.1
 License:	LGPL
 Group:		Applications/Emulators
 #Source0:	http://dl.sourceforge.net/%{name}/Wine-%{version}.tar.gz
 Source0:	ftp://ftp.ibiblio.org/pub/Linux/ALPHA/%{name}/development/Wine-%{version}.tar.gz
-# Source0-md5:	80db8c5c0ca2e0733bf232017a558757
+# Source0-md5:	5cfec5a33b596a08eefd2f8a44ccd205
 Source1:	%{name}.init
 Source2:	%{name}.reg
 Source3:	%{name}.systemreg
@@ -418,14 +418,16 @@ fi
 %doc documentation/wine-{faq,user}
 %endif
 %attr(755,root,root) %{_bindir}/wine
-%attr(755,root,root) %{_bindir}/wine-kthread
-%attr(755,root,root) %{_bindir}/wine-pthread
 %attr(755,root,root) %{_bindir}/wineboot
 %attr(755,root,root) %{_bindir}/winebrowser
 %attr(755,root,root) %{_bindir}/winecfg
 %attr(755,root,root) %{_bindir}/wineclipsrv
 %attr(755,root,root) %{_bindir}/winedbg
+%attr(755,root,root) %{_bindir}/wine-kthread
 %attr(755,root,root) %{_bindir}/winelauncher
+%attr(755,root,root) %{_bindir}/wineprefixcreate
+%attr(755,root,root) %{_bindir}/wine-preloader
+%attr(755,root,root) %{_bindir}/wine-pthread
 %attr(755,root,root) %{_bindir}/wineserver
 %attr(755,root,root) %{_bindir}/wineshelllink
 %attr(755,root,root) %{_libdir}/*.so*
