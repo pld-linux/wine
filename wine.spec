@@ -71,6 +71,7 @@ BuildRequires:	opensp >= 1:1.5.1
 %endif
 BuildRequires:	openssl-devel
 %if %{with pdf_docs}
+BuildRequires:	tetex-latex-cyrillic
 BuildRequires:	tetex-metafont
 BuildRequires:	tetex-fonts-jknappen
 BuildRequires:	tetex-fonts-pazo
