@@ -11,7 +11,7 @@ Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
 Version:	20030508
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/Emulators
 Source0:	ftp://metalab.unc.edu/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
@@ -38,6 +38,7 @@ BuildRequires:	freetype-devel >= 2.0.5
 BuildRequires:	libjpeg-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	openjade
+BuildRequires:	tetex-metafont
 %{!?_without_sane:BuildRequires:	sane-backends-devel}
 Requires:	OpenGL
 Requires(post):	/sbin/ldconfig
