@@ -3,8 +3,8 @@ Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	20011108
-Release:	5
+Version:	20011226
+Release:	1
 License:	distributable
 Group:		Applications/Emulators
 Group(de):	Applikationen/Emulators
