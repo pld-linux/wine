@@ -171,14 +171,14 @@ install tools/fnt2bdf			$RPM_BUILD_ROOT%{_bindir}
 install aclocal.m4 $RPM_BUILD_ROOT%{_aclocaldir}/wine.m4
 #mv -f $RPM_BUILD_ROOT{/usr/X11R6/share/aclocal,%{_aclocaldir}}/wine.m4
 
-install -d $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d \
+install -d $RPM_BUILD_ROOT/etc/rc.d/init.d \
         $RPM_BUILD_ROOT%{_winedir}/windows/{system,Desktop,Favorites,Fonts} \
         "$RPM_BUILD_ROOT%{_winedir}/windows/Start Menu/Programs/Startup" \
 	$RPM_BUILD_ROOT%{_winedir}/windows/{SendTo,ShellNew,system32,NetHood} \
 	$RPM_BUILD_ROOT%{_winedir}/windows/{Profiles/Administrator,Recent} \
 	$RPM_BUILD_ROOT%{_winedir}/{"Program Files/Common Files","My Documents"}
 
-install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d/wine
+install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/wine
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}
 install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}
 install %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}
@@ -266,7 +266,7 @@ fi
 %config(noreplace) %{_sysconfdir}/wine.reg
 %config(missingok) %{_sysconfdir}/wine.systemreg
 %config(missingok) %{_sysconfdir}/wine.userreg
-%attr(754,root,root) %{_sysconfdir}/rc.d/init.d/wine
+%attr(754,root,root) /etc/rc.d/init.d/wine
 %{_winedir}
 
 %files programs -f files.programs
