@@ -30,7 +30,7 @@ Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
 Version:	20031118
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/Emulators
 Source0:	http://dl.sf.net/wine/Wine-%{version}.tar.gz
@@ -55,7 +55,7 @@ BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
-BuildRequires:	chpax >= 0.20020901-2
+# BuildRequires:	chpax >= 0.20020901-2
 %{?with_cups:BuildRequires:	cups-devel}
 BuildRequires:	docbook-dtd31-sgml
 BuildRequires:	docbook-utils
@@ -361,7 +361,7 @@ if [ -n "$elfsharedlist" ]; then
 fi
 %endif
 
-/sbin/chstk -e $RPM_BUILD_ROOT%{_bindir}/wine
+# /sbin/chstk -e $RPM_BUILD_ROOT%{_bindir}/wine
 
 programs="notepad progman regedit regsvr32 uninstaller wineconsole winefile winemine winepath winhelp wcmd"
 
