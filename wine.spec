@@ -8,7 +8,7 @@
 %bcond_without	cups		# without CUPS printing support in winspool,wineps DLLs
 %bcond_without	html_docs	# build html docs
 %bcond_without	pdf_docs	# build pdf docs
-%bcond_without	xlibs
+%bcond_with	xlibs
 #
 # NOTE: wine detects following SONAMES for dlopen at build time:
 #   libcrypto,libssl (wininet.dll)
