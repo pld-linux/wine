@@ -241,6 +241,7 @@ fi
 %doc documentation/{wine-user,samples,status}
 %attr(755,root,root) %{_bindir}/wine
 %attr(755,root,root) %{_bindir}/winedbg
+%attr(755,root,root) %{_bindir}/winelauncher
 %attr(755,root,root) %{_bindir}/wineserver
 %attr(755,root,root) %{_bindir}/wineclipsrv
 %attr(755,root,root) %{_bindir}/wineshelllink
@@ -264,16 +265,19 @@ fi
 %attr(755,root,root) %{_bindir}/winebuild
 %attr(755,root,root) %{_bindir}/winemaker
 %attr(755,root,root) %{_bindir}/winedump
+%attr(755,root,root) %{_bindir}/winewrap
+%attr(755,root,root) %{_bindir}/winegcc
+%attr(755,root,root) %{_bindir}/wineg++
 %attr(755,root,root) %{_bindir}/wrc
 %attr(755,root,root) %{_bindir}/wmc
-#%attr(755,root,root) %{_bindir}/widl
+%attr(755,root,root) %{_bindir}/widl
 %attr(755,root,root) %{_bindir}/hlp2sgml
 %attr(755,root,root) %{_bindir}/fnt2bdf
 %attr(755,root,root) %{_bindir}/function_grep.pl
 %{_includedir}/wine
 %{_libdir}/*.a
 %{_mandir}/man1/winemaker.*
-#%{_mandir}/man1/winebuild.*
+%{_mandir}/man1/winebuild.*
 %{_mandir}/man1/wmc.*
 %{_mandir}/man1/wrc.*
 %{_aclocaldir}/*.m4
