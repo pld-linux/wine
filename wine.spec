@@ -13,7 +13,7 @@ Exclusivearch:	%{ix86}
 BuildRequires:	XFree86-devel
 BuildRequires:	flex
 BuildRequires:	bison
-#BuildRequires:	ncurses-devel
+BuildRequires:	ncurses-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_prefix		/usr/X11R6
@@ -54,11 +54,10 @@ Wine - pliki nag³ówkowe.
 %setup -q
 
 %build
-# TODO: Curses doesn't work.
 %configure \
 	--disable-debug \
 	--disable-trace \
-	--without-curses \
+	--enable-curses \
 	--with-x
 
 %{__make} depend
@@ -109,11 +108,11 @@ rm -rf $RPM_BUILD_ROOT
 %doc documentation wine.conf.example
 %attr(755,root,root) %{_bindir}/*
 %{_mandir}/man[15]/*
-%attr(755,root,root) %{_libdir}/*.so.*
+%attr(755,root,root) %{_libdir}/*.so*
 #%{_libdir}/wine.sym
 %config(noreplace) %{_sysconfdir}/wine.conf
 
 %files devel
 %defattr(644,root,root,755)
 %{_includedir}/wine
-%attr(755,root,root) %{_libdir}/lib*.so
+#%attr(755,root,root) %{_libdir}/lib*.so
