@@ -10,13 +10,11 @@ Group(pl):	Applikacje/Emulatory
 Source0:	ftp://metalab.unc.edu/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
 Url:		http://www.winehq.com
 Exclusivearch:	%{ix86}
-Buildroot:	/tmp/%{name}-%{version}-root
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 
 %description -l pl
-
-
 
 %package devel
 Summary:        Wine - header files
@@ -30,7 +28,6 @@ Wine - header files.
 
 %description -l pl devel
 Wine - pliki nag³ówkowe.
-
 
 %prep
 %setup -q
@@ -81,12 +78,10 @@ cat <<EOF >$RPM_BUILD_ROOT%{_sysconfdir}/wine.conf
 ;
 EOF
 
-
 gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man1/*
 gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man5/*
 
 gzip -9nf README WARRANTY LICENSE DEVELOPERS-HINTS ChangeLog BUGS AUTHORS ANNOUNCE
-
 
 %post   -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
@@ -94,7 +89,6 @@ gzip -9nf README WARRANTY LICENSE DEVELOPERS-HINTS ChangeLog BUGS AUTHORS ANNOUN
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-    
 %files
 %defattr(644,root,root,755)
 %doc {README,WARRANTY,LICENSE,DEVELOPERS-HINTS,ChangeLog,BUGS,AUTHORS,ANNOUNCE}.gz
