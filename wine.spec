@@ -4,10 +4,11 @@ Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
 Version:	20020710
-Release:	3
+Release:	4
 License:	GPL
 Group:		Applications/Emulators
 Source0:	ftp://metalab.unc.edu/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
+# Source0-md5:	51cb48fbebd4d61b01d7cbb95de33d4c
 Source1:	%{name}.init
 Source2:	%{name}.reg
 Source3:	%{name}.systemreg
@@ -54,11 +55,11 @@ Ejecuta programas Windows en Linux.
 
 %description -l pl
 Wine jest programem dziêki któremu mo¿na uruchamiaæ programy napisane
-dla Microsoft Windows pod systemami unixowymi. Sk³ada siê on z
+dla Microsoft Windows pod systemami uniksowymi. Sk³ada siê on z
 loadera, który pozwala wczytywaæ i uruchamiaæ programy w formacie
 Microsoft Windows oraz z biblioteki, która implementuje API Windows
-przy u¿yciu odpowiedników Unixowych oraz z X11. Biblioteka mo¿e byæ
-tak¿e wykorzystana do przenoszenia aplikacji Win32 do Unixa.
+przy u¿yciu odpowiedników uniksowych oraz z X11. Biblioteka mo¿e byæ
+tak¿e wykorzystana do przenoszenia aplikacji Win32 na uniksy.
 
 %description -l pt_BR
 O Wine é um programa que permite rodar programas MS-Windows no X11.
@@ -69,7 +70,7 @@ chamadas da API para as equivalentes Unix/X11.
 %package devel
 Summary:	Wine - header files
 Summary(es):	Biblioteca de desarrollo de wine
-Summary(pl):	Wine - pliki nag³owkowe
+Summary(pl):	Wine - pliki nag³ówkowe
 Summary(pt_BR):	Biblioteca de desenvolvimento do wine
 Group:		Development/Libraries
 Requires:	%{name} = %{version}
@@ -94,10 +95,10 @@ Group:		Applications
 Requires:	%{name} = %{version}
 
 %description programs
-Wine - programs
+Wine - programs.
 
 %description programs -l pl
-Wine - programy
+Wine - programy.
 
 %prep
 %setup -q
