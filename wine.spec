@@ -34,7 +34,7 @@ Release:	1
 License:	GPL
 Group:		Applications/Emulators
 Source0:	http://dl.sourceforge.net/%{name}/Wine-%{version}.tar.gz
-# Source0-md5:	eaac8e7f9864d4c4069cfb2b202e22a5
+# Source0-md5:	33cf9c11e5208175bad540c0e822183e
 Source1:	%{name}.init
 Source2:	%{name}.reg
 Source3:	%{name}.systemreg
