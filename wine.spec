@@ -30,7 +30,6 @@ Patch4:		%{name}-binutils.patch
 Patch5:		%{name}-makedep.patch
 Patch6:		%{name}-dga.patch
 Patch7:		%{name}-winebuild.patch
-Patch8:		%{name}-cdrom-segv.patch
 URL:		http://www.winehq.com/
 BuildRequires:	OpenGL-devel
 BuildRequires:	XFree86-devel
@@ -146,7 +145,6 @@ Dokumentacja Wine w formacie PDF.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
-#%patch8 -p1
 
 # turn off compilation of some tools
 #sed -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in > .tmp
