@@ -5,12 +5,12 @@ Version:	20001026
 Release:	1
 License:	distributable
 Group:		Applications/Emulators
+Group(de):	Applikationen/Emulators
 Group(pl):	Aplikacje/Emulatory
 Source0:	ftp://metalab.unc.edu/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
 URL:		http://www.winehq.com/
 Exclusivearch:	%{ix86}
 BuildRequires:	XFree86-devel
-BuildRequires:	xpm-devel
 BuildRequires:	flex
 #BuildRequires:	ncurses-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -38,6 +38,7 @@ tak¿e wykorzystana do przenoszenia aplikacji Win32 do Unixa.
 Summary:	Wine - header files
 Summary(pl):	Wine - pliki nag³owkowe
 Group:		Development/Libraries
+Group(de):	Entwicklung/Libraries
 Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
 Requires:	%{name} = %{version}
@@ -52,7 +53,6 @@ Wine - pliki nag³ówkowe.
 %setup -q
 
 %build
-LDFLAGS="-s"; export LDFLAGS
 # TODO: Curses doesn't work.
 %configure \
     --disable-debug \
@@ -94,11 +94,7 @@ cat <<EOF >$RPM_BUILD_ROOT%{_sysconfdir}/wine.conf
 ;
 EOF
 
-strip --strip-unneeded $RPM_BUILD_ROOT%{_libdir}/*.so.*.*
-strip $RPM_BUILD_ROOT%{_bindir}/*
-
-gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man*/* \
-	README WARRANTY LICENSE DEVELOPERS-HINTS ChangeLog BUGS AUTHORS ANNOUNCE
+gzip -9nf README WARRANTY LICENSE DEVELOPERS-HINTS ChangeLog BUGS AUTHORS ANNOUNCE
 
 %post   -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
