@@ -3,7 +3,7 @@ Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	20011004
+Version:	20011108
 Release:	1
 License:	distributable
 Group:		Applications/Emulators
@@ -18,6 +18,7 @@ BuildRequires:	flex
 BuildRequires:	bison
 BuildRequires:	ncurses-devel
 BuildRequires:	OpenGL-devel
+BuildRequires:  freetype-devel >= 2.0.5
 Requires:	OpenGL
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
