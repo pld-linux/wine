@@ -17,7 +17,7 @@ BINFMT_DIR='/proc/sys/fs/binfmt_misc'
 
 
 case "$1" in
-  start|restart|reload|force-reload)
+  start|reload|force-reload)
 	if [ ! -f /var/lock/subsys/wine ]; then
 		# check if binfmt_misc is not already mounted
 		if ! /bin/mount | grep -q "${BINFMT_DIR} type binfmt_misc"; then
@@ -42,6 +42,10 @@ case "$1" in
 	else
 		msg_not_running "Wine"
 	fi
+	;;
+  restart)
+    $0 stop;
+    $0 start;
 	;;
   status)
 	;;
