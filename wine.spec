@@ -191,7 +191,9 @@ rm -rf $RPM_BUILD_ROOT
 %post
 /sbin/ldconfig
 /sbin/chkconfig --add wine
-echo "Run \"/etc/rc.d/init.d/wine start\" to start wine service." >&2
+if [ ! -f /var/lock/subsys/wine ]
+	echo "Run \"/etc/rc.d/init.d/wine start\" to start wine service." >&2
+fi
 
 %preun
 if [ "$1" = "0" ]; then
