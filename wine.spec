@@ -3,7 +3,7 @@
 %bcond_without	alsa		# don't build ALSA mm driver
 %bcond_without	arts		# don't build aRts mm driver
 %bcond_without	jack		# don't build JACK mm driver
-%bcond_without	nas		# don't build NAS mm driver
+%bcond_with	nas		# don't build NAS mm driver
 %bcond_without	sane		# don't build TWAIN DLL with scanning support (through SANE)
 %bcond_without	cups		# without CUPS printing support in winspool,wineps DLLs
 %bcond_without	html_docs	# build html docs
@@ -29,12 +29,12 @@ Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	20031118
-Release:	2
+Version:	20031212
+Release:	1
 License:	GPL
 Group:		Applications/Emulators
 Source0:	http://dl.sf.net/wine/Wine-%{version}.tar.gz
-# Source0-md5:	5787e6b3205b54f2230b4c4c0d422c3c
+# Source0-md5:	eaac8e7f9864d4c4069cfb2b202e22a5
 Source1:	%{name}.init
 Source2:	%{name}.reg
 Source3:	%{name}.systemreg
