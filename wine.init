@@ -25,8 +25,8 @@ case "$1" in
 			/bin/mount none -t binfmt_misc /proc/sys/fs/binfmt_misc
 		fi
 		msg_starting "Wine"
-		echo ':windows:M::MZ::/usr/X11R6/bin/wine:' > ${BINFMT_DIR}/register
-		echo ':windowsPE:M::PE::/usr/X11R6/bin/wine:' > ${BINFMT_DIR}/register
+		echo ':windows:M::MZ::/usr/bin/wine:' > ${BINFMT_DIR}/register
+		echo ':windowsPE:M::PE::/usr/bin/wine:' > ${BINFMT_DIR}/register
 		deltext
 		ok
 	fi
