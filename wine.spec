@@ -4,6 +4,7 @@
 %bcond_without cups     # without CUPS printing support
 %bcond_without sane     # without TWAIN scanning support (through SANE)
 %bcond_with    pdf_docs # build pdf docs (missing BR)
+%bcond_with    html_docs # build html docs (jade fault ?)
 #
 # maybe TODO: alsa,jack,nas BRs/checks (see dlls/winmm/wine*)
 Summary:	Program that lets you launch Win applications
@@ -11,12 +12,12 @@ Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	20030618
+Version:	20030709
 Release:	0.1
 License:	GPL
 Group:		Applications/Emulators
 Source0:	ftp://metalab.unc.edu/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
-# Source0-md5:	8423452b7d203c75031ea5c8aac32622
+# Source0-md5:	c26e151ecd49545afd5b15c1a4d726cc
 Source1:	%{name}.init
 Source2:	%{name}.reg
 Source3:	%{name}.systemreg
@@ -26,6 +27,7 @@ Patch1:		%{name}-destdir.patch
 Patch2:		%{name}-ncurses.patch
 Patch3:		%{name}-ac-ksh.patch
 Patch4:		%{name}-binutils.patch
+Patch5:		%{name}-makedep.patch
 URL:		http://www.winehq.com/
 BuildRequires:	OpenGL-devel
 BuildRequires:	XFree86-devel
@@ -39,7 +41,9 @@ BuildRequires:	flex
 BuildRequires:	freetype-devel >= 2.0.5
 BuildRequires:	libjpeg-devel
 BuildRequires:	ncurses-devel
+%if %{with html_docs} || %{with pdf_docs}
 BuildRequires:	openjade
+%endif
 %if %{with pdf_docs}
 BuildRequires:	tetex-metafont
 BuildRequires:	tetex-fonts-pazo
@@ -136,6 +140,7 @@ Dokumentacja Wine w formacie PDF.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p0
+%patch5 -p1
 
 # turn off compilation of some tools
 #sed -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in > .tmp
@@ -160,10 +165,12 @@ CFLAGS="%{rpmcflags} $CPPFLAGS"
 %{__make} -C programs/regapi
 
 cd documentation
+%if %{with html_docs}
 db2html wine-user.sgml
 db2html wine-devel.sgml
 db2html wine-faq.sgml
 db2html winelib-user.sgml
+%endif
 
 %if %{with pdf_docs}
 db2pdf 	wine-user.sgml
@@ -270,7 +277,10 @@ fi
 %files -f files.so
 %defattr(644,root,root,755)
 %doc README DEVELOPERS-HINTS ChangeLog BUGS AUTHORS ANNOUNCE
-%doc documentation/{wine-user,samples,status,wine-faq}
+%doc documentation/{wine-user,samples,status}
+%if %{with html_docs}
+%doc documentation/wine-faq
+%endif
 %attr(755,root,root) %{_bindir}/wine
 %attr(755,root,root) %{_bindir}/wineboot
 %attr(755,root,root) %{_bindir}/winecfg
@@ -294,7 +304,9 @@ fi
 
 %files devel
 %defattr(644,root,root,755)
+%if %{with html_docs}
 %doc documentation/{wine-devel,winelib-user,HOWTO-winelib}
+%endif
 %attr(755,root,root) %{_bindir}/fnt2bdf
 %attr(755,root,root) %{_bindir}/function_grep.pl
 %attr(755,root,root) %{_bindir}/hlp2sgml
