@@ -3,8 +3,8 @@ Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	20020710
-Release:	2
+Version:	20020804
+Release:	1
 License:	GPL
 Group:		Applications/Emulators
 Source0:	ftp://metalab.unc.edu/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
@@ -29,8 +29,8 @@ BuildRequires:	ncurses-devel
 BuildRequires:	openjade
 %{!?_without_sane:BuildRequires:	sane-backends-devel}
 Requires:	OpenGL
-Requires(post): ldconfig
-Requires(post,preun): chkconfig
+Requires(post):	ldconfig
+Requires(post,preun):chkconfig
 ExclusiveArch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -235,6 +235,7 @@ fi
 %defattr(644,root,root,755)
 %doc README DEVELOPERS-HINTS ChangeLog BUGS AUTHORS ANNOUNCE
 %doc documentation/wine-user
+%attr(755,root,root) %{_bindir}/widl
 %attr(755,root,root) %{_bindir}/wine
 %attr(755,root,root) %{_bindir}/winebuild
 %attr(755,root,root) %{_bindir}/winemaker
@@ -275,5 +276,6 @@ fi
 %files devel
 %defattr(644,root,root,755)
 %doc documentation/{wine-devel,winelib-user,HOWTO-winelib}
+%{_aclocaldir}/wine.m4
 %{_includedir}/wine
 %{_libdir}/*.a
