@@ -12,12 +12,12 @@ Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	20030911
-Release:	0.2
+Version:	20031016
+Release:	1
 License:	GPL
 Group:		Applications/Emulators
 Source0:	http://dl.sf.net/wine/Wine-%{version}.tar.gz
-# Source0-md5:	81521fe47d540427183e88d02d5c5f88
+# Source0-md5:	67eed2fb7a86d805ec8fc4bcf7a04254
 Source1:	%{name}.init
 Source2:	%{name}.reg
 Source3:	%{name}.systemreg
@@ -146,7 +146,7 @@ Dokumentacja Wine w formacie PDF.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
-%patch8 -p1
+#%patch8 -p1
 
 # turn off compilation of some tools
 #sed -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in > .tmp
@@ -282,7 +282,7 @@ fi
 %files -f files.so
 %defattr(644,root,root,755)
 %doc README DEVELOPERS-HINTS ChangeLog BUGS AUTHORS ANNOUNCE
-%doc documentation/{samples,status}
+%doc documentation/samples
 %if %{with html_docs}
 %doc documentation/wine-{faq,user}
 %endif
