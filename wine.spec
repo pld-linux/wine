@@ -124,7 +124,7 @@ Summary(es):	Biblioteca de desarrollo de wine
 Summary(pl):	Wine - pliki nag³owkowe
 Summary(pt_BR):	Biblioteca de desenvolvimento do wine
 Group:		Development/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description devel
 Wine - header files.
@@ -143,7 +143,7 @@ WINE.
 Summary:	Wine - programs
 Summary(pl):	Wine - programy
 Group:		Applications
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description programs
 Wine - programs.
@@ -166,7 +166,7 @@ Dokumentacja Wine w formacie PDF.
 Summary:	Direct3D implementation DLLs for Wine
 Summary(pl):	Biblioteki DLL z implementacj± Direct3D dla Wine
 Group:		Applications/Emulators
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 Requires:	OpenGL
 
 %description dll-d3d
@@ -179,7 +179,7 @@ Biblioteki DLL z implementacj± Direct3D dla Wine (poprzez OpenGL).
 Summary:	OpenGL implementation DLLs for Wine
 Summary(pl):	Biblioteki DLL z implementacj± OpenGL dla Wine
 Group:		Applications/Emulators
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 Requires:	OpenGL
 
 %description dll-gl
@@ -192,7 +192,7 @@ Biblioteki DLL z implementacj± OpenGL dla Wine.
 Summary:	TWAIN implementation DLL for Wine
 Summary(pl):	Biblioteka DLL z implementacj± TWAIN dla Wine
 Group:		Applications/Emulators
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description dll-twain
 TWAIN implementation DLL for Wine (through SANE).
@@ -204,7 +204,7 @@ Biblioteka DLL z implementacj± TWAIN dla Wine (poprzez SANE).
 Summary:	ALSA driver for WINE mm.dll implementation
 Summary(pl):	Sterownik ALSA dla implementacji mm.dll w Wine
 Group:		Applications/Emulators
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description drv-alsa
 ALSA driver for WINE mm.dll (multimedia system) implementation.
@@ -228,10 +228,10 @@ Sterownik aRts dla implementacji mm.dll (systemu multimediów) w Wine.
 Summary:	JACK driver for WINE mm.dll implementation
 Summary(pl):	Sterownik JACK dla implementacji mm.dll w Wine
 Group:		Applications/Emulators
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 Requires:	jack-audio-connection-kit
 # dlopened by SONAME detected at build time
-%{?with_jack:Requires:	%{getsoname /usr/lib/libjack.so}}
+%{?with_jack:Requires:	%{getsoname /usr/%{_lib}/libjack.so}}
 
 %description drv-jack
 JACK driver for WINE mm.dll (multimedia system) implementation.
@@ -243,7 +243,7 @@ Sterownik JACK dla implementacji mm.dll (systemu multimediów) w Wine.
 Summary:	NAS driver for WINE mm.dll implementation
 Summary(pl):	Sterownik NAS dla implementacji mm.dll w Wine
 Group:		Applications/Emulators
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description drv-nas
 NAS driver for WINE mm.dll (multimedia system) implementation.
