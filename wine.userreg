@@ -1,0 +1,24 @@
+WINE REGISTRY Version 2
+;; All keys relative to \\User\\root
+
+[Control Panel\\Colors] 973650384
+
+[Control Panel\\desktop] 973650384
+"DragFullWindows"="0"
+
+[Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders] 973650384
+"Desktop"="C:\\WINDOWS\\Desktop"
+"Favorites"="C:\\WINDOWS\\Favorites"
+"Fonts"="C:\\WINDOWS\\Fonts"
+"NetHood"="C:\\WINDOWS\\NetHood"
+"Personal"="C:\\My Documents"
+"Programs"="C:\\WINDOWS\\Start Menu\\Programs"
+"Recent"="C:\\WINDOWS\\Recent"
+"SendTo"="C:\\WINDOWS\\SendTo"
+"Start Menu"="C:\\WINDOWS\\Start Menu"
+"StartUp"="C:\\WINDOWS\\Start Menu\\Programs\\Startup"
+"Templates"="C:\\WINDOWS\\ShellNew"
+
+[Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders] 973650384
+"Favorites"="C:\\WINDOWS\\Favorites"
+"Personal"="C:\\My Documents"

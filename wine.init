@@ -1,0 +1,32 @@
+#!/bin/sh
+# $Id$
+#
+# wine:		Allow users to run Windows(tm) applications by just clicking
+#		on them (or typing ./file.exe)
+#
+# chkconfig:	2345 99 10
+#
+# description:	Allow users to run Windows(tm) applications by just clicking
+# 		on them (or typing ./file.exe)
+#
+
+# Source function library
+. /etc/rc.d/init.d/functions
+
+case "$1" in
+  start)
+    _modprobe single binfmt_misc
+    msg_starting "Setting Wine configuration"
+    echo ':windows:M::MZ::/usr/X11R6/bin/wine:' >/proc/sys/fs/binfmt_misc/register
+    echo ':windowsPE:M::PE::/usr/X11R6/bin/wine:' >/proc/sys/fs/binfmt_misc/register
+    deltext
+    ok
+    ;;
+  stop)
+    msg_stopping "Wine"
+    echo "-1" >/proc/sys/fs/binfmt_misc/windows
+    echo "-1" >/proc/sys/fs/binfmt_misc/windowsPE
+    ;;
+  *)
+    echo "Usage: $0 {start|stop}"
+esac
