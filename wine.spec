@@ -1,5 +1,7 @@
 Summary:	Program that lets you launch Win applications
+Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaÊ aplikacje Windows
+Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
 Version:	20011004
 Release:	1
@@ -31,6 +33,9 @@ Windows binary, and a library that implements Windows API calls using
 their Unix or X11 equivalents. The library may also be used for
 porting Win32 code into native Unix executables.
 
+%description -l es
+Ejecuta programas Windows en Linux.
+
 %description -l pl
 Wine jest programem dziÍki ktÛremu moøna uruchamiaÊ programy napisane
 dla Microsoft Windows pod systemami unixowymi. Sk≥ada siÍ on z
@@ -39,20 +44,39 @@ Microsoft Windows oraz z biblioteki, ktÛra implementuje API Windows
 przy uøyciu odpowiednikÛw Unixowych oraz z X11. Biblioteka moøe byÊ
 takøe wykorzystana do przenoszenia aplikacji Win32 do Unixa.
 
+%description -l pt_BR
+O Wine È um programa que permite rodar programas MS-Windows no X11.
+Ele consiste de um carregador de programa, que carrega e executa um
+bin·rio MS-Windows, e de uma biblioteca de emulaÁ„o que traduz as
+chamadas da API para as equivalentes Unix/X11.
+
 %package devel
 Summary:	Wine - header files
+Summary(es):	Biblioteca de desarrollo de wine
 Summary(pl):	Wine - pliki nag≥owkowe
+Summary(pt_BR):	Biblioteca de desenvolvimento do wine
 Group:		Development/Libraries
 Group(de):	Entwicklung/Libraries
+Group(es):	Desarrollo/Bibliotecas
 Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
+Group(pt_BR):	Desenvolvimento/Bibliotecas
+Group(ru):	Ú¡⁄“¡¬œ‘À¡/‚…¬Ã…œ‘≈À…
+Group(uk):	Úœ⁄“œ¬À¡/‚¶¬Ã¶œ‘≈À…
 Requires:	%{name} = %{version}
  
 %description devel
 Wine - header files.
 
+%description -l es devel
+Biblioteca de desarrollo de wine.
+
 %description -l pl devel
 Wine - pliki nag≥Ûwkowe.
+
+%description -l pt_BR devel
+Arquivos de inclus„o e bibliotecas para desenvolver aplicaÁıes com o
+WINE.
 
 %prep
 %setup -q
