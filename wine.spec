@@ -2,14 +2,23 @@
 # Conditional build:
 %bcond_without	alsa		# don't build ALSA mm driver
 %bcond_without	arts		# don't build aRts mm driver
-%bcond_without	cups		# without CUPS printing support
 %bcond_without	jack		# don't build JACK mm driver
 %bcond_without	nas		# don't build NAS mm driver
-%bcond_without	sane		# without TWAIN scanning support (through SANE)
-%bcond_with	pdf_docs	# build pdf docs (missing BR)
-%bcond_with	html_docs	# build html docs (jade fault ?)
+%bcond_without	sane		# don't build TWAIN DLL with scanning support (through SANE)
+%bcond_without	cups		# without CUPS printing support in winspool,wineps DLLs
+%bcond_without	html_docs	# build html docs
+%bcond_without	pdf_docs	# build pdf docs
 #
-# TODO: separate alsa,jack,nas,twain,cups(?) dependent stuff [WIP]
+# NOTE: wine detects following SONAMES for dlopen at build time:
+#   libcrypto,libssl (wininet.dll)
+#   libcups (winspool.dll.so,wineps.dll.so)
+#   libcurses/libncurses (wineconsole program)
+#   libfontconfig (gdi32.dll.so)
+#   libfreetype (wineps.dll.so,gdi32.dll.so)
+#   libGL (x11drv.dll.so,ddraw.dll.so)
+#   libjack (winejack.drv.so - explicit dependency in subpackage)
+#   libX11, libXext, libXrender (x11drv.dll.so)
+# thus requires requild after change of any of above.
 #
 # JACK requires ALSA
 %if %{without alsa}
@@ -51,14 +60,19 @@ BuildRequires:	chpax >= 0.20020901-2
 BuildRequires:	docbook-dtd31-sgml
 BuildRequires:	docbook-utils
 BuildRequires:	flex
+BuildRequires:	fontconfig-devel
 BuildRequires:	freetype-devel >= 2.0.5
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
 BuildRequires:	libjpeg-devel
+BuildRequires:	libungif-devel
 %{?with_nas:BuildRequires:	nas-devel}
 BuildRequires:	ncurses-devel
 %if %{with html_docs} || %{with pdf_docs}
-BuildRequires:	openjade
+# db2* failed previously - probably openjade or opensp bug
+BuildRequires:	openjade >= 1:1.3.3-0.pre1
+BuildRequires:	opensp >= 1:1.5.1
 %endif
+BuildRequires:	openssl-devel
 %if %{with pdf_docs}
 BuildRequires:	tetex-metafont
 BuildRequires:	tetex-fonts-pazo
@@ -66,7 +80,7 @@ BuildRequires:	tetex-fonts-stmaryrd
 BuildRequires:	tetex-fonts-type1-urw
 %endif
 %{?with_sane:BuildRequires:	sane-backends-devel}
-Requires:	OpenGL
+BuildRequires:	xrender-devel
 Requires(post):	/sbin/ldconfig
 Requires(post,preun):	/sbin/chkconfig
 # link to wine/ntdll.dll.so, without any SONAME
@@ -78,6 +92,8 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		no_install_post_strip	1
 
 %define		_winedir		%{_datadir}/%{name}
+
+%define		getsoname()	%(objdump -p %{1} | awk  '/SONAME/ { print $2 }')
 
 %description
 Wine is a program which allows running Microsoft Windows programs
@@ -147,6 +163,97 @@ Wine documentation in PDF format.
 
 %description doc-pdf -l pl
 Dokumentacja Wine w formacie PDF.
+
+%package dll-d3d
+Summary:	Direct3D implementation DLLs for Wine
+Summary(pl):	Biblioteki DLL z implementacj± Direct3D dla Wine
+Group:		Applications/Emulators
+Requires:	%{name} = %{version}
+Requires:	OpenGL
+
+%description dll-d3d
+Direct3D implementation DLLs for Wine (through OpenGL).
+
+%description dll-d3d -l pl
+Biblioteki DLL z implementacj± Direct3D dla Wine (poprzez OpenGL).
+
+%package dll-gl
+Summary:	OpenGL implementation DLLs for Wine
+Summary(pl):	Biblioteki DLL z implementacj± OpenGL dla Wine
+Group:		Applications/Emulators
+Requires:	%{name} = %{version}
+Requires:	OpenGL
+
+%description dll-gl
+OpenGL implementation DLLs for Wine.
+
+%description dll-gl -l pl
+Biblioteki DLL z implementacj± OpenGL dla Wine.
+
+%package dll-twain
+Summary:	TWAIN implementation DLL for Wine
+Summary(pl):	Biblioteka DLL z implementacj± TWAIN dla Wine
+Group:		Applications/Emulators
+Requires:	%{name} = %{version}
+
+%description dll-twain
+TWAIN implementation DLL for Wine (through SANE).
+
+%description dll-twain -l pl
+Biblioteka DLL z implementacj± TWAIN dla Wine (poprzez SANE).
+
+%package drv-alsa
+Summary:	ALSA driver for WINE mm.dll implementation
+Summary(pl):	Sterownik ALSA dla implementacji mm.dll w Wine
+Group:		Applications/Emulators
+Requires:	%{name} = %{version}
+
+%description drv-alsa
+ALSA driver for WINE mm.dll (multimedia system) implementation.
+
+%description drv-alsa -l pl
+Sterownik ALSA dla implementacji mm.dll (systemu multimediów) w Wine.
+
+%package drv-arts
+Summary:	aRts driver for WINE mm.dll implementation
+Summary(pl):	Sterownik aRts dla implementacji mm.dll w Wine
+Group:		Applications/Emulators
+Requires:	%{name} = %{version}
+
+%description drv-arts
+aRts driver for WINE mm.dll (multimedia system) implementation.
+
+%description drv-arts -l pl
+Sterownik aRts dla implementacji mm.dll (systemu multimediów) w Wine.
+
+%package drv-jack
+Summary:	JACK driver for WINE mm.dll implementation
+Summary(pl):	Sterownik JACK dla implementacji mm.dll w Wine
+Group:		Applications/Emulators
+Requires:	%{name} = %{version}
+Requires:	jack-audio-connection-kit
+# dlopened by SONAME detected at build time
+%if %{with jack}
+Requires:	%{getsoname /usr/lib/libjack.so}
+%endif
+
+%description drv-jack
+JACK driver for WINE mm.dll (multimedia system) implementation.
+
+%description drv-jack -l pl
+Sterownik JACK dla implementacji mm.dll (systemu multimediów) w Wine.
+
+%package drv-nas
+Summary:	NAS driver for WINE mm.dll implementation
+Summary(pl):	Sterownik NAS dla implementacji mm.dll w Wine
+Group:		Applications/Emulators
+Requires:	%{name} = %{version}
+
+%description drv-nas
+NAS driver for WINE mm.dll (multimedia system) implementation.
+
+%description drv-nas -l pl
+Sterownik NAS dla implementacji mm.dll (systemu multimediów) w Wine.
 
 %prep
 %setup -q
@@ -263,7 +370,12 @@ rm -f files.so;		touch files.so
 rm -f files.programs;	touch files.programs
 cd $RPM_BUILD_ROOT%{_libdir}/wine
 for f in *.so; do
-	echo "%attr(755,root,root) %{_libdir}/wine/$f" >>$BZZZ/files.so
+	case $f in
+	  d3d8.dll.so|d3d9.dll.so|d3dx8.dll.so|glu32.dll.so|opengl32.dll.so|twain_32.dll.so|winealsa.drv.so|winearts.drv.so|winejack.drv.so|winenas.drv.so)
+		;;
+	  *)
+		echo "%attr(755,root,root) %{_libdir}/wine/$f" >>$BZZZ/files.so
+	esac
 done
 cd -
 for p in $programs; do
@@ -301,6 +413,8 @@ fi
 %doc documentation/wine-{faq,user}
 %endif
 %attr(755,root,root) %{_bindir}/wine
+%attr(755,root,root) %{_bindir}/wine-kthread
+%attr(755,root,root) %{_bindir}/wine-pthread
 %attr(755,root,root) %{_bindir}/wineboot
 %attr(755,root,root) %{_bindir}/winecfg
 %attr(755,root,root) %{_bindir}/wineclipsrv
@@ -324,7 +438,7 @@ fi
 %files devel
 %defattr(644,root,root,755)
 %if %{with html_docs}
-%doc documentation/{wine-devel,winelib-user,HOWTO-winelib}
+%doc documentation/{wine-devel,winelib-user}
 %endif
 %attr(755,root,root) %{_bindir}/fnt2bdf
 %attr(755,root,root) %{_bindir}/function_grep.pl
@@ -351,3 +465,50 @@ fi
 %defattr(644,root,root,755)
 %doc documentation/*.pdf
 %endif
+
+%files dll-d3d
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/wine/d3d8.dll.so
+%attr(755,root,root) %{_libdir}/wine/d3d9.dll.so
+%attr(755,root,root) %{_libdir}/wine/d3dx8.dll.so
+%attr(755,root,root) %{_libdir}/wine/wined3d.dll.so
+
+%files dll-gl
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/wine/glu32.dll.so
+%attr(755,root,root) %{_libdir}/wine/opengl32.dll.so
+
+%if %{with sane}
+%files dll-twain
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/wine/twain_32.dll.so
+%endif
+
+%if %{with alsa}
+%files drv-alsa
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/wine/winealsa.drv.so
+%endif
+
+%if %{with arts}
+%files drv-arts
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/wine/winearts.drv.so
+%endif
+
+%if %{with jack}
+%files drv-jack
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/wine/winejack.drv.so
+%endif
+
+%if %{with nas}
+%files drv-nas
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/wine/winenas.drv.so
+%endif
+
+# additional dependencies in *.so not separated (yet?) from main package
+#   ddraw.dll.so,x11drv.dll.so depend on X11 libs
+#   ole2disp.dll.so,oleaut32.dll.so,typelib.dll.so depend on lib(un)gif,libjpeg,libX11
+#   ttydrv.dll.so depends on ncurses
