@@ -281,8 +281,6 @@ mv -f .tmp programs/Makefile.in
 %{__libtoolize}
 %{__aclocal}
 %{__autoconf}
-%{?with_alsa:CPPFLAGS="-DALSA_PCM_OLD_HW_PARAMS_API"}
-CFLAGS="%{rpmcflags} $CPPFLAGS"
 %configure \
 	%{!?debug:--disable-debug} \
 	%{!?debug:--disable-trace} \
