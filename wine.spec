@@ -2,7 +2,7 @@ Summary:	Program that lets you launch Win applications
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Name:		wine
 Version:	20010629
-Release:	1
+Release:	2
 License:	Distributable
 Group:		Applications/Emulators
 Group(de):	Applikationen/Emulators
@@ -54,7 +54,7 @@ Wine - pliki nag³ówkowe.
 %setup -q
 
 %build
-%configure \
+%configure2_13 \
 	--disable-debug \
 	--disable-trace \
 	--enable-curses \
@@ -82,7 +82,7 @@ install -d $RPM_BUILD_ROOT%{_mandir}/man1
 	mandir=$RPM_BUILD_ROOT%{_mandir} \
 	infodir=$RPM_BUILD_ROOT%{_infodir} 
 	
-cp documentation/samples/config wine.conf.example
+cp -f documentation/samples/config wine.conf.example
 install -d $RPM_BUILD_ROOT%{_sysconfdir}
 cat <<EOF >$RPM_BUILD_ROOT%{_sysconfdir}/wine.conf
 ;
