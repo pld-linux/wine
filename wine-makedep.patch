@@ -1,0 +1,11 @@
+--- wine-20030709/tools/makedep.c.wiget	2003-07-11 10:48:42.000000000 +0200
++++ wine-20030709/tools/makedep.c	2003-07-11 10:49:43.000000000 +0200
+@@ -511,6 +511,8 @@
+         if (opt[2]) Separator = opt + 2;
+         else Separator = NULL;
+         break;
++	case 'p': /* ignore -pthread */
++		break;
+     default:
+         fprintf( stderr, "Unknown option '%s'\n", opt );
+         fprintf( stderr, Usage, ProgramName );
