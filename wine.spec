@@ -4,7 +4,7 @@ Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
 Version:	20020122
-Release:	1
+Release:	2
 License:	distributable
 Group:		Applications/Emulators
 Group(de):	Applikationen/Emulators
@@ -95,6 +95,7 @@ WINE.
 	--disable-debug \
 	--disable-trace \
 	--enable-curses \
+	--enable-opengl \
 	--with-x
 
 %{__make} depend
