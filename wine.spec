@@ -375,10 +375,10 @@ rm -f files.programs;	touch files.programs
 cd $RPM_BUILD_ROOT%{_libdir}/wine
 for f in *.so; do
 	case $f in
-	  d3d8.dll.so|d3d9.dll.so|d3dx8.dll.so|glu32.dll.so|opengl32.dll.so|twain_32.dll.so|winealsa.drv.so|winearts.drv.so|winejack.drv.so|winenas.drv.so)
-		;;
-	  *)
-		echo "%attr(755,root,root) %{_libdir}/wine/$f" >>$BZZZ/files.so
+		d3d8.dll.so|d3d9.dll.so|d3dx8.dll.so|glu32.dll.so|opengl32.dll.so|twain_32.dll.so|winealsa.drv.so|winearts.drv.so|winejack.drv.so|winenas.drv.so)
+			;;
+		*)
+			echo "%attr(755,root,root) %{_libdir}/wine/$f" >>$BZZZ/files.so
 	esac
 done
 cd -
