@@ -250,7 +250,7 @@ for f in *.so; do
 	echo "%attr(755,root,root) %{_libdir}/wine/$f" >>$BZZZ/files.so
 done
 cd -
-for p in $programs; do 
+for p in $programs; do
 	echo "%attr(755,root,root) %{_bindir}/$p" >> files.programs
 	echo "%attr(755,root,root) %{_libdir}/wine/$p.exe.so" >> files.programs
 	grep -v "$p\.exe\.so$" files.so > files.so.
