@@ -20,7 +20,7 @@ WINE REGISTRY Version 2
 ;; "Device"="/dev/xx" (only if you want to allow raw device access)
 ;;
 [Drive A]
-"Path" = "/mnt/floppy"
+"Path" = "/media/floppy"
 "Type" = "floppy"
 "Label" = "Floppy"
 "Serial" = "87654321"
@@ -33,7 +33,7 @@ WINE REGISTRY Version 2
 "Filesystem" = "win95"
 
 [Drive D]
-"Path" = "/mnt/cdrom"
+"Path" = "/media/cdrom"
 "Type" = "cdrom"
 "Label" = "CD-Rom"
 "Filesystem" = "win95"
