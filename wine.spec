@@ -3,11 +3,11 @@ Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	20021007
-Release:	0.3
+Version:	20020710
+Release:	1
 License:	GPL
 Group:		Applications/Emulators
-Source0:	ftp://metalab.unc.edu/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.bz2
+Source0:	ftp://metalab.unc.edu/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
 Source1:	%{name}.init
 Source2:	%{name}.reg
 Source3:	%{name}.systemreg
@@ -168,6 +168,9 @@ install -d $RPM_BUILD_ROOT{%{_mandir}/man1,%{_aclocaldir}}
 install programs/winhelp/hlp2sgml	$RPM_BUILD_ROOT%{_bindir}
 install tools/fnt2bdf			$RPM_BUILD_ROOT%{_bindir}
 
+install aclocal.m4 $RPM_BUILD_ROOT%{_aclocaldir}/wine.m4
+#mv -f $RPM_BUILD_ROOT{/usr/X11R6/share/aclocal,%{_aclocaldir}}/wine.m4
+
 install -d $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d \
         $RPM_BUILD_ROOT%{_winedir}/windows/{system,Desktop,Favorites,Fonts} \
         "$RPM_BUILD_ROOT%{_winedir}/windows/Start Menu/Programs/Startup" \
@@ -179,8 +182,6 @@ install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d/wine
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}
 install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}
 install %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}
-
-mv -f $RPM_BUILD_ROOT{/usr/X11R6/share/aclocal,%{_aclocaldir}}/wine.m4
 
 touch $RPM_BUILD_ROOT%{_winedir}/{autoexec.bat,config.sys,windows/win.ini}
 touch $RPM_BUILD_ROOT%{_winedir}/windows/system/{shell.dll,shell32.dll}
@@ -214,7 +215,8 @@ fi
 
 /sbin/chstk -e $RPM_BUILD_ROOT%{_bindir}/wine
 
-programs="notepad progman regedit regsvr32 uninstaller wcmd wineconsole winefile winemine winepath winhelp"
+programs="notepad progman regedit regsvr32 uninstaller wineconsole winefile winemine winepath winhelp wcmd"
+
 cd $RPM_BUILD_ROOT%{_libdir}/wine
 for f in *.so; do
 	other_so_list="$other_so_list\n%attr(755,root,root) %{_libdir}/wine/$f"
@@ -278,14 +280,14 @@ fi
 %attr(755,root,root) %{_bindir}/winedump
 %attr(755,root,root) %{_bindir}/wrc
 %attr(755,root,root) %{_bindir}/wmc
-%attr(755,root,root) %{_bindir}/widl
+#%attr(755,root,root) %{_bindir}/widl
 %attr(755,root,root) %{_bindir}/hlp2sgml
 %attr(755,root,root) %{_bindir}/fnt2bdf
 %attr(755,root,root) %{_bindir}/function_grep.pl
 %{_includedir}/wine
 %{_libdir}/*.a
 %{_mandir}/man1/winemaker.*
-%{_mandir}/man1/winebuild.*
+#%{_mandir}/man1/winebuild.*
 %{_mandir}/man1/wmc.*
 %{_mandir}/man1/wrc.*
 %{_aclocaldir}/*.m4
