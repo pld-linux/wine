@@ -3,8 +3,8 @@ Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	20020509
-Release:	0.3
+Version:	20020710
+Release:	1
 License:	GPL
 Group:		Applications/Emulators
 Source0:	ftp://metalab.unc.edu/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
@@ -27,7 +27,6 @@ BuildRequires:	libjpeg-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	OpenGL-devel
 BuildRequires:	openjade
-BuildRequires:	sane-backends-devel
 BuildRequires:	XFree86-devel
 Requires:	OpenGL
 Requires(post): ldconfig
@@ -104,7 +103,7 @@ Wine - programy
 %patch -p1
 
 # turn off compilation of some tools
-sed -e "s|winetest||;s|avitools||" programs/Makefile.in > .tmp
+sed -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in > .tmp
 mv -f .tmp programs/Makefile.in
 
 %build
@@ -150,12 +149,25 @@ install -d $RPM_BUILD_ROOT%{_mandir}/man1
 
 %{__make} -C programs install \
 	prefix=$RPM_BUILD_ROOT%{_prefix} \
-        bindir=$RPM_BUILD_ROOT%{_bindir}
+	exec-prefix=$RPM_BUILD_ROOT%{_exec_prefix} \
+        bindir=$RPM_BUILD_ROOT%{_bindir} \
+	sbindir=$RPM_BUILD_ROOT%{_sbindir} \
+	sysconfdir=$RPM_BUILD_ROOT%{_sysconfdir} \
+	datadir=$RPM_BUILD_ROOT%{_datadir} \
+	includedir=$RPM_BUILD_ROOT%{_includedir}/wine \
+	libdir=$RPM_BUILD_ROOT%{_libdir} \
+	libexecdir=$RPM_BUILD_ROOT%{_libexecdir} \
+	localstatedir=$RPM_BUILD_ROOT%{_localstatedir} \
+	sharedstatedir=$RPM_BUILD_ROOT%{_sharedstatedir} \
+	mandir=$RPM_BUILD_ROOT%{_mandir} \
+	infodir=$RPM_BUILD_ROOT%{_infodir} \
+	dlldir=$RPM_BUILD_ROOT%{_libdir}/wine
 
 (cd $RPM_BUILD_ROOT%{_bindir}
 find -name '*.so' | sed 's|^.|%attr(755,root,root) %{_bindir}|; s|.so$||') > programs.list
 
-install programs/winhelp/hlp2sgml $RPM_BUILD_ROOT%{_bindir}
+install programs/winhelp/hlp2sgml	$RPM_BUILD_ROOT%{_bindir}
+install tools/fnt2bdf			$RPM_BUILD_ROOT%{_bindir}
 
 install -d $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d \
         $RPM_BUILD_ROOT%{_winedir}/windows/{system,Desktop,Favorites,Fonts} \
@@ -249,7 +261,7 @@ fi
 %files programs -f programs.list
 %defattr(644,root,root,755)
 %attr (755,root,root) %{_bindir}/hlp2sgml
-%{_bindir}/*.so
+#%{_bindir}/*.so
 
 %files devel
 %defattr(644,root,root,755)
