@@ -277,9 +277,9 @@ fi
 %files -f files.so
 %defattr(644,root,root,755)
 %doc README DEVELOPERS-HINTS ChangeLog BUGS AUTHORS ANNOUNCE
-%doc documentation/{wine-user,samples,status}
+%doc documentation/{samples,status}
 %if %{with html_docs}
-%doc documentation/wine-faq
+%doc documentation/wine-{faq,user}
 %endif
 %attr(755,root,root) %{_bindir}/wine
 %attr(755,root,root) %{_bindir}/wineboot
