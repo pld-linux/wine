@@ -96,7 +96,7 @@ cat <<EOF >$RPM_BUILD_ROOT%{_sysconfdir}/wine.conf
 EOF
 
 strip --strip-unneeded $RPM_BUILD_ROOT%{_libdir}/*.so.*.*
-strip RPM_BUILD_ROOT%{_bindir}/*
+strip $RPM_BUILD_ROOT%{_bindir}/*
 
 gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man*/* \
 	README WARRANTY LICENSE DEVELOPERS-HINTS ChangeLog BUGS AUTHORS ANNOUNCE
