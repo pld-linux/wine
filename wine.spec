@@ -112,7 +112,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc documentation wine.conf.example
 %attr(755,root,root) %{_bindir}/*
 %{_mandir}/man[15]/*
-%attr(755,root,root) %{_libdir}/*
+%attr(755,root,root) %{_libdir}/*.so.*
 #%{_libdir}/wine.sym
 %config(noreplace) %{_sysconfdir}/wine.conf
 
