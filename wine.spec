@@ -2,8 +2,8 @@ Summary:	Program that lets you launch Win applications.
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows.
 Name:		wine
 Version:	20000614
-Release:	3
-Copyright:	distributable
+Release:	4
+License:	distributable
 Group:		Applications/Emulators
 Group(pl):	Aplikacje/Emulatory
 Source0:	ftp://metalab.unc.edu/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
@@ -16,6 +16,7 @@ BuildRequires:	flex
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_prefix		/usr/X11R6
+%define		_mandir		%{_prefix}/man
 
 %description
 Wine is a program which allows running Microsoft Windows programs
