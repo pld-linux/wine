@@ -1,13 +1,13 @@
 Summary:	Program that lets you launch Win applications.
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows.
 Name:		wine
-Version:	20000614
-Release:	4
+Version:	20000716
+Release:	1
 License:	distributable
 Group:		Applications/Emulators
 Group(pl):	Aplikacje/Emulatory
 Source0:	ftp://metalab.unc.edu/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
-Url:		http://www.winehq.com
+URL:		http://www.winehq.com/
 Exclusivearch:	%{ix86}
 BuildRequires:	XFree86-devel
 BuildRequires:	xpm-devel
@@ -20,19 +20,19 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 Wine is a program which allows running Microsoft Windows programs
-(including DOS, Windows 3.x and Win32 executables) on Unix. It consists of
-a program loader which loads and executes a Microsoft Windows binary, and a
-library that implements Windows API calls using their Unix or X11
-equivalents. The library may also be used for porting Win32 code into
-native Unix executables.
+(including DOS, Windows 3.x and Win32 executables) on Unix. It
+consists of a program loader which loads and executes a Microsoft
+Windows binary, and a library that implements Windows API calls using
+their Unix or X11 equivalents. The library may also be used for
+porting Win32 code into native Unix executables.
 
 %description -l pl
-Wine jest programem dziêki któremu mo¿na uruchamiaæ programy napisane dla
-Microsoft Windows pod systemami unixowymi. Sk³ada siê on z loadera, który
-pozwala wczytywaæ i uruchamiaæ programy w formacie Microsoft Windows oraz z
-biblioteki, która implementuje API Windows przy u¿yciu odpowiedników
-Unixowych oraz z X11. Biblioteka mo¿e byæ tak¿e wykorzystana do
-przenoszenia aplikacji Win32 do Unixa.
+Wine jest programem dziêki któremu mo¿na uruchamiaæ programy napisane
+dla Microsoft Windows pod systemami unixowymi. Sk³ada siê on z
+loadera, który pozwala wczytywaæ i uruchamiaæ programy w formacie
+Microsoft Windows oraz z biblioteki, która implementuje API Windows
+przy u¿yciu odpowiedników Unixowych oraz z X11. Biblioteka mo¿e byæ
+tak¿e wykorzystana do przenoszenia aplikacji Win32 do Unixa.
 
 %package devel
 Summary:	Wine - header files
