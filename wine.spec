@@ -1,12 +1,20 @@
 #
 # Conditional build:
-%bcond_without arts     # without arts support
-%bcond_without cups     # without CUPS printing support
-%bcond_without sane     # without TWAIN scanning support (through SANE)
-%bcond_with    pdf_docs # build pdf docs (missing BR)
-%bcond_with    html_docs # build html docs (jade fault ?)
+%bcond_without	alsa		# don't build ALSA mm driver
+%bcond_without	arts		# don't build aRts mm driver
+%bcond_without	cups		# without CUPS printing support
+%bcond_without	jack		# don't build JACK mm driver
+%bcond_without	nas		# don't build NAS mm driver
+%bcond_without	sane		# without TWAIN scanning support (through SANE)
+%bcond_with	pdf_docs	# build pdf docs (missing BR)
+%bcond_with	html_docs	# build html docs (jade fault ?)
 #
-# maybe TODO: alsa,jack,nas BRs/checks (see dlls/winmm/wine*)
+# TODO: separate alsa,jack,nas,twain,cups(?) dependent stuff [WIP]
+#
+# JACK requires ALSA
+%if %{without alsa}
+%undefine	with_jack
+%endif
 Summary:	Program that lets you launch Win applications
 Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
@@ -33,6 +41,7 @@ Patch7:		%{name}-winebuild.patch
 URL:		http://www.winehq.com/
 BuildRequires:	OpenGL-devel
 BuildRequires:	XFree86-devel
+%{?with_alsa:BuildRequires:	alsa-lib-devel}
 %{?with_arts:BuildRequires:	arts-devel}
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -43,7 +52,9 @@ BuildRequires:	docbook-dtd31-sgml
 BuildRequires:	docbook-utils
 BuildRequires:	flex
 BuildRequires:	freetype-devel >= 2.0.5
+%{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
 BuildRequires:	libjpeg-devel
+%{?with_nas:BuildRequires:	nas-devel}
 BuildRequires:	ncurses-devel
 %if %{with html_docs} || %{with pdf_docs}
 BuildRequires:	openjade
@@ -57,7 +68,7 @@ BuildRequires:	tetex-fonts-type1-urw
 %{?with_sane:BuildRequires:	sane-backends-devel}
 Requires:	OpenGL
 Requires(post):	/sbin/ldconfig
-Requires(post,preun):/sbin/chkconfig
+Requires(post,preun):	/sbin/chkconfig
 # link to wine/ntdll.dll.so, without any SONAME
 Provides:	libntdll.dll.so
 ExclusiveArch:	%{ix86}
@@ -156,7 +167,7 @@ mv -f .tmp programs/Makefile.in
 %build
 %{__aclocal}
 %{__autoconf}
-CPPFLAGS="-I/usr/include/ncurses"; export CPPFLAGS
+CPPFLAGS="-I/usr/include/ncurses -DALSA_PCM_OLD_HW_PARAMS_API"; export CPPFLAGS
 CFLAGS="%{rpmcflags} $CPPFLAGS"
 %configure \
 	%{!?debug:--disable-debug} \
@@ -301,9 +312,9 @@ fi
 %dir %{_libdir}/wine
 %{_mandir}/man1/wine.*
 %{_mandir}/man5/wine.conf.*
-%config(noreplace) %{_sysconfdir}/wine.reg
-%config(missingok) %{_sysconfdir}/wine.systemreg
-%config(missingok) %{_sysconfdir}/wine.userreg
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/wine.reg
+%config(missingok,noreplace) %verify(not size mtime md5) %{_sysconfdir}/wine.systemreg
+%config(missingok,noreplace) %verify(not size mtime md5) %{_sysconfdir}/wine.userreg
 %attr(754,root,root) %{_sysconfdir}/rc.d/init.d/wine
 %{_winedir}
 
