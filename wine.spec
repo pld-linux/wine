@@ -71,6 +71,7 @@ BuildRequires:	fontconfig-devel
 BuildRequires:	freetype-devel >= 2.0.5
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
 BuildRequires:	libjpeg-devel
+BuildRequires:	libtool
 BuildRequires:	libungif-devel
 %{?with_nas:BuildRequires:	nas-devel}
 BuildRequires:	ncurses-devel
