@@ -7,8 +7,6 @@ Version:	20020122
 Release:	2
 License:	distributable
 Group:		Applications/Emulators
-Group(de):	Applikationen/Emulators
-Group(pl):	Aplikacje/Emulatory
 Source0:	ftp://metalab.unc.edu/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
 Source1:	wine.init
 Source2:	wine.reg
@@ -64,13 +62,6 @@ Summary(es):	Biblioteca de desarrollo de wine
 Summary(pl):	Wine - pliki nagЁowkowe
 Summary(pt_BR):	Biblioteca de desenvolvimento do wine
 Group:		Development/Libraries
-Group(de):	Entwicklung/Libraries
-Group(es):	Desarrollo/Bibliotecas
-Group(fr):	Development/Librairies
-Group(pl):	Programowanie/Biblioteki
-Group(pt_BR):	Desenvolvimento/Bibliotecas
-Group(ru):	Разработка/Библиотеки
-Group(uk):	Розробка/Б╕бл╕отеки
 Requires:	%{name} = %{version}
  
 %description devel
