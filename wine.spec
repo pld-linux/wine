@@ -14,23 +14,24 @@ Source3:	%{name}.systemreg
 Source4:	%{name}.userreg
 Patch0:		%{name}-fontcache.patch
 URL:		http://www.winehq.com/
-ExclusiveArch:	%{ix86}
-BuildRequires:	arts-devel
+BuildRequires:	OpenGL-devel
+BuildRequires:	XFree86-devel
+%{!?_without_arts:BuildRequires:	arts-devel}
 BuildRequires:	bison
 BuildRequires:	chpax
-BuildRequires:	cups-devel
+%{!?_without_cups:BuildRequires:	cups-devel}
 BuildRequires:	docbook-dtd31-sgml
 BuildRequires:	docbook-utils
 BuildRequires:	flex
 BuildRequires:	freetype-devel >= 2.0.5
 BuildRequires:	libjpeg-devel
 BuildRequires:	ncurses-devel
-BuildRequires:	OpenGL-devel
 BuildRequires:	openjade
-BuildRequires:	XFree86-devel
+%{!?_without_sane:BuildRequires:	sane-backends-devel}
 Requires:	OpenGL
 Requires(post): ldconfig
 Requires(post,preun): chkconfig
+ExclusiveArch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_noautoreqdep		libGL.so.1 libGLU.so.1
@@ -122,10 +123,10 @@ CFLAGS="%{rpmcflags} $CPPFLAGS"
 %{__make}
 %{__make} -C programs
 
-(cd documentation
+cd documentation
 ./db2html-winehq wine-user.sgml
 ./db2html-winehq wine-devel.sgml
-./db2html-winehq winelib-user.sgml)
+./db2html-winehq winelib-user.sgml
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -162,9 +163,6 @@ install -d $RPM_BUILD_ROOT%{_mandir}/man1
 	mandir=$RPM_BUILD_ROOT%{_mandir} \
 	infodir=$RPM_BUILD_ROOT%{_infodir} \
 	dlldir=$RPM_BUILD_ROOT%{_libdir}/wine
-
-(cd $RPM_BUILD_ROOT%{_bindir}
-find -name '*.so' | sed 's|^.|%attr(755,root,root) %{_bindir}|; s|.so$||') > programs.list
 
 install programs/winhelp/hlp2sgml	$RPM_BUILD_ROOT%{_bindir}
 install tools/fnt2bdf			$RPM_BUILD_ROOT%{_bindir}
@@ -258,10 +256,21 @@ fi
 %attr(754,root,root) %{_sysconfdir}/rc.d/init.d/wine
 %{_winedir}
 
-%files programs -f programs.list
+%files programs
 %defattr(644,root,root,755)
-%attr (755,root,root) %{_bindir}/hlp2sgml
-#%{_bindir}/*.so
+%attr(755,root,root) %{_bindir}/hlp2sgml
+%attr(755,root,root) %{_bindir}/notepad
+%attr(755,root,root) %{_bindir}/progman
+%attr(755,root,root) %{_bindir}/regedit
+%attr(755,root,root) %{_bindir}/regsvr32
+%attr(755,root,root) %{_bindir}/uninstaller
+%attr(755,root,root) %{_bindir}/wcmd
+%attr(755,root,root) %{_bindir}/wineconsole
+%attr(755,root,root) %{_bindir}/winedbg
+%attr(755,root,root) %{_bindir}/winefile
+%attr(755,root,root) %{_bindir}/winemine
+%attr(755,root,root) %{_bindir}/winepath
+%attr(755,root,root) %{_bindir}/winhelp
 
 %files devel
 %defattr(644,root,root,755)
