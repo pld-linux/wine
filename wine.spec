@@ -227,7 +227,7 @@ Sterownik ALSA dla implementacji mm.dll (systemu multimediów) w Wine.
 Summary:	aRts driver for WINE mm.dll implementation
 Summary(pl):	Sterownik aRts dla implementacji mm.dll w Wine
 Group:		Applications/Emulators
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description drv-arts
 aRts driver for WINE mm.dll (multimedia system) implementation.
