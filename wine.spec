@@ -17,26 +17,27 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 Wine is a program which allows running Microsoft Windows programs
-(including DOS, Windows 3.x and Win32 executables) on Unix.  It
-consists of a program loader which loads and executes a Microsoft
-Windows binary, and a library that implements Windows API calls using
-their Unix or X11 equivalents. The library may also be used for
-porting Win32 code into native Unix executables.
+(including DOS, Windows 3.x and Win32 executables) on Unix. It consists of
+a program loader which loads and executes a Microsoft Windows binary, and a
+library that implements Windows API calls using their Unix or X11
+equivalents. The library may also be used for porting Win32 code into
+native Unix executables.
 
 %description -l pl
-Wine iest programem dziêki któremu mo¿na uruchamiaæ programy napisane
-dla Microsoft Windows pod systemami unixowymi. Sk³ada siê on z loadera, który
+Wine iest programem dziêki któremu mo¿na uruchamiaæ programy napisane dla
+Microsoft Windows pod systemami unixowymi. Sk³ada siê on z loadera, który
 pozwala wczytywaæ i uruchamiaæ programy w formacie Microsoft Windows oraz z
-biblioteki, która implementuje API Windows przy u¿yciu odpowiedników Unixowych
-oraz z X11. Biblioteka mo¿e byæ tak¿e wykorzystana do przenoszenia aplikacji
-Win32 do Unixa.
+biblioteki, która implementuje API Windows przy u¿yciu odpowiedników
+Unixowych oraz z X11. Biblioteka mo¿e byæ tak¿e wykorzystana do
+przenoszenia aplikacji Win32 do Unixa.
 
 %package devel
-Summary:        Wine - header files
-Summary(pl):    Wine - pliki nag³owkowe
-Group:          Development/Libraries
-Group(pl):      Programowanie/Biblioteki
-Requires:       %{name} = %{version}
+Summary:	Wine - header files
+Summary(pl):	Wine - pliki nag³owkowe
+Group:		Development/Libraries
+Group(fr):	Development/Librairies
+Group(pl):	Programowanie/Biblioteki
+Requires:	%{name} = %{version}
  
 %description devel
 Wine - header files.
