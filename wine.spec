@@ -47,7 +47,7 @@ Patch4:		%{name}-binutils.patch
 Patch5:		%{name}-makedep.patch
 Patch6:		%{name}-dga.patch
 Patch7:		%{name}-winebuild.patch
-URL:		http://www.winehq.com/
+URL:		http://www.winehq.org/
 BuildRequires:	OpenGL-devel
 BuildRequires:	XFree86-devel
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
