@@ -245,6 +245,7 @@ fi
 %attr(755,root,root) %{_bindir}/winedump
 %attr(755,root,root) %{_bindir}/wrc
 %attr(755,root,root) %{_bindir}/wmc
+%attr(755,root,root) %{_bindir}/widl
 %attr(755,root,root) %{_bindir}/fnt2bdf
 %attr(755,root,root) %{_bindir}/function_grep.pl
 %attr(755,root,root) %{_libdir}/*.so*
@@ -271,7 +272,6 @@ fi
 %attr(755,root,root) %{_bindir}/winemine
 %attr(755,root,root) %{_bindir}/winepath
 %attr(755,root,root) %{_bindir}/winhelp
-%attr(755,root,root) %{_bindir}/widl
 
 %files devel
 %defattr(644,root,root,755)
