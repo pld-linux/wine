@@ -8,6 +8,7 @@
 %bcond_without	cups		# without CUPS printing support in winspool,wineps DLLs
 %bcond_without	html_docs	# build html docs
 %bcond_without	pdf_docs	# build pdf docs
+%bcond_without	xlibs
 #
 # NOTE: wine detects following SONAMES for dlopen at build time:
 #   libcrypto,libssl (wininet.dll)
@@ -17,7 +18,7 @@
 #   libfreetype (wineps.dll.so,gdi32.dll.so)
 #   libGL (x11drv.dll.so,ddraw.dll.so)
 #   libjack (winejack.drv.so - explicit dependency in subpackage)
-#   libX11, libXext, libXrender (x11drv.dll.so)
+#   libX11, libXext, libXi, libXrender (x11drv.dll.so)
 # thus requires requild after change of any of above.
 #
 # JACK requires ALSA
@@ -45,6 +46,15 @@ Patch2:		%{name}-ncurses.patch
 Patch3:		%{name}-makedep.patch
 Patch4:		%{name}-dga.patch
 URL:		http://www.winehq.org/
+%if %{with xlibs}
+BuildRequires:	libSM-devel
+BuildRequires:	libXrandr-devel
+BuildRequires:	libXrender-devel
+BuildRequires:	libXt-devel
+BuildRequires:	libXv-devel
+%else
+BuildRequires:	XFree86-devel
+%endif
 BuildRequires:	XFree86-OpenGL-devel-base
 BuildRequires:	XFree86-OpenGL-devel
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
@@ -258,7 +268,7 @@ Sterownik NAS dla implementacji mm.dll (systemu multimediów) w Wine.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
+#%patch4 -p1
 
 # turn off compilation of some tools
 #sed -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in > .tmp
@@ -266,6 +276,7 @@ sed -e "s|avitools||" programs/Makefile.in > .tmp
 mv -f .tmp programs/Makefile.in
 
 %build
+%{__libtoolize}
 %{__aclocal}
 %{__autoconf}
 CPPFLAGS="-DALSA_PCM_OLD_HW_PARAMS_API"
