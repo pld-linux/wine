@@ -115,7 +115,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/*
 %{_mandir}/man[15]/*
 %attr(755,root,root) %{_libdir}/lib*.so.*.*
-%{_libdir}/wine.sym
+#%{_libdir}/wine.sym
 %config %{_sysconfdir}/wine.conf
 
 %files devel
