@@ -236,6 +236,7 @@ fi
 %attr(755,root,root) %{_bindir}/wineserver
 %attr(755,root,root) %{_bindir}/wineclipsrv
 %attr(755,root,root) %{_bindir}/wineshelllink
+%attr(755,root,root) %{_bindir}/wineboot
 %attr(755,root,root) %{_libdir}/*.so*
 %{_mandir}/man1/wine.*
 %{_mandir}/man5/wine.conf.*
