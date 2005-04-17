@@ -47,7 +47,8 @@ Patch2:		%{name}-ncurses.patch
 Patch3:		%{name}-makedep.patch
 #Patch4:		%{name}-dga.patch
 # DirectX support from http://www.oliverthered.f2s.com/projects/wine/index.html
-Patch5:		http://www.oliverthered.f2s.com/projects/wine/files/d3d9patch.2005-03-10.diff.bz2
+#Patch5:		http://www.oliverthered.f2s.com/projects/wine/files/d3d9patch.2005-03-10.diff.bz2
+Patch5:		http://www.binf.ku.dk/users/biehl/d3d9patch.2005-03-10.diff
 URL:		http://www.winehq.org/
 %if %{with xlibs}
 BuildRequires:	libSM-devel
