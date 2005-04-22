@@ -47,7 +47,7 @@ Patch2:		%{name}-ncurses.patch
 Patch3:		%{name}-makedep.patch
 #Patch4:		%{name}-dga.patch
 # Oliver Stieber's DirectX 9 support patch (unofficial, published on WWN Issue #271)
-Patch5:		http://www.cs.colostate.edu/~cutler/d3d9patch.2005-04-19.diff
+Patch5:		%{name}-d3d9patch.patch
 URL:		http://www.winehq.org/
 %if %{with xlibs}
 BuildRequires:	libSM-devel
