@@ -30,13 +30,13 @@ Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	20050310
-Release:	1.1
+Version:	20050419
+Release:	1
 License:	LGPL
 Group:		Applications/Emulators
 #Source0:	http://dl.sourceforge.net/%{name}/Wine-%{version}.tar.gz
 Source0:	ftp://ftp.ibiblio.org/pub/Linux/ALPHA/%{name}/development/Wine-%{version}.tar.gz
-# Source0-md5:	d90d31716ba71211af26ac773934f57e
+# Source0-md5:	f43ad76846f792f9598fca2428d23e60
 Source1:	%{name}.init
 Source2:	%{name}.reg
 Source3:	%{name}.systemreg
@@ -46,9 +46,8 @@ Patch1:		%{name}-destdir.patch
 Patch2:		%{name}-ncurses.patch
 Patch3:		%{name}-makedep.patch
 #Patch4:		%{name}-dga.patch
-# DirectX support from http://www.oliverthered.f2s.com/projects/wine/index.html
-#Patch5:		http://www.oliverthered.f2s.com/projects/wine/files/d3d9patch.2005-03-10.diff.bz2
-Patch5:		http://www.binf.ku.dk/users/biehl/d3d9patch.2005-03-10.diff
+# Oliver Stieber's DirectX 9 support patch (unofficial, published on WWN Issue #271)
+Patch5:		http://www.cs.colostate.edu/~cutler/d3d9patch.2005-04-19.diff
 URL:		http://www.winehq.org/
 %if %{with xlibs}
 BuildRequires:	libSM-devel
@@ -275,7 +274,7 @@ Sterownik NAS dla implementacji mm.dll (systemu multimediów) w Wine.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch5 -p2
+%patch5 -p1
 
 # turn off compilation of some tools
 sed -i -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in
