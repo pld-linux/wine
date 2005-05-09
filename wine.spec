@@ -4,6 +4,7 @@
 %bcond_without	arts		# don't build aRts mm driver
 %bcond_without	jack		# don't build JACK mm driver
 %bcond_without	nas		# don't build NAS mm driver
+%bcond_with	d3d9		# build with d3d9 patch
 %bcond_without	sane		# don't build TWAIN DLL with scanning support (through SANE)
 %bcond_without	cups		# without CUPS printing support in winspool,wineps DLLs
 %bcond_without	html_docs	# build html docs
@@ -274,7 +275,7 @@ Sterownik NAS dla implementacji mm.dll (systemu multimediów) w Wine.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch5 -p1
+%{?with_d3d9:%patch5 -p1}
 
 # turn off compilation of some tools
 sed -i -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in
