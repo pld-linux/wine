@@ -7,8 +7,6 @@
 %bcond_with	d3d9		# build with d3d9 patch
 %bcond_without	sane		# don't build TWAIN DLL with scanning support (through SANE)
 %bcond_without	cups		# without CUPS printing support in winspool,wineps DLLs
-%bcond_without	html_docs	# build html docs
-%bcond_without	pdf_docs	# build pdf docs
 %bcond_with	xlibs
 #
 # NOTE: wine detects the following SONAMES for dlopen at build time:
@@ -80,20 +78,10 @@ BuildRequires:	libtool
 BuildRequires:	libungif-devel
 %{?with_nas:BuildRequires:	nas-devel}
 BuildRequires:	ncurses-devel
-%if %{with html_docs} || %{with pdf_docs}
 # db2* failed previously - probably openjade or opensp bug
 BuildRequires:	openjade >= 1:1.3.3-0.pre1
 BuildRequires:	opensp >= 1:1.5.1
-%endif
 BuildRequires:	openssl-devel >= 0.9.7d
-%if %{with pdf_docs}
-BuildRequires:	tetex-latex-cyrillic
-BuildRequires:	tetex-metafont
-BuildRequires:	tetex-fonts-jknappen
-BuildRequires:	tetex-fonts-pazo
-BuildRequires:	tetex-fonts-stmaryrd
-BuildRequires:	tetex-fonts-type1-urw
-%endif
 %{?with_sane:BuildRequires:	sane-backends-devel}
 BuildRequires:	xrender-devel
 Requires(post):	/sbin/ldconfig
@@ -167,17 +155,6 @@ Wine - programs.
 
 %description programs -l pl
 Wine - programy.
-
-%package doc-pdf
-Summary:	Wine documentation in PDF
-Summary(pl):	Dokumentacja Wine w formacie PDF
-Group:		Documentation
-
-%description doc-pdf
-Wine documentation in PDF format.
-
-%description doc-pdf -l pl
-Dokumentacja Wine w formacie PDF.
 
 %package dll-d3d
 Summary:	Direct3D implementation DLLs for Wine
@@ -294,22 +271,6 @@ sed -i -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in
 %{__make} -C programs
 #%{__make} -C programs/regapi
 
-cd documentation
-%if %{with html_docs}
-db2html wine-user.sgml
-db2html wine-devel.sgml
-db2html wine-faq.sgml
-db2html winelib-user.sgml
-%endif
-
-%if %{with pdf_docs}
-db2pdf wine-user.sgml
-db2pdf wine-devel.sgml
-db2pdf wine-faq.sgml
-db2pdf winelib-user.sgml
-%endif
-cd -
-
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_mandir}/man1,%{_aclocaldir}}
@@ -416,9 +377,6 @@ fi
 %defattr(644,root,root,755)
 %doc README DEVELOPERS-HINTS ChangeLog BUGS AUTHORS ANNOUNCE
 %doc documentation/samples
-%if %{with html_docs}
-%doc documentation/wine-{faq,user}
-%endif
 %attr(755,root,root) %{_bindir}/msiexec
 %attr(755,root,root) %{_bindir}/wine
 %attr(755,root,root) %{_bindir}/wineboot
@@ -474,12 +432,6 @@ fi
 %{_mandir}/man1/wmc.1*
 %{_mandir}/man1/wrc.1*
 %{_aclocaldir}/*.m4
-
-%if %{with pdf_docs}
-%files doc-pdf
-%defattr(644,root,root,755)
-%doc documentation/*.pdf
-%endif
 
 %files dll-d3d
 %defattr(644,root,root,755)
