@@ -44,9 +44,10 @@ Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-destdir.patch
 Patch2:		%{name}-ncurses.patch
 Patch3:		%{name}-makedep.patch
-#Patch4:		%{name}-dga.patch
+Patch4:		%{name}-alsa.patch
 # Oliver Stieber's DirectX 9 support patch (unofficial, published on WWN Issue #271)
 Patch5:		%{name}-d3d9patch.patch
+#PatchX:		%{name}-dga.patch
 URL:		http://www.winehq.org/
 %if %{with xlibs}
 BuildRequires:	libSM-devel
@@ -252,6 +253,7 @@ Sterownik NAS dla implementacji mm.dll (systemu multimediów) w Wine.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 %{?with_d3d9:%patch5 -p1}
 
 # turn off compilation of some tools
