@@ -383,7 +383,7 @@ fi
 %lang(fr) %doc documentation/README.fr
 %lang(it) %doc documentation/README.it
 %lang(pt) %doc documentation/README.pt
-%lang(pt_br) %doc documentation/README.pt_br
+%lang(pt_BR) %doc documentation/README.pt_br
 %attr(755,root,root) %{_bindir}/msiexec
 %attr(755,root,root) %{_bindir}/wine
 %attr(755,root,root) %{_bindir}/wineboot
