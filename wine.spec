@@ -29,13 +29,13 @@ Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	20050524
+Version:	20050628
 Release:	1
 License:	LGPL
 Group:		Applications/Emulators
 #Source0:	http://dl.sourceforge.net/%{name}/Wine-%{version}.tar.gz
 Source0:	ftp://ftp.ibiblio.org/pub/Linux/ALPHA/%{name}/development/Wine-%{version}.tar.gz
-# Source0-md5:	e0a3e2d52f1e2d80b8bf232b58161fe5
+# Source0-md5:	b59df637e4279065549c4ab2fec8aff9
 Source1:	%{name}.init
 Source2:	%{name}.reg
 Source3:	%{name}.systemreg
@@ -378,7 +378,12 @@ fi
 %files -f files.so
 %defattr(644,root,root,755)
 %doc README DEVELOPERS-HINTS ChangeLog BUGS AUTHORS ANNOUNCE
-%doc documentation/samples
+%lang(de) %doc documentation/README.de
+%lang(es) %doc documentation/README.es
+%lang(fr) %doc documentation/README.fr
+%lang(it) %doc documentation/README.it
+%lang(pt) %doc documentation/README.pt
+%lang(pt_br) %doc documentation/README.pt_br
 %attr(755,root,root) %{_bindir}/msiexec
 %attr(755,root,root) %{_bindir}/wine
 %attr(755,root,root) %{_bindir}/wineboot
@@ -396,7 +401,6 @@ fi
 %dir %{_libdir}/wine
 %{_mandir}/man1/wine.*
 %{_mandir}/man1/winedbg.1*
-%{_mandir}/man5/wine.conf.*
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/wine.reg
 %config(missingok,noreplace) %verify(not size mtime md5) %{_sysconfdir}/wine.systemreg
 %config(missingok,noreplace) %verify(not size mtime md5) %{_sysconfdir}/wine.userreg
