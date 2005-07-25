@@ -29,17 +29,14 @@ Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	20050628
+Version:	20050725
 Release:	1
 License:	LGPL
 Group:		Applications/Emulators
 #Source0:	http://dl.sourceforge.net/%{name}/Wine-%{version}.tar.gz
 Source0:	ftp://ftp.ibiblio.org/pub/Linux/ALPHA/%{name}/development/Wine-%{version}.tar.gz
-# Source0-md5:	b59df637e4279065549c4ab2fec8aff9
+# Source0-md5:	491924c85428c940c8f845d8d78001f9
 Source1:	%{name}.init
-Source2:	%{name}.reg
-Source3:	%{name}.systemreg
-Source4:	%{name}.userreg
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-destdir.patch
 Patch2:		%{name}-ncurses.patch
@@ -297,9 +294,6 @@ install -d $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d \
 	$RPM_BUILD_ROOT%{_winedir}/{"Program Files/Common Files","My Documents"}
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/wine
-install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}
-install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}
-install %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}
 
 touch $RPM_BUILD_ROOT%{_winedir}/{autoexec.bat,config.sys,windows/win.ini}
 touch $RPM_BUILD_ROOT%{_winedir}/windows/system/{shell.dll,shell32.dll}
@@ -401,9 +395,6 @@ fi
 %dir %{_libdir}/wine
 %{_mandir}/man1/wine.*
 %{_mandir}/man1/winedbg.1*
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/wine.reg
-%config(missingok,noreplace) %verify(not size mtime md5) %{_sysconfdir}/wine.systemreg
-%config(missingok,noreplace) %verify(not size mtime md5) %{_sysconfdir}/wine.userreg
 %attr(754,root,root) %{_sysconfdir}/rc.d/init.d/wine
 %{_winedir}
 %{_datadir}/fonts/wine
@@ -414,9 +405,6 @@ fi
 
 %files devel
 %defattr(644,root,root,755)
-%if %{with html_docs}
-%doc documentation/{wine-devel,winelib-user}
-%endif
 %attr(755,root,root) %{_bindir}/fnt2bdf
 %attr(755,root,root) %{_bindir}/function_grep.pl
 %attr(755,root,root) %{_bindir}/hlp2sgml
