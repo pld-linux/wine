@@ -1,17 +1,18 @@
-diff -ruN wine-20021125/configure.ac wine-20021125-/configure.ac
---- wine-20021125/configure.ac	Mon Nov 25 22:12:26 2002
-+++ wine-20021125-/configure.ac	Wed Dec 11 21:24:51 2002
-@@ -354,11 +354,11 @@
-     AC_CHECK_HEADERS(ncurses.h,
-         [AC_CHECK_LIB(ncurses,waddch,
+diff -ur wine-20050830/configure.ac wine-20050830.new/configure.ac
+--- wine-20050830/configure.ac	2005-08-25 12:14:13.000000000 +0000
++++ wine-20050830.new/configure.ac	2005-08-30 21:06:27.136642632 +0000
+@@ -467,12 +467,12 @@
+     then
+         AC_CHECK_LIB(ncurses,waddch,
              [AC_DEFINE(HAVE_LIBNCURSES, 1, [Define if you have the ncurses library (-lncurses)])
--             CURSESLIBS="-lncurses"],
+-             CURSESLIBS="-lncurses"])
 +             CURSESLIBS="-lncurses -ltinfo"],
-              [AC_CHECK_HEADERS(curses.h,
-                  [AC_CHECK_LIB(curses,waddch,
-                      [AC_DEFINE(HAVE_LIBCURSES, 1, [Define if you have the curses library (-lcurses)])
--                      CURSESLIBS="-lcurses"])])])])
-+                      CURSESLIBS="-lcurses -ltinfo"])])])])
+     elif test "$ac_cv_header_curses_h" = "yes"
+     then
+         AC_CHECK_LIB(curses,waddch,
+             [AC_DEFINE(HAVE_LIBCURSES, 1, [Define if you have the curses library (-lcurses)])
+-             CURSESLIBS="-lcurses"])
++             CURSESLIBS="-lcurses -ltinfo"])])])])
+     fi
  fi
  AC_SUBST(CURSESLIBS)
- 
