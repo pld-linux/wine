@@ -29,13 +29,13 @@ Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	20050725
+Version:	20050830
 Release:	1
 License:	LGPL
 Group:		Applications/Emulators
 #Source0:	http://dl.sourceforge.net/%{name}/Wine-%{version}.tar.gz
-Source0:	ftp://ftp.ibiblio.org/pub/Linux/ALPHA/%{name}/development/Wine-%{version}.tar.gz
-# Source0-md5:	491924c85428c940c8f845d8d78001f9
+Source0:	ftp://ftp.ibiblio.org/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
+# Source0-md5:	5d95439a74decd1f94dd8d370a24f442
 Source1:	%{name}.init
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-destdir.patch
@@ -395,7 +395,7 @@ fi
 %dir %{_libdir}/wine
 %{_mandir}/man1/wine.*
 %{_mandir}/man1/winedbg.1*
-%attr(754,root,root) %{_sysconfdir}/rc.d/init.d/wine
+%attr(754,root,root) /etc/rc.d/init.d/wine
 %{_winedir}
 %{_datadir}/fonts/wine
 %{_desktopdir}/wine.desktop
