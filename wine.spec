@@ -39,11 +39,10 @@ Source0:	ftp://ftp.ibiblio.org/pub/Linux/ALPHA/wine/development/Wine-%{version}.
 Source1:	%{name}.init
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-destdir.patch
-Patch2:		%{name}-ncurses.patch
-Patch3:		%{name}-makedep.patch
-Patch4:		%{name}-alsa.patch
+Patch2:		%{name}-makedep.patch
+Patch3:		%{name}-alsa.patch
 # Oliver Stieber's DirectX 9 support patch (unofficial, published on WWN Issue #271)
-Patch5:		%{name}-d3d9patch.patch
+Patch4:		%{name}-d3d9patch.patch
 #PatchX:		%{name}-dga.patch
 URL:		http://www.winehq.org/
 %if %{with xlibs}
@@ -248,10 +247,9 @@ Sterownik NAS dla implementacji mm.dll (systemu multimediów) w Wine.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-#%patch2 -p1
+%patch2 -p1
 %patch3 -p1
-%patch4 -p1
-%{?with_d3d9:%patch5 -p1}
+%{?with_d3d9:%patch4 -p1}
 
 # turn off compilation of some tools
 sed -i -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in
