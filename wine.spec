@@ -29,13 +29,13 @@ Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	20050830
+Version:	20050930
 Release:	1
 License:	LGPL
 Group:		Applications/Emulators
 #Source0:	http://dl.sourceforge.net/%{name}/Wine-%{version}.tar.gz
 Source0:	ftp://ftp.ibiblio.org/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
-# Source0-md5:	5d95439a74decd1f94dd8d370a24f442
+# Source0-md5:	b8cb96e2cb2c89daeba415c734ae4218
 Source1:	%{name}.init
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-destdir.patch
@@ -278,7 +278,6 @@ install -d $RPM_BUILD_ROOT{%{_mandir}/man1,%{_aclocaldir}}
 %{__make} -C programs install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install programs/winhelp/hlp2sgml	$RPM_BUILD_ROOT%{_bindir}
 install tools/fnt2bdf			$RPM_BUILD_ROOT%{_bindir}
 
 install aclocal.m4 $RPM_BUILD_ROOT%{_aclocaldir}/wine.m4
@@ -393,6 +392,7 @@ fi
 %dir %{_libdir}/wine
 %{_mandir}/man1/wine.*
 %{_mandir}/man1/winedbg.1*
+%{_mandir}/man1/wineserver.*
 %attr(754,root,root) /etc/rc.d/init.d/wine
 %{_winedir}
 %{_datadir}/fonts/wine
@@ -405,7 +405,6 @@ fi
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/fnt2bdf
 %attr(755,root,root) %{_bindir}/function_grep.pl
-%attr(755,root,root) %{_bindir}/hlp2sgml
 %attr(755,root,root) %{_bindir}/widl
 %attr(755,root,root) %{_bindir}/winebuild
 %attr(755,root,root) %{_bindir}/winedump
