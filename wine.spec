@@ -29,13 +29,15 @@ Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	20050930
+Version:	0.9
 Release:	1
+Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 #Source0:	http://dl.sourceforge.net/%{name}/Wine-%{version}.tar.gz
-Source0:	ftp://ftp.ibiblio.org/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
-# Source0-md5:	b8cb96e2cb2c89daeba415c734ae4218
+#Source0:	ftp://ftp.ibiblio.org/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
+Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}.tar.bz2
+# Source0-md5:	20858ca2bcfc6ae765007c40e5cdd550
 Source1:	%{name}.init
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-destdir.patch
@@ -126,7 +128,7 @@ Summary(es):	Biblioteca de desarrollo de wine
 Summary(pl):	Wine - pliki nag³owkowe
 Summary(pt_BR):	Biblioteca de desenvolvimento do wine
 Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description devel
 Wine - header files.
@@ -145,7 +147,7 @@ WINE.
 Summary:	Wine - programs
 Summary(pl):	Wine - programy
 Group:		Applications
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description programs
 Wine - programs.
@@ -157,7 +159,7 @@ Wine - programy.
 Summary:	Direct3D implementation DLLs for Wine
 Summary(pl):	Biblioteki DLL z implementacj± Direct3D dla Wine
 Group:		Applications/Emulators
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 Requires:	OpenGL
 
 %description dll-d3d
@@ -170,7 +172,7 @@ Biblioteki DLL z implementacj± Direct3D dla Wine (poprzez OpenGL).
 Summary:	OpenGL implementation DLLs for Wine
 Summary(pl):	Biblioteki DLL z implementacj± OpenGL dla Wine
 Group:		Applications/Emulators
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 Requires:	OpenGL
 
 %description dll-gl
@@ -183,7 +185,7 @@ Biblioteki DLL z implementacj± OpenGL dla Wine.
 Summary:	TWAIN implementation DLL for Wine
 Summary(pl):	Biblioteka DLL z implementacj± TWAIN dla Wine
 Group:		Applications/Emulators
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description dll-twain
 TWAIN implementation DLL for Wine (through SANE).
@@ -195,7 +197,7 @@ Biblioteka DLL z implementacj± TWAIN dla Wine (poprzez SANE).
 Summary:	ALSA driver for WINE mm.dll implementation
 Summary(pl):	Sterownik ALSA dla implementacji mm.dll w Wine
 Group:		Applications/Emulators
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description drv-alsa
 ALSA driver for WINE mm.dll (multimedia system) implementation.
@@ -207,7 +209,7 @@ Sterownik ALSA dla implementacji mm.dll (systemu multimediów) w Wine.
 Summary:	aRts driver for WINE mm.dll implementation
 Summary(pl):	Sterownik aRts dla implementacji mm.dll w Wine
 Group:		Applications/Emulators
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description drv-arts
 aRts driver for WINE mm.dll (multimedia system) implementation.
@@ -219,7 +221,7 @@ Sterownik aRts dla implementacji mm.dll (systemu multimediów) w Wine.
 Summary:	JACK driver for WINE mm.dll implementation
 Summary(pl):	Sterownik JACK-a dla implementacji mm.dll w Wine
 Group:		Applications/Emulators
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 Requires:	jack-audio-connection-kit
 # dlopened by SONAME detected at build time
 %{?with_jack:Requires:	%{getsoname /usr/%{_lib}/libjack.so}}
@@ -235,7 +237,7 @@ Wine.
 Summary:	NAS driver for WINE mm.dll implementation
 Summary(pl):	Sterownik NAS dla implementacji mm.dll w Wine
 Group:		Applications/Emulators
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description drv-nas
 NAS driver for WINE mm.dll (multimedia system) implementation.
