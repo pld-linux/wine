@@ -416,6 +416,13 @@ fi
 #%attr(755,root,root) %{_bindir}/winewrap
 %attr(755,root,root) %{_bindir}/wmc
 %attr(755,root,root) %{_bindir}/wrc
+%{_libdir}/wine/lib*.def
+# no shared variants, so not separated
+%{_libdir}/wine/lib*.def.a
+%{_libdir}/wine/libdx*.a
+%{_libdir}/wine/libstrmiids.a
+%{_libdir}/wine/libuuid.a
+%{_libdir}/wine/libwinecrt0.a
 %{_includedir}/wine
 %{_mandir}/man1/widl.1*
 %{_mandir}/man1/winedump.1*
