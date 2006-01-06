@@ -29,7 +29,7 @@ Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	0.9.4
+Version:	0.9.5
 Release:	1
 Epoch:		1
 License:	LGPL
@@ -37,7 +37,7 @@ Group:		Applications/Emulators
 #Source0:	http://dl.sourceforge.net/%{name}/Wine-%{version}.tar.gz
 #Source0:	ftp://ftp.ibiblio.org/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
 Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}.tar.bz2
-# Source0-md5:	73205d83a5612a43441a8532683c0434
+# Source0-md5:	b0c8e65efd541eb690ae05fdf05fcd4d
 Source1:	%{name}.init
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-destdir.patch
