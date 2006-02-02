@@ -370,11 +370,13 @@ fi
 
 %files -f files.so
 %defattr(644,root,root,755)
-%doc README DEVELOPERS-HINTS ChangeLog BUGS AUTHORS ANNOUNCE
+%doc README DEVELOPERS-HINTS ChangeLog AUTHORS ANNOUNCE
 %lang(de) %doc documentation/README.de
 %lang(es) %doc documentation/README.es
 %lang(fr) %doc documentation/README.fr
 %lang(it) %doc documentation/README.it
+%lang(ko) %doc documentation/README.ko
+%lang(no) %doc documentation/README.no
 %lang(pt) %doc documentation/README.pt
 %lang(pt_BR) %doc documentation/README.pt_br
 %attr(755,root,root) %{_bindir}/msiexec
