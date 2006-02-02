@@ -87,7 +87,7 @@ Requires(post):	/sbin/ldconfig
 Requires(post,preun):	/sbin/chkconfig
 # link to wine/ntdll.dll.so, without any SONAME
 Provides:	libntdll.dll.so
-ExclusiveArch:	%{ix86} amd64
+ExclusiveArch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_noautoreqdep		libGL.so.1 libGLU.so.1
