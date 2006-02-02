@@ -376,7 +376,7 @@ fi
 %lang(fr) %doc documentation/README.fr
 %lang(it) %doc documentation/README.it
 %lang(ko) %doc documentation/README.ko
-%lang(no) %doc documentation/README.no
+%lang(nb) %doc documentation/README.no
 %lang(pt) %doc documentation/README.pt
 %lang(pt_BR) %doc documentation/README.pt_br
 %attr(755,root,root) %{_bindir}/msiexec
