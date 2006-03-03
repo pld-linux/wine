@@ -7,7 +7,6 @@
 %bcond_with	d3d9		# build with d3d9 patch
 %bcond_without	sane		# don't build TWAIN DLL with scanning support (through SANE)
 %bcond_without	cups		# without CUPS printing support in winspool,wineps DLLs
-%bcond_with	xlibs
 #
 # NOTE: wine detects the following SONAMES for dlopen at build time:
 #   libcrypto,libssl (wininet.dll)
@@ -29,7 +28,7 @@ Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	0.9.8
+Version:	0.9.9
 Release:	1
 Epoch:		1
 License:	LGPL
@@ -37,7 +36,7 @@ Group:		Applications/Emulators
 #Source0:	http://dl.sourceforge.net/%{name}/Wine-%{version}.tar.gz
 #Source0:	ftp://ftp.ibiblio.org/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
 Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}.tar.bz2
-# Source0-md5:	a3b3914c9e34df910045384d64baee87
+# Source0-md5:	19538823c101b18feca83e4f06312139
 Source1:	%{name}.init
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-makedep.patch
@@ -46,19 +45,9 @@ Patch2:		%{name}-alsa.patch
 Patch3:		%{name}-d3d9patch.patch
 #PatchX:		%{name}-dga.patch
 URL:		http://www.winehq.org/
-%if %{with xlibs}
-BuildRequires:	libSM-devel
-BuildRequires:	libXrandr-devel
-BuildRequires:	libXrender-devel
-BuildRequires:	libXt-devel
-BuildRequires:	libXv-devel
-%else
-BuildRequires:	XFree86-devel
-%endif
-BuildRequires:	XFree86-OpenGL-devel-base
-BuildRequires:	XFree86-OpenGL-devel
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 %{?with_arts:BuildRequires:	artsc-devel}
+BuildRequires:	OpenGL-GLU-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
@@ -81,7 +70,11 @@ BuildRequires:	openjade >= 1:1.3.3-0.pre1
 BuildRequires:	opensp >= 1:1.5.1
 BuildRequires:	openssl-devel >= 0.9.7d
 %{?with_sane:BuildRequires:	sane-backends-devel}
-BuildRequires:	xrender-devel
+BuildRequires:	xorg-lib-libXi
+BuildRequires:	xorg-lib-libXmu
+BuildRequires:	xorg-lib-libXrender
+BuildRequires:	xorg-lib-libXxf86dga
+BuildRequires:	xorg-lib-libXxf86vm
 Requires(post):	/sbin/ldconfig
 Requires(post,preun):	/sbin/chkconfig
 # link to wine/ntdll.dll.so, without any SONAME
@@ -392,6 +385,9 @@ fi
 %attr(755,root,root) %{_bindir}/wineshelllink
 %attr(755,root,root) %{_libdir}/*.so*
 %dir %{_libdir}/wine
+%{_libdir}/wine/*.dll16
+%{_libdir}/wine/*.drv16
+%{_libdir}/wine/*.exe16
 %{_mandir}/man1/wine.*
 %{_mandir}/man1/winedbg.1*
 %{_mandir}/man1/wineserver.*
