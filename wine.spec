@@ -70,11 +70,11 @@ BuildRequires:	openjade >= 1:1.3.3-0.pre1
 BuildRequires:	opensp >= 1:1.5.1
 BuildRequires:	openssl-devel >= 0.9.7d
 %{?with_sane:BuildRequires:	sane-backends-devel}
-BuildRequires:	xorg-lib-libXi
-BuildRequires:	xorg-lib-libXmu
-BuildRequires:	xorg-lib-libXrender
-BuildRequires:	xorg-lib-libXxf86dga
-BuildRequires:	xorg-lib-libXxf86vm
+BuildRequires:	xorg-lib-libXi-devel
+BuildRequires:	xorg-lib-libXmu-devel
+BuildRequires:	xorg-lib-libXrender-devel
+BuildRequires:	xorg-lib-libXxf86dga-devel
+BuildRequires:	xorg-lib-libXxf86vm-devel
 Requires(post):	/sbin/ldconfig
 Requires(post,preun):	/sbin/chkconfig
 # link to wine/ntdll.dll.so, without any SONAME
