@@ -4,7 +4,6 @@
 %bcond_without	arts		# don't build aRts mm driver
 %bcond_without	jack		# don't build JACK mm driver
 %bcond_without	nas		# don't build NAS mm driver
-%bcond_with	d3d9		# build with d3d9 patch
 %bcond_without	sane		# don't build TWAIN DLL with scanning support (through SANE)
 %bcond_without	cups		# without CUPS printing support in winspool,wineps DLLs
 #
@@ -41,8 +40,6 @@ Source1:	%{name}.init
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-makedep.patch
 Patch2:		%{name}-alsa.patch
-# Oliver Stieber's DirectX 9 support patch (unofficial, published on WWN Issue #271)
-Patch3:		%{name}-d3d9patch.patch
 #PatchX:		%{name}-dga.patch
 URL:		http://www.winehq.org/
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
@@ -242,7 +239,6 @@ Sterownik NAS dla implementacji mm.dll (systemu multimediów) w Wine.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%{?with_d3d9:%patch3 -p1}
 
 # turn off compilation of some tools
 sed -i -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in
