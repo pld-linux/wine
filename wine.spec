@@ -29,22 +29,19 @@ Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	0.9.5
-Release:	2
+Version:	0.9.12
+Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 #Source0:	http://dl.sourceforge.net/%{name}/Wine-%{version}.tar.gz
 #Source0:	ftp://ftp.ibiblio.org/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
-Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}.tar.bz2
-# Source0-md5:	b0c8e65efd541eb690ae05fdf05fcd4d
+Source0:        http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}.tar.bz2
+# Source0-md5:  f7668e17e731b59c837dfee218554171
 Source1:	%{name}.init
 Patch0:		%{name}-fontcache.patch
-Patch1:		%{name}-destdir.patch
-Patch2:		%{name}-makedep.patch
-Patch3:		%{name}-alsa.patch
-# Oliver Stieber's DirectX 9 support patch (unofficial, published on WWN Issue #271)
-Patch4:		%{name}-d3d9patch.patch
+Patch1:		%{name}-makedep.patch
+Patch2:		%{name}-alsa.patch
 #PatchX:		%{name}-dga.patch
 URL:		http://www.winehq.org/
 %if %{with xlibs}
@@ -250,8 +247,6 @@ Sterownik NAS dla implementacji mm.dll (systemu multimediów) w Wine.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
-%{?with_d3d9:%patch4 -p1}
 
 # turn off compilation of some tools
 sed -i -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in
@@ -334,7 +329,7 @@ rm -f files.programs;	touch files.programs
 cd $RPM_BUILD_ROOT%{_libdir}/wine
 for f in *.so; do
 	case $f in
-		d3d8.dll.so|d3d9.dll.so|d3dx8.dll.so|glu32.dll.so|opengl32.dll.so|twain.dll.so|twain_32.dll.so|winealsa.drv.so|winearts.drv.so|winejack.drv.so|winenas.drv.so)
+                d3d8.dll.so|d3d9.dll.so|d3dx8.dll.so|glu32.dll.so|glut32.dll.so|opengl32.dll.so|twain.dll.so|twain_32.dll.so|winealsa.drv.so|winearts.drv.so|winejack.drv.so|winenas.drv.so)
 			;;
 		*)
 			echo "%attr(755,root,root) %{_libdir}/wine/$f" >>$BZZZ/files.so
@@ -370,13 +365,16 @@ fi
 
 %files -f files.so
 %defattr(644,root,root,755)
-%doc README DEVELOPERS-HINTS ChangeLog BUGS AUTHORS ANNOUNCE
+%doc README DEVELOPERS-HINTS ChangeLog AUTHORS ANNOUNCE
 %lang(de) %doc documentation/README.de
 %lang(es) %doc documentation/README.es
 %lang(fr) %doc documentation/README.fr
 %lang(it) %doc documentation/README.it
+%lang(ko) %doc documentation/README.ko
+%lang(nb) %doc documentation/README.no
 %lang(pt) %doc documentation/README.pt
 %lang(pt_BR) %doc documentation/README.pt_br
+
 %attr(755,root,root) %{_bindir}/msiexec
 %attr(755,root,root) %{_bindir}/wine
 %attr(755,root,root) %{_bindir}/wineboot
@@ -392,12 +390,15 @@ fi
 %attr(755,root,root) %{_bindir}/wineshelllink
 %attr(755,root,root) %{_libdir}/*.so*
 %dir %{_libdir}/wine
+%{_libdir}/wine/*.dll16
+%{_libdir}/wine/*.drv16
+%{_libdir}/wine/*.exe16
 %{_mandir}/man1/wine.*
 %{_mandir}/man1/winedbg.1*
 %{_mandir}/man1/wineserver.*
 %attr(754,root,root) /etc/rc.d/init.d/wine
 %{_winedir}
-%{_datadir}/fonts/wine
+
 %{_desktopdir}/wine.desktop
 
 %files programs -f files.programs
@@ -443,6 +444,7 @@ fi
 %files dll-gl
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/wine/glu32.dll.so
+#%attr(755,root,root) %{_libdir}/wine/glut32.dll.so
 %attr(755,root,root) %{_libdir}/wine/opengl32.dll.so
 
 %if %{with sane}
