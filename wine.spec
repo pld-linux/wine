@@ -28,7 +28,7 @@ Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
 Version:	0.9.12
-Release:	1
+Release:	1.9
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
@@ -36,7 +36,6 @@ Group:		Applications/Emulators
 #Source0:	ftp://ftp.ibiblio.org/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
 Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}.tar.bz2
 # Source0-md5:	f7668e17e731b59c837dfee218554171
-Source1:	%{name}.init
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-makedep.patch
 Patch2:		%{name}-alsa.patch
@@ -76,6 +75,7 @@ BuildRequires:	xorg-lib-libXxf86dga-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
 Requires(post):	/sbin/ldconfig
 Requires(post,preun):	/sbin/chkconfig
+Requires:	binfmt-detector
 # link to wine/ntdll.dll.so, without any SONAME
 Provides:	libntdll.dll.so
 ExclusiveArch:	%{ix86}
@@ -274,14 +274,12 @@ install tools/fnt2bdf			$RPM_BUILD_ROOT%{_bindir}
 install aclocal.m4 $RPM_BUILD_ROOT%{_aclocaldir}/wine.m4
 #mv -f $RPM_BUILD_ROOT{/usr/X11R6/share/aclocal,%{_aclocaldir}}/wine.m4
 
-install -d $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d \
+install -d \
 	$RPM_BUILD_ROOT%{_winedir}/windows/{system,Desktop,Favorites,Fonts} \
 	"$RPM_BUILD_ROOT%{_winedir}/windows/Start Menu/Programs/Startup" \
 	$RPM_BUILD_ROOT%{_winedir}/windows/{SendTo,ShellNew,system32,NetHood} \
 	$RPM_BUILD_ROOT%{_winedir}/windows/{Profiles/Administrator,Recent} \
 	$RPM_BUILD_ROOT%{_winedir}/{"Program Files/Common Files","My Documents"}
-
-install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/wine
 
 touch $RPM_BUILD_ROOT%{_winedir}/{autoexec.bat,config.sys,windows/win.ini}
 touch $RPM_BUILD_ROOT%{_winedir}/windows/system/{shell.dll,shell32.dll}
@@ -342,18 +340,15 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/ldconfig
-/sbin/chkconfig --add wine
-if [ ! -f /var/lock/subsys/wine ]; then
-	echo "Run \"/etc/rc.d/init.d/wine start\" to start wine service." >&2
-fi
 
-%preun
-if [ "$1" = "0" ]; then
-	if [ -f /var/lock/subsys/wine ]; then
-		/etc/rc.d/init.d/wine stop >&2
-	fi
-	/sbin/chkconfig --del wine
-fi
+# how to remove this correctly?
+#%preun
+#if [ "$1" = "0" ]; then
+#	if [ -f /var/lock/subsys/wine ]; then
+#		/etc/rc.d/init.d/wine stop >&2
+#	fi
+#	/sbin/chkconfig --del wine
+#fi
 
 %postun -p /sbin/ldconfig
 
@@ -389,7 +384,6 @@ fi
 %{_mandir}/man1/wine.*
 %{_mandir}/man1/winedbg.1*
 %{_mandir}/man1/wineserver.*
-%attr(754,root,root) /etc/rc.d/init.d/wine
 %{_winedir}
 %{_desktopdir}/wine.desktop
 
