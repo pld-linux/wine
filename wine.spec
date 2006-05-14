@@ -4,7 +4,6 @@
 %bcond_without	arts		# don't build aRts mm driver
 %bcond_without	jack		# don't build JACK mm driver
 %bcond_without	nas		# don't build NAS mm driver
-%bcond_with	d3d9		# build with d3d9 patch
 %bcond_without	sane		# don't build TWAIN DLL with scanning support (through SANE)
 %bcond_without	cups		# without CUPS printing support in winspool,wineps DLLs
 %bcond_with	xlibs
@@ -29,24 +28,20 @@ Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	20050524
+Version:	0.9.13
 Release:	1
+Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 #Source0:	http://dl.sourceforge.net/%{name}/Wine-%{version}.tar.gz
-Source0:	ftp://ftp.ibiblio.org/pub/Linux/ALPHA/%{name}/development/Wine-%{version}.tar.gz
-# Source0-md5:	e0a3e2d52f1e2d80b8bf232b58161fe5
+#Source0:	ftp://ftp.ibiblio.org/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
+Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}.tar.bz2
+# Source0-md5:	0cbcf13e0888b709e8068ab469c7c8b3
 Source1:	%{name}.init
-Source2:	%{name}.reg
-Source3:	%{name}.systemreg
-Source4:	%{name}.userreg
 Patch0:		%{name}-fontcache.patch
-Patch1:		%{name}-destdir.patch
-Patch2:		%{name}-ncurses.patch
-Patch3:		%{name}-makedep.patch
-#Patch4:		%{name}-dga.patch
-# Oliver Stieber's DirectX 9 support patch (unofficial, published on WWN Issue #271)
-Patch5:		%{name}-d3d9patch.patch
+Patch1:		%{name}-makedep.patch
+Patch2:		%{name}-alsa.patch
+#PatchX:		%{name}-dga.patch
 URL:		http://www.winehq.org/
 %if %{with xlibs}
 BuildRequires:	libSM-devel
@@ -129,7 +124,7 @@ Summary(es):	Biblioteca de desarrollo de wine
 Summary(pl):	Wine - pliki nag³owkowe
 Summary(pt_BR):	Biblioteca de desenvolvimento do wine
 Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description devel
 Wine - header files.
@@ -148,7 +143,7 @@ WINE.
 Summary:	Wine - programs
 Summary(pl):	Wine - programy
 Group:		Applications
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description programs
 Wine - programs.
@@ -160,7 +155,7 @@ Wine - programy.
 Summary:	Direct3D implementation DLLs for Wine
 Summary(pl):	Biblioteki DLL z implementacj± Direct3D dla Wine
 Group:		Applications/Emulators
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 Requires:	OpenGL
 
 %description dll-d3d
@@ -173,7 +168,7 @@ Biblioteki DLL z implementacj± Direct3D dla Wine (poprzez OpenGL).
 Summary:	OpenGL implementation DLLs for Wine
 Summary(pl):	Biblioteki DLL z implementacj± OpenGL dla Wine
 Group:		Applications/Emulators
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 Requires:	OpenGL
 
 %description dll-gl
@@ -186,7 +181,7 @@ Biblioteki DLL z implementacj± OpenGL dla Wine.
 Summary:	TWAIN implementation DLL for Wine
 Summary(pl):	Biblioteka DLL z implementacj± TWAIN dla Wine
 Group:		Applications/Emulators
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description dll-twain
 TWAIN implementation DLL for Wine (through SANE).
@@ -198,7 +193,7 @@ Biblioteka DLL z implementacj± TWAIN dla Wine (poprzez SANE).
 Summary:	ALSA driver for WINE mm.dll implementation
 Summary(pl):	Sterownik ALSA dla implementacji mm.dll w Wine
 Group:		Applications/Emulators
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description drv-alsa
 ALSA driver for WINE mm.dll (multimedia system) implementation.
@@ -210,7 +205,7 @@ Sterownik ALSA dla implementacji mm.dll (systemu multimediów) w Wine.
 Summary:	aRts driver for WINE mm.dll implementation
 Summary(pl):	Sterownik aRts dla implementacji mm.dll w Wine
 Group:		Applications/Emulators
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description drv-arts
 aRts driver for WINE mm.dll (multimedia system) implementation.
@@ -222,7 +217,7 @@ Sterownik aRts dla implementacji mm.dll (systemu multimediów) w Wine.
 Summary:	JACK driver for WINE mm.dll implementation
 Summary(pl):	Sterownik JACK-a dla implementacji mm.dll w Wine
 Group:		Applications/Emulators
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 Requires:	jack-audio-connection-kit
 # dlopened by SONAME detected at build time
 %{?with_jack:Requires:	%{getsoname /usr/%{_lib}/libjack.so}}
@@ -238,7 +233,7 @@ Wine.
 Summary:	NAS driver for WINE mm.dll implementation
 Summary(pl):	Sterownik NAS dla implementacji mm.dll w Wine
 Group:		Applications/Emulators
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description drv-nas
 NAS driver for WINE mm.dll (multimedia system) implementation.
@@ -251,8 +246,6 @@ Sterownik NAS dla implementacji mm.dll (systemu multimediów) w Wine.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
-%{?with_d3d9:%patch5 -p1}
 
 # turn off compilation of some tools
 sed -i -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in
@@ -281,7 +274,6 @@ install -d $RPM_BUILD_ROOT{%{_mandir}/man1,%{_aclocaldir}}
 %{__make} -C programs install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install programs/winhelp/hlp2sgml	$RPM_BUILD_ROOT%{_bindir}
 install tools/fnt2bdf			$RPM_BUILD_ROOT%{_bindir}
 
 install aclocal.m4 $RPM_BUILD_ROOT%{_aclocaldir}/wine.m4
@@ -295,9 +287,6 @@ install -d $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d \
 	$RPM_BUILD_ROOT%{_winedir}/{"Program Files/Common Files","My Documents"}
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/wine
-install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}
-install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}
-install %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}
 
 touch $RPM_BUILD_ROOT%{_winedir}/{autoexec.bat,config.sys,windows/win.ini}
 touch $RPM_BUILD_ROOT%{_winedir}/windows/system/{shell.dll,shell32.dll}
@@ -339,7 +328,7 @@ rm -f files.programs;	touch files.programs
 cd $RPM_BUILD_ROOT%{_libdir}/wine
 for f in *.so; do
 	case $f in
-		d3d8.dll.so|d3d9.dll.so|d3dx8.dll.so|glu32.dll.so|opengl32.dll.so|twain.dll.so|twain_32.dll.so|winealsa.drv.so|winearts.drv.so|winejack.drv.so|winenas.drv.so)
+                d3d8.dll.so|d3d9.dll.so|d3dx8.dll.so|glu32.dll.so|glut32.dll.so|opengl32.dll.so|twain.dll.so|twain_32.dll.so|winealsa.drv.so|winearts.drv.so|winejack.drv.so|winenas.drv.so)
 			;;
 		*)
 			echo "%attr(755,root,root) %{_libdir}/wine/$f" >>$BZZZ/files.so
@@ -375,8 +364,16 @@ fi
 
 %files -f files.so
 %defattr(644,root,root,755)
-%doc README DEVELOPERS-HINTS ChangeLog BUGS AUTHORS ANNOUNCE
-%doc documentation/samples
+%doc README DEVELOPERS-HINTS ChangeLog AUTHORS ANNOUNCE
+%lang(de) %doc documentation/README.de
+%lang(es) %doc documentation/README.es
+%lang(fr) %doc documentation/README.fr
+%lang(it) %doc documentation/README.it
+%lang(ko) %doc documentation/README.ko
+%lang(nb) %doc documentation/README.no
+%lang(pt) %doc documentation/README.pt
+%lang(pt_BR) %doc documentation/README.pt_br
+
 %attr(755,root,root) %{_bindir}/msiexec
 %attr(755,root,root) %{_bindir}/wine
 %attr(755,root,root) %{_bindir}/wineboot
@@ -392,15 +389,14 @@ fi
 %attr(755,root,root) %{_bindir}/wineshelllink
 %attr(755,root,root) %{_libdir}/*.so*
 %dir %{_libdir}/wine
+%{_libdir}/wine/*.dll16
+%{_libdir}/wine/*.drv16
+%{_libdir}/wine/*.exe16
 %{_mandir}/man1/wine.*
 %{_mandir}/man1/winedbg.1*
-%{_mandir}/man5/wine.conf.*
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/wine.reg
-%config(missingok,noreplace) %verify(not size mtime md5) %{_sysconfdir}/wine.systemreg
-%config(missingok,noreplace) %verify(not size mtime md5) %{_sysconfdir}/wine.userreg
-%attr(754,root,root) %{_sysconfdir}/rc.d/init.d/wine
+%{_mandir}/man1/wineserver.*
+%attr(754,root,root) /etc/rc.d/init.d/wine
 %{_winedir}
-%{_datadir}/fonts/wine
 %{_desktopdir}/wine.desktop
 
 %files programs -f files.programs
@@ -408,12 +404,8 @@ fi
 
 %files devel
 %defattr(644,root,root,755)
-%if %{with html_docs}
-%doc documentation/{wine-devel,winelib-user}
-%endif
 %attr(755,root,root) %{_bindir}/fnt2bdf
 %attr(755,root,root) %{_bindir}/function_grep.pl
-%attr(755,root,root) %{_bindir}/hlp2sgml
 %attr(755,root,root) %{_bindir}/widl
 %attr(755,root,root) %{_bindir}/winebuild
 %attr(755,root,root) %{_bindir}/winedump
@@ -423,6 +415,13 @@ fi
 #%attr(755,root,root) %{_bindir}/winewrap
 %attr(755,root,root) %{_bindir}/wmc
 %attr(755,root,root) %{_bindir}/wrc
+%{_libdir}/wine/lib*.def
+# no shared variants, so not separated
+%{_libdir}/wine/lib*.def.a
+%{_libdir}/wine/libdx*.a
+%{_libdir}/wine/libstrmiids.a
+%{_libdir}/wine/libuuid.a
+%{_libdir}/wine/libwinecrt0.a
 %{_includedir}/wine
 %{_mandir}/man1/widl.1*
 %{_mandir}/man1/winedump.1*
@@ -443,6 +442,7 @@ fi
 %files dll-gl
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/wine/glu32.dll.so
+#%attr(755,root,root) %{_libdir}/wine/glut32.dll.so
 %attr(755,root,root) %{_libdir}/wine/opengl32.dll.so
 
 %if %{with sane}
