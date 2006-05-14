@@ -4,7 +4,6 @@
 %bcond_without	arts		# don't build aRts mm driver
 %bcond_without	jack		# don't build JACK mm driver
 %bcond_without	nas		# don't build NAS mm driver
-%bcond_with	d3d9		# build with d3d9 patch
 %bcond_without	sane		# don't build TWAIN DLL with scanning support (through SANE)
 %bcond_without	cups		# without CUPS printing support in winspool,wineps DLLs
 %bcond_with	xlibs
@@ -29,15 +28,15 @@ Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	0.9.12
+Version:	0.9.13
 Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 #Source0:	http://dl.sourceforge.net/%{name}/Wine-%{version}.tar.gz
 #Source0:	ftp://ftp.ibiblio.org/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
-Source0:        http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}.tar.bz2
-# Source0-md5:  f7668e17e731b59c837dfee218554171
+Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}.tar.bz2
+# Source0-md5:	0cbcf13e0888b709e8068ab469c7c8b3
 Source1:	%{name}.init
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-makedep.patch
@@ -398,7 +397,6 @@ fi
 %{_mandir}/man1/wineserver.*
 %attr(754,root,root) /etc/rc.d/init.d/wine
 %{_winedir}
-
 %{_desktopdir}/wine.desktop
 
 %files programs -f files.programs
