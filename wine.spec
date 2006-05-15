@@ -27,15 +27,13 @@ Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	0.9.12
-Release:	1.9
+Version:	0.9.13
+Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
-#Source0:	http://dl.sourceforge.net/%{name}/Wine-%{version}.tar.gz
-#Source0:	ftp://ftp.ibiblio.org/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
 Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}.tar.bz2
-# Source0-md5:	f7668e17e731b59c837dfee218554171
+# Source0-md5:	0cbcf13e0888b709e8068ab469c7c8b3
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-makedep.patch
 Patch2:		%{name}-alsa.patch
@@ -321,7 +319,7 @@ rm -f files.programs;	touch files.programs
 cd $RPM_BUILD_ROOT%{_libdir}/wine
 for f in *.so; do
 	case $f in
-		d3d8.dll.so|d3d9.dll.so|d3dx8.dll.so|glu32.dll.so|glut32.dll.so|opengl32.dll.so|twain.dll.so|twain_32.dll.so|winealsa.drv.so|winearts.drv.so|winejack.drv.so|winenas.drv.so)
+		d3d8.dll.so|d3d9.dll.so|d3dx8.dll.so|glu32.dll.so|glut32.dll.so|opengl32.dll.so|sane.ds.so|twain.dll.so|twain_32.dll.so|winealsa.drv.so|winearts.drv.so|winejack.drv.so|winenas.drv.so)
 			;;
 		*)
 			echo "%attr(755,root,root) %{_libdir}/wine/$f" >>$BZZZ/files.so
@@ -436,6 +434,7 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with sane}
 %files dll-twain
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/wine/sane.ds.so
 %attr(755,root,root) %{_libdir}/wine/twain*.dll.so
 %endif
 
