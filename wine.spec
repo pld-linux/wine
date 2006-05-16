@@ -71,8 +71,6 @@ BuildRequires:	xorg-lib-libXmu-devel
 BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	xorg-lib-libXxf86dga-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
-Requires(post):	/sbin/ldconfig
-Requires(post,preun):	/sbin/chkconfig
 Requires:	binfmt-detector
 # link to wine/ntdll.dll.so, without any SONAME
 Provides:	libntdll.dll.so
@@ -336,19 +334,16 @@ done
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post
-/sbin/ldconfig
-
-# how to remove this correctly?
-#%preun
-#if [ "$1" = "0" ]; then
-#	if [ -f /var/lock/subsys/wine ]; then
-#		/etc/rc.d/init.d/wine stop >&2
-#	fi
-#	/sbin/chkconfig --del wine
-#fi
-
+%post	-p /sbin/ldconfig
 %postun -p /sbin/ldconfig
+
+%triggerpostun -- wine < 1:0.9.12-1.9
+if [ -f /var/lock/subsys/wine ]; then
+	/etc/rc.d/init.d/wine stop >&2
+fi
+if [ -x /sbin/chkconfig ]; then
+	/sbin/chkconfig --del wine
+fi
 
 %files -f files.so
 %defattr(644,root,root,755)
