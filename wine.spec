@@ -28,7 +28,7 @@ Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
 Version:	0.9.13
-Release:	1
+Release:	2
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
@@ -37,6 +37,7 @@ Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}.t
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-makedep.patch
 Patch2:		%{name}-alsa.patch
+Patch3:		%{name}-ncurses.patch
 #PatchX:		%{name}-dga.patch
 URL:		http://www.winehq.org/
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
@@ -237,6 +238,7 @@ Sterownik NAS dla implementacji mm.dll (systemu multimediów) w Wine.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 # turn off compilation of some tools
 sed -i -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in
@@ -244,6 +246,7 @@ sed -i -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in
 
 %build
 %{__autoconf}
+%{__autoheader}
 %configure \
 	%{!?debug:--disable-debug} \
 	%{!?debug:--disable-trace} \
