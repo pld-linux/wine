@@ -6,7 +6,6 @@
 %bcond_without	nas		# don't build NAS mm driver
 %bcond_without	sane		# don't build TWAIN DLL with scanning support (through SANE)
 %bcond_without	cups		# without CUPS printing support in winspool,wineps DLLs
-%bcond_with	xlibs
 #
 # NOTE: wine detects the following SONAMES for dlopen at build time:
 #   libcrypto,libssl (wininet.dll)
@@ -43,17 +42,8 @@ Patch1:		%{name}-makedep.patch
 Patch2:		%{name}-alsa.patch
 #PatchX:		%{name}-dga.patch
 URL:		http://www.winehq.org/
-%if %{with xlibs}
-BuildRequires:	libSM-devel
-BuildRequires:	libXrandr-devel
-BuildRequires:	libXrender-devel
-BuildRequires:	libXt-devel
-BuildRequires:	libXv-devel
-%else
+BuildRequires:	OpenGL-devel
 BuildRequires:	XFree86-devel
-%endif
-BuildRequires:	XFree86-OpenGL-devel-base
-BuildRequires:	XFree86-OpenGL-devel
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 %{?with_arts:BuildRequires:	artsc-devel}
 BuildRequires:	autoconf
@@ -67,6 +57,7 @@ BuildRequires:	flex
 BuildRequires:	fontconfig-devel
 BuildRequires:	fontforge
 BuildRequires:	freetype-devel >= 2.0.5
+BuildRequires:	glut-devel
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
 BuildRequires:	libjpeg-devel
 BuildRequires:	libtool
@@ -442,7 +433,7 @@ fi
 %files dll-gl
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/wine/glu32.dll.so
-#%attr(755,root,root) %{_libdir}/wine/glut32.dll.so
+%attr(755,root,root) %{_libdir}/wine/glut32.dll.so
 %attr(755,root,root) %{_libdir}/wine/opengl32.dll.so
 
 %if %{with sane}
