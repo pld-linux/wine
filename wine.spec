@@ -55,10 +55,10 @@ BuildRequires:	flex
 BuildRequires:	fontconfig-devel
 BuildRequires:	fontforge
 BuildRequires:	freetype-devel >= 2.0.5
+BuildRequires:	giflib-devel
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
 BuildRequires:	libjpeg-devel
 BuildRequires:	libtool
-BuildRequires:	libungif-devel
 %{?with_nas:BuildRequires:	nas-devel}
 BuildRequires:	ncurses-devel
 # db2* failed previously - probably openjade or opensp bug
