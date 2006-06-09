@@ -32,14 +32,12 @@ Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
-#Source0:	http://dl.sourceforge.net/%{name}/Wine-%{version}.tar.gz
-#Source0:	ftp://ftp.ibiblio.org/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
 Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}.tar.bz2
 # Source0-md5:	bfd0d01b04010ae0e6ca374ab8c23eeb
-Source1:	%{name}.init
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-makedep.patch
 Patch2:		%{name}-alsa.patch
+Patch3:		%{name}-ncurses.patch
 #PatchX:		%{name}-dga.patch
 URL:		http://www.winehq.org/
 BuildRequires:	OpenGL-devel
@@ -70,8 +68,8 @@ BuildRequires:	opensp >= 1:1.5.1
 BuildRequires:	openssl-devel >= 0.9.7d
 %{?with_sane:BuildRequires:	sane-backends-devel}
 BuildRequires:	xrender-devel
-Requires(post):	/sbin/ldconfig
-Requires(post,preun):	/sbin/chkconfig
+Requires(post,postun):	/sbin/ldconfig
+Requires:	binfmt-detector
 # link to wine/ntdll.dll.so, without any SONAME
 Provides:	libntdll.dll.so
 ExclusiveArch:	%{ix86}
@@ -237,6 +235,7 @@ Sterownik NAS dla implementacji mm.dll (systemu multimediów) w Wine.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 # turn off compilation of some tools
 sed -i -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in
@@ -244,6 +243,7 @@ sed -i -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in
 
 %build
 %{__autoconf}
+%{__autoheader}
 %configure \
 	%{!?debug:--disable-debug} \
 	%{!?debug:--disable-trace} \
@@ -270,14 +270,12 @@ install tools/fnt2bdf			$RPM_BUILD_ROOT%{_bindir}
 install aclocal.m4 $RPM_BUILD_ROOT%{_aclocaldir}/wine.m4
 #mv -f $RPM_BUILD_ROOT{/usr/X11R6/share/aclocal,%{_aclocaldir}}/wine.m4
 
-install -d $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d \
+install -d \
 	$RPM_BUILD_ROOT%{_winedir}/windows/{system,Desktop,Favorites,Fonts} \
 	"$RPM_BUILD_ROOT%{_winedir}/windows/Start Menu/Programs/Startup" \
 	$RPM_BUILD_ROOT%{_winedir}/windows/{SendTo,ShellNew,system32,NetHood} \
 	$RPM_BUILD_ROOT%{_winedir}/windows/{Profiles/Administrator,Recent} \
 	$RPM_BUILD_ROOT%{_winedir}/{"Program Files/Common Files","My Documents"}
-
-install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/wine
 
 touch $RPM_BUILD_ROOT%{_winedir}/{autoexec.bat,config.sys,windows/win.ini}
 touch $RPM_BUILD_ROOT%{_winedir}/windows/system/{shell.dll,shell32.dll}
@@ -319,7 +317,7 @@ rm -f files.programs;	touch files.programs
 cd $RPM_BUILD_ROOT%{_libdir}/wine
 for f in *.so; do
 	case $f in
-                d3d8.dll.so|d3d9.dll.so|d3dx8.dll.so|glu32.dll.so|glut32.dll.so|opengl32.dll.so|sane.ds.so|twain.dll.so|twain_32.dll.so|winealsa.drv.so|winearts.drv.so|winejack.drv.so|winenas.drv.so)
+		d3d8.dll.so|d3d9.dll.so|d3dx8.dll.so|glu32.dll.so|glut32.dll.so|opengl32.dll.so|sane.ds.so|twain.dll.so|twain_32.dll.so|winealsa.drv.so|winearts.drv.so|winejack.drv.so|winenas.drv.so)
 			;;
 		*)
 			echo "%attr(755,root,root) %{_libdir}/wine/$f" >>$BZZZ/files.so
@@ -336,22 +334,16 @@ done
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post
-/sbin/ldconfig
-/sbin/chkconfig --add wine
-if [ ! -f /var/lock/subsys/wine ]; then
-	echo "Run \"/etc/rc.d/init.d/wine start\" to start wine service." >&2
-fi
+%post	-p /sbin/ldconfig
+%postun -p /sbin/ldconfig
 
-%preun
-if [ "$1" = "0" ]; then
-	if [ -f /var/lock/subsys/wine ]; then
-		/etc/rc.d/init.d/wine stop >&2
-	fi
+%triggerpostun -- wine < 1:0.9.15
+if [ -f /var/lock/subsys/wine ]; then
+	/etc/rc.d/init.d/wine stop >&2
+fi
+if [ -x /sbin/chkconfig ]; then
 	/sbin/chkconfig --del wine
 fi
-
-%postun -p /sbin/ldconfig
 
 %files -f files.so
 %defattr(644,root,root,755)
@@ -386,7 +378,6 @@ fi
 %{_mandir}/man1/wine.*
 %{_mandir}/man1/winedbg.1*
 %{_mandir}/man1/wineserver.*
-%attr(754,root,root) /etc/rc.d/init.d/wine
 %{_winedir}
 %{_desktopdir}/wine.desktop
 
