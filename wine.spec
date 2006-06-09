@@ -68,7 +68,6 @@ BuildRequires:	opensp >= 1:1.5.1
 BuildRequires:	openssl-devel >= 0.9.7d
 %{?with_sane:BuildRequires:	sane-backends-devel}
 BuildRequires:	xrender-devel
-Requires(post,postun):	/sbin/ldconfig
 Requires:	binfmt-detector
 # link to wine/ntdll.dll.so, without any SONAME
 Provides:	libntdll.dll.so
