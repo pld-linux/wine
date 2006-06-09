@@ -27,13 +27,13 @@ Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	0.9.14
+Version:	0.9.15
 Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}.tar.bz2
-# Source0-md5:	503c44d7851cf4cd469410cc89bbf391
+# Source0-md5:	bfd0d01b04010ae0e6ca374ab8c23eeb
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-makedep.patch
 Patch2:		%{name}-alsa.patch
@@ -71,6 +71,7 @@ BuildRequires:	xorg-lib-libXmu-devel
 BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	xorg-lib-libXxf86dga-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
+Requires(post,postun):	/sbin/ldconfig
 Requires:	binfmt-detector
 # link to wine/ntdll.dll.so, without any SONAME
 Provides:	libntdll.dll.so
