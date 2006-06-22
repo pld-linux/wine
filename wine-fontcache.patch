@@ -1,6 +1,6 @@
 diff -Nur wine-20011108.orig/graphics/x11drv/xfont.c wine-20011108/graphics/x11drv/xfont.c
---- wine-20011108.orig/dlls/x11drv/xfont.c	Tue Nov  6 01:46:36 2001
-+++ wine-20011108/dlls/x11drv/xfont.c	Fri Nov 16 11:29:37 2001
+--- wine-20011108.orig/dlls/winex11.drv/xfont.c	Tue Nov  6 01:46:36 2001
++++ wine-20011108/dlls/winex11.drv/xfont.c	Fri Nov 16 11:29:37 2001
 @@ -2191,11 +2191,13 @@
  			       goto fail;
  			   }
