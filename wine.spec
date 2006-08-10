@@ -56,10 +56,10 @@ BuildRequires:	fontconfig-devel
 BuildRequires:	fontforge
 BuildRequires:	freetype-devel >= 2.0.5
 BuildRequires:	glut-devel
+BuildRequires:	giflib-devel
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
 BuildRequires:	libjpeg-devel
 BuildRequires:	libtool
-BuildRequires:	libungif-devel
 %{?with_nas:BuildRequires:	nas-devel}
 BuildRequires:	ncurses-devel
 # db2* failed previously - probably openjade or opensp bug
@@ -338,7 +338,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %triggerpostun -- wine < 1:0.9.15
 if [ -f /var/lock/subsys/wine ]; then
-	/etc/rc.d/init.d/wine stop >&2
+	rm -f /var/lock/subsys/wine
 fi
 if [ -x /sbin/chkconfig ]; then
 	/sbin/chkconfig --del wine
