@@ -341,7 +341,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %triggerpostun -- wine < 1:0.9.12-1.9
 if [ -f /var/lock/subsys/wine ]; then
-	/etc/rc.d/init.d/wine stop >&2
+	rm -f /var/lock/subsys/wine
 fi
 if [ -x /sbin/chkconfig ]; then
 	/sbin/chkconfig --del wine
