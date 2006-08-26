@@ -27,13 +27,13 @@ Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	0.9.19
+Version:	0.9.20
 Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}.tar.bz2
-# Source0-md5:	e2662b283313115d1e1135a3a4ed55ec
+# Source0-md5:	3e80a07819e4df084becdbbcd4d6cdd3
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-makedep.patch
 Patch2:		%{name}-alsa.patch
@@ -67,6 +67,7 @@ BuildRequires:	openjade >= 1:1.3.3-0.pre1
 BuildRequires:	opensp >= 1:1.5.1
 BuildRequires:	openssl-devel >= 0.9.7d
 %{?with_sane:BuildRequires:	sane-backends-devel}
+BuildRequires:	valgrind
 BuildRequires:	xrender-devel
 Requires:	binfmt-detector
 # link to wine/ntdll.dll.so, without any SONAME
@@ -336,17 +337,15 @@ rm -rf $RPM_BUILD_ROOT
 %post	-p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
-%triggerpostun -- wine < 1:0.9.15
-if [ -f /var/lock/subsys/wine ]; then
-	rm -f /var/lock/subsys/wine
-fi
+%triggerpostun -- wine < 1:0.9.12-1.9
+rm -f /var/lock/subsys/wine
 if [ -x /sbin/chkconfig ]; then
 	/sbin/chkconfig --del wine
 fi
 
 %files -f files.so
 %defattr(644,root,root,755)
-%doc README DEVELOPERS-HINTS ChangeLog AUTHORS ANNOUNCE
+%doc ANNOUNCE AUTHORS ChangeLog README
 %lang(de) %doc documentation/README.de
 %lang(es) %doc documentation/README.es
 %lang(fr) %doc documentation/README.fr
@@ -355,7 +354,6 @@ fi
 %lang(nb) %doc documentation/README.no
 %lang(pt) %doc documentation/README.pt
 %lang(pt_BR) %doc documentation/README.pt_br
-
 %attr(755,root,root) %{_bindir}/msiexec
 %attr(755,root,root) %{_bindir}/wine
 %attr(755,root,root) %{_bindir}/wineboot
@@ -374,9 +372,10 @@ fi
 %{_libdir}/wine/*.dll16
 %{_libdir}/wine/*.drv16
 %{_libdir}/wine/*.exe16
-%{_mandir}/man1/wine.*
+%{_mandir}/man1/wine.1*
 %{_mandir}/man1/winedbg.1*
-%{_mandir}/man1/wineserver.*
+%{_mandir}/man1/wineprefixcreate.1*
+%{_mandir}/man1/wineserver.1*
 %{_winedir}
 %{_desktopdir}/wine.desktop
 
