@@ -375,9 +375,10 @@ fi
 %{_libdir}/wine/*.dll16
 %{_libdir}/wine/*.drv16
 %{_libdir}/wine/*.exe16
-%{_mandir}/man1/wine.*
+%{_mandir}/man1/wine.1*
 %{_mandir}/man1/winedbg.1*
-%{_mandir}/man1/wineserver.*
+%{_mandir}/man1/wineprefixcreate.1*
+%{_mandir}/man1/wineserver.1*
 %{_winedir}
 %{_desktopdir}/wine.desktop
 
