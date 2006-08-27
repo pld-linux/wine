@@ -345,7 +345,7 @@ fi
 
 %files -f files.so
 %defattr(644,root,root,755)
-%doc ANNOUNCE AUTHORS ChangeLog README
+%doc README ChangeLog AUTHORS ANNOUNCE
 %lang(de) %doc documentation/README.de
 %lang(es) %doc documentation/README.es
 %lang(fr) %doc documentation/README.fr
