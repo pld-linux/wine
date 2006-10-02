@@ -27,13 +27,13 @@ Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	0.9.20
+Version:	0.9.22
 Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}.tar.bz2
-# Source0-md5:	3e80a07819e4df084becdbbcd4d6cdd3
+# Source0-md5:	8141dbf39621e9aeae89de20b6a598ed
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-makedep.patch
 Patch2:		%{name}-alsa.patch
@@ -265,7 +265,7 @@ install -d $RPM_BUILD_ROOT{%{_mandir}/man1,%{_aclocaldir}}
 %{__make} -C programs install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install tools/fnt2bdf			$RPM_BUILD_ROOT%{_bindir}
+install tools/fnt2bdf $RPM_BUILD_ROOT%{_bindir}
 
 install aclocal.m4 $RPM_BUILD_ROOT%{_aclocaldir}/wine.m4
 #mv -f $RPM_BUILD_ROOT{/usr/X11R6/share/aclocal,%{_aclocaldir}}/wine.m4
@@ -309,7 +309,7 @@ fi
 
 # /sbin/chstk -e $RPM_BUILD_ROOT%{_bindir}/wine
 
-programs="notepad progman regedit regsvr32 uninstaller wineconsole winefile winemine winepath winhelp wcmd"
+programs="notepad progman regedit regsvr32 uninstaller wineconsole winefile winemine winepath winhelp"
 
 BZZZ=`pwd`
 rm -f files.so;		touch files.so
