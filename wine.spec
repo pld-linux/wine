@@ -27,23 +27,23 @@ Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	0.9.15
+Version:	0.9.24
 Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}.tar.bz2
-# Source0-md5:	bfd0d01b04010ae0e6ca374ab8c23eeb
+# Source0-md5:	d779b71ec1fcfbd1ed3860453762d4be
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-makedep.patch
 Patch2:		%{name}-alsa.patch
 Patch3:		%{name}-ncurses.patch
 #PatchX:		%{name}-dga.patch
 URL:		http://www.winehq.org/
+BuildRequires:	OpenGL-devel
+BuildRequires:	XFree86-devel
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 %{?with_arts:BuildRequires:	artsc-devel}
-BuildRequires:	OpenGL-GLU-devel
-BuildRequires:	OpenGL-glut-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
@@ -55,6 +55,7 @@ BuildRequires:	flex
 BuildRequires:	fontconfig-devel
 BuildRequires:	fontforge
 BuildRequires:	freetype-devel >= 2.0.5
+BuildRequires:	glut-devel
 BuildRequires:	giflib-devel
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
 BuildRequires:	libjpeg-devel
@@ -66,11 +67,8 @@ BuildRequires:	openjade >= 1:1.3.3-0.pre1
 BuildRequires:	opensp >= 1:1.5.1
 BuildRequires:	openssl-devel >= 0.9.7d
 %{?with_sane:BuildRequires:	sane-backends-devel}
-BuildRequires:	xorg-lib-libXi-devel
-BuildRequires:	xorg-lib-libXmu-devel
-BuildRequires:	xorg-lib-libXrender-devel
-BuildRequires:	xorg-lib-libXxf86dga-devel
-BuildRequires:	xorg-lib-libXxf86vm-devel
+BuildRequires:	valgrind
+BuildRequires:	xrender-devel
 Requires:	binfmt-detector
 # link to wine/ntdll.dll.so, without any SONAME
 Provides:	libntdll.dll.so
@@ -267,7 +265,7 @@ install -d $RPM_BUILD_ROOT{%{_mandir}/man1,%{_aclocaldir}}
 %{__make} -C programs install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install tools/fnt2bdf			$RPM_BUILD_ROOT%{_bindir}
+install tools/fnt2bdf $RPM_BUILD_ROOT%{_bindir}
 
 install aclocal.m4 $RPM_BUILD_ROOT%{_aclocaldir}/wine.m4
 #mv -f $RPM_BUILD_ROOT{/usr/X11R6/share/aclocal,%{_aclocaldir}}/wine.m4
@@ -311,7 +309,7 @@ fi
 
 # /sbin/chstk -e $RPM_BUILD_ROOT%{_bindir}/wine
 
-programs="notepad progman regedit regsvr32 uninstaller wineconsole winefile winemine winepath winhelp wcmd"
+programs="notepad progman regedit regsvr32 uninstaller wineconsole winefile winemine winepath winhelp"
 
 BZZZ=`pwd`
 rm -f files.so;		touch files.so
@@ -340,16 +338,14 @@ rm -rf $RPM_BUILD_ROOT
 %postun -p /sbin/ldconfig
 
 %triggerpostun -- wine < 1:0.9.12-1.9
-if [ -f /var/lock/subsys/wine ]; then
-	/etc/rc.d/init.d/wine stop >&2
-fi
+rm -f /var/lock/subsys/wine
 if [ -x /sbin/chkconfig ]; then
 	/sbin/chkconfig --del wine
 fi
 
 %files -f files.so
 %defattr(644,root,root,755)
-%doc README DEVELOPERS-HINTS ChangeLog AUTHORS ANNOUNCE
+%doc README ChangeLog AUTHORS ANNOUNCE
 %lang(de) %doc documentation/README.de
 %lang(es) %doc documentation/README.es
 %lang(fr) %doc documentation/README.fr
@@ -376,9 +372,10 @@ fi
 %{_libdir}/wine/*.dll16
 %{_libdir}/wine/*.drv16
 %{_libdir}/wine/*.exe16
-%{_mandir}/man1/wine.*
+%{_mandir}/man1/wine.1*
 %{_mandir}/man1/winedbg.1*
-%{_mandir}/man1/wineserver.*
+%{_mandir}/man1/wineprefixcreate.1*
+%{_mandir}/man1/wineserver.1*
 %{_winedir}
 %{_desktopdir}/wine.desktop
 
