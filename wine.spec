@@ -19,7 +19,7 @@
 # thus requires rebuild after change of any of the above.
 #
 # JACK requires ALSA
-%if %{without alsa}
+%if !%{with alsa}
 %undefine	with_jack
 %endif
 Summary:	Program that lets you launch Win applications
