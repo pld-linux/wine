@@ -41,7 +41,6 @@ Patch3:		%{name}-ncurses.patch
 #PatchX:		%{name}-dga.patch
 URL:		http://www.winehq.org/
 BuildRequires:	OpenGL-GLU-devel
-BuildRequires:	OpenGL-glut-devel
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 %{?with_arts:BuildRequires:	artsc-devel}
 BuildRequires:	autoconf
@@ -320,7 +319,7 @@ rm -f files.programs;	touch files.programs
 cd $RPM_BUILD_ROOT%{_libdir}/wine
 for f in *.so; do
 	case $f in
-		d3d8.dll.so|d3d9.dll.so|d3dx8.dll.so|glu32.dll.so|glut32.dll.so|opengl32.dll.so|sane.ds.so|twain.dll.so|twain_32.dll.so|winealsa.drv.so|winearts.drv.so|winejack.drv.so|winenas.drv.so)
+		d3d8.dll.so|d3d9.dll.so|d3dx8.dll.so|glu32.dll.so|opengl32.dll.so|sane.ds.so|twain.dll.so|twain_32.dll.so|winealsa.drv.so|winearts.drv.so|winejack.drv.so|winenas.drv.so)
 			;;
 		*)
 			echo "%attr(755,root,root) %{_libdir}/wine/$f" >>$BZZZ/files.so
@@ -425,7 +424,6 @@ fi
 %files dll-gl
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/wine/glu32.dll.so
-%attr(755,root,root) %{_libdir}/wine/glut32.dll.so
 %attr(755,root,root) %{_libdir}/wine/opengl32.dll.so
 
 %if %{with sane}
