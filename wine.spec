@@ -422,7 +422,6 @@ fi
 %files dll-gl
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/wine/glu32.dll.so
-%attr(755,root,root) %{_libdir}/wine/glut32.dll.so
 %attr(755,root,root) %{_libdir}/wine/opengl32.dll.so
 
 %if %{with sane}
