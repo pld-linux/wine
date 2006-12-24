@@ -1,6 +1,6 @@
---- wine-0.9.13/configure.ac.old	2006-05-19 12:01:20.424979808 +0200
-+++ wine-0.9.13/configure.ac	2006-05-19 12:01:49.894499760 +0200
-@@ -201,6 +201,7 @@
+--- wine-0.9.28/configure.ac.orig	2006-12-22 17:17:47.000000000 +0100
++++ wine-0.9.28/configure.ac	2006-12-24 03:10:15.504363300 +0100
+@@ -194,6 +194,7 @@
  	machine/soundcard.h \
  	mntent.h \
  	ncurses.h \
@@ -8,15 +8,15 @@
  	netdb.h \
  	netinet/in.h \
  	netinet/in_systm.h \
-@@ -528,7 +529,7 @@
+@@ -519,7 +520,7 @@
+ 
+ dnl **** Check which curses lib to use ***
  CURSESLIBS=""
- if test "x$with_curses" != "xno"
+-if test "$ac_cv_header_ncurses_h" = "yes"
++if test "$ac_cv_header_ncurses_h" = "yes" || test "$ac_cv_header_ncurses_ncurses_h" = "yes"
  then
--    if test "$ac_cv_header_ncurses_h" = "yes"
-+    if test "$ac_cv_header_ncurses_h" = "yes" || test "$ac_cv_header_ncurses_ncurses_h" = "yes"
-     then
-         AC_CHECK_LIB(ncurses,waddch,
-             [AC_DEFINE(HAVE_LIBNCURSES, 1, [Define if you have the ncurses library (-lncurses)])
+     AC_CHECK_LIB(ncurses,waddch,[CURSESLIBS="-lncurses"])
+ elif test "$ac_cv_header_curses_h" = "yes"
 --- wine-0.9.13/programs/wineconsole/curses.c.old	2006-05-19 12:01:34.492841168 +0200
 +++ wine-0.9.13/programs/wineconsole/curses.c	2006-05-19 12:04:32.524776200 +0200
 @@ -37,6 +37,8 @@
