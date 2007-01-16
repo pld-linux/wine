@@ -28,7 +28,7 @@ Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
 Version:	0.9.29
-Release:	1
+Release:	2
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
@@ -83,6 +83,8 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_winedir		%{_datadir}/%{name}
 
 %define		getsoname()	%((objdump -p %{1} 2>/dev/null || echo SONAME ERROR) | awk '/SONAME/ { print $2; s=1 }; END { if(s==0) print "ERROR" }')
+
+%undefine	debuginfocflags
 
 %description
 Wine is a program which allows running Microsoft Windows programs
