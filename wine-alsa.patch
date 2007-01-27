@@ -1,5 +1,5 @@
---- wine-20050524/dlls/winmm/winealsa/audio.c.orig	2005-04-27 11:39:56.000000000 +0200
-+++ wine-20050524/dlls/winmm/winealsa/audio.c	2005-06-06 07:39:42.068122696 +0200
+--- wine-20050524/dlls/winealsa.drv/audio.c.orig	2005-04-27 11:39:56.000000000 +0200
++++ wine-20050524/dlls/winealsa.drv/audio.c	2005-06-06 07:39:42.068122696 +0200
 @@ -45,6 +45,9 @@
  # include <sys/mman.h>
  #endif

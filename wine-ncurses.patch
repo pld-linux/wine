@@ -46,6 +46,6 @@
  {
 -#ifdef HAVE_NCURSES_H
 +#if defined(HAVE_NCURSES_H) || defined(HAVE_NCURSES_NCURSES_H)
-     static const char *ncname = SONAME_LIBNCURSES;
+     static const char ncname[] = SONAME_LIBNCURSES;
  #else
-     static const char *ncname = SONAME_LIBCURSES;
+     static const char ncname[] = SONAME_LIBCURSES;
