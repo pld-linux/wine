@@ -28,7 +28,7 @@ Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
 Version:	0.9.30
-Release:	0.1
+Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
@@ -40,7 +40,8 @@ Patch2:		%{name}-alsa.patch
 Patch3:		%{name}-ncurses.patch
 #PatchX:		%{name}-dga.patch
 URL:		http://www.winehq.org/
-BuildRequires:	OpenGL-GLU-devel
+BuildRequires:	OpenGL-devel
+BuildRequires:	XFree86-devel
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 %{?with_arts:BuildRequires:	artsc-devel}
 BuildRequires:	autoconf
@@ -54,6 +55,7 @@ BuildRequires:	flex
 BuildRequires:	fontconfig-devel
 BuildRequires:	fontforge
 BuildRequires:	freetype-devel >= 2.0.5
+BuildRequires:	glut-devel
 BuildRequires:	giflib-devel
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
 BuildRequires:	libjpeg-devel
@@ -66,11 +68,7 @@ BuildRequires:	opensp >= 1:1.5.1
 BuildRequires:	openssl-devel >= 0.9.7d
 %{?with_sane:BuildRequires:	sane-backends-devel}
 BuildRequires:	valgrind
-BuildRequires:	xorg-lib-libXi-devel
-BuildRequires:	xorg-lib-libXmu-devel
-BuildRequires:	xorg-lib-libXrender-devel
-BuildRequires:	xorg-lib-libXxf86dga-devel
-BuildRequires:	xorg-lib-libXxf86vm-devel
+BuildRequires:	xrender-devel
 Requires:	binfmt-detector
 # link to wine/ntdll.dll.so, without any SONAME
 Provides:	libntdll.dll.so
@@ -83,8 +81,6 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_winedir		%{_datadir}/%{name}
 
 %define		getsoname()	%((objdump -p %{1} 2>/dev/null || echo SONAME ERROR) | awk '/SONAME/ { print $2; s=1 }; END { if(s==0) print "ERROR" }')
-
-%undefine	debuginfocflags
 
 %description
 Wine is a program which allows running Microsoft Windows programs
@@ -269,7 +265,7 @@ install -d $RPM_BUILD_ROOT{%{_mandir}/man1,%{_aclocaldir}}
 %{__make} -C programs install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install tools/fnt2bdf			$RPM_BUILD_ROOT%{_bindir}
+install tools/fnt2bdf $RPM_BUILD_ROOT%{_bindir}
 
 install aclocal.m4 $RPM_BUILD_ROOT%{_aclocaldir}/wine.m4
 #mv -f $RPM_BUILD_ROOT{/usr/X11R6/share/aclocal,%{_aclocaldir}}/wine.m4
