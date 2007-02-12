@@ -23,9 +23,9 @@
 %undefine	with_jack
 %endif
 Summary:	Program that lets you launch Win applications
-Summary(es.UTF-8):   Ejecuta programas Windows en Linux
-Summary(pl.UTF-8):   Program pozwalający uruchamiać aplikacje Windows
-Summary(pt_BR.UTF-8):   Executa programas Windows no Linux
+Summary(es.UTF-8):	Ejecuta programas Windows en Linux
+Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
+Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
 Version:	0.9.30
 Release:	0.1
@@ -113,9 +113,9 @@ chamadas da API para as equivalentes Unix/X11.
 
 %package devel
 Summary:	Wine - header files
-Summary(es.UTF-8):   Biblioteca de desarrollo de wine
-Summary(pl.UTF-8):   Wine - pliki nagłowkowe
-Summary(pt_BR.UTF-8):   Biblioteca de desenvolvimento do wine
+Summary(es.UTF-8):	Biblioteca de desarrollo de wine
+Summary(pl.UTF-8):	Wine - pliki nagłowkowe
+Summary(pt_BR.UTF-8):	Biblioteca de desenvolvimento do wine
 Group:		Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
@@ -134,7 +134,7 @@ WINE.
 
 %package programs
 Summary:	Wine - programs
-Summary(pl.UTF-8):   Wine - programy
+Summary(pl.UTF-8):	Wine - programy
 Group:		Applications
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
@@ -146,7 +146,7 @@ Wine - programy.
 
 %package dll-d3d
 Summary:	Direct3D implementation DLLs for Wine
-Summary(pl.UTF-8):   Biblioteki DLL z implementacją Direct3D dla Wine
+Summary(pl.UTF-8):	Biblioteki DLL z implementacją Direct3D dla Wine
 Group:		Applications/Emulators
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 Requires:	OpenGL
@@ -159,7 +159,7 @@ Biblioteki DLL z implementacją Direct3D dla Wine (poprzez OpenGL).
 
 %package dll-gl
 Summary:	OpenGL implementation DLLs for Wine
-Summary(pl.UTF-8):   Biblioteki DLL z implementacją OpenGL dla Wine
+Summary(pl.UTF-8):	Biblioteki DLL z implementacją OpenGL dla Wine
 Group:		Applications/Emulators
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 Requires:	OpenGL
@@ -172,7 +172,7 @@ Biblioteki DLL z implementacją OpenGL dla Wine.
 
 %package dll-twain
 Summary:	TWAIN implementation DLL for Wine
-Summary(pl.UTF-8):   Biblioteka DLL z implementacją TWAIN dla Wine
+Summary(pl.UTF-8):	Biblioteka DLL z implementacją TWAIN dla Wine
 Group:		Applications/Emulators
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
@@ -184,7 +184,7 @@ Biblioteka DLL z implementacją TWAIN dla Wine (poprzez SANE).
 
 %package drv-alsa
 Summary:	ALSA driver for WINE mm.dll implementation
-Summary(pl.UTF-8):   Sterownik ALSA dla implementacji mm.dll w Wine
+Summary(pl.UTF-8):	Sterownik ALSA dla implementacji mm.dll w Wine
 Group:		Applications/Emulators
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
@@ -196,7 +196,7 @@ Sterownik ALSA dla implementacji mm.dll (systemu multimediów) w Wine.
 
 %package drv-arts
 Summary:	aRts driver for WINE mm.dll implementation
-Summary(pl.UTF-8):   Sterownik aRts dla implementacji mm.dll w Wine
+Summary(pl.UTF-8):	Sterownik aRts dla implementacji mm.dll w Wine
 Group:		Applications/Emulators
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
@@ -208,7 +208,7 @@ Sterownik aRts dla implementacji mm.dll (systemu multimediów) w Wine.
 
 %package drv-jack
 Summary:	JACK driver for WINE mm.dll implementation
-Summary(pl.UTF-8):   Sterownik JACK-a dla implementacji mm.dll w Wine
+Summary(pl.UTF-8):	Sterownik JACK-a dla implementacji mm.dll w Wine
 Group:		Applications/Emulators
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 Requires:	jack-audio-connection-kit
@@ -224,7 +224,7 @@ Wine.
 
 %package drv-nas
 Summary:	NAS driver for WINE mm.dll implementation
-Summary(pl.UTF-8):   Sterownik NAS dla implementacji mm.dll w Wine
+Summary(pl.UTF-8):	Sterownik NAS dla implementacji mm.dll w Wine
 Group:		Applications/Emulators
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
