@@ -27,17 +27,16 @@ Summary(es.UTF-8):	Ejecuta programas Windows en Linux
 Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
-Version:	0.9.30
-Release:	0.1
+Version:	0.9.31
+Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}.tar.bz2
-# Source0-md5:	ac4e191d99386db1ed83723ac72e93ce
+# Source0-md5:	ec1aef4cbcbb9596cd79f43deb10dd65
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-makedep.patch
-Patch2:		%{name}-alsa.patch
-Patch3:		%{name}-ncurses.patch
+Patch2:		%{name}-ncurses.patch
 #PatchX:		%{name}-dga.patch
 URL:		http://www.winehq.org/
 BuildRequires:	OpenGL-GLU-devel
@@ -46,7 +45,6 @@ BuildRequires:	OpenGL-GLU-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
-# BuildRequires:	chpax >= 0.20020901-2
 %{?with_cups:BuildRequires:	cups-devel}
 BuildRequires:	docbook-dtd31-sgml
 BuildRequires:	docbook-utils
@@ -239,7 +237,6 @@ Sterownik NAS dla implementacji mm.dll (systemu multimediów) w Wine.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 
 # turn off compilation of some tools
 sed -i -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in
