@@ -72,6 +72,7 @@ BuildRequires:	xorg-lib-libXxf86vm-devel
 Requires:	binfmt-detector
 # link to wine/ntdll.dll.so, without any SONAME
 Provides:	libntdll.dll.so
+Obsoletes:	wine-doc-pdf
 ExclusiveArch:	%{ix86}
 ExcludeArch:	i386
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
