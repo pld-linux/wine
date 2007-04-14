@@ -72,6 +72,7 @@ Requires:	binfmt-detector
 # link to wine/ntdll.dll.so, without any SONAME
 Provides:	libntdll.dll.so
 Obsoletes:	wine-doc-pdf
+Obsoletes:	wine-drv-arts
 ExclusiveArch:	%{ix86}
 ExcludeArch:	i386
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
