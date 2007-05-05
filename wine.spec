@@ -1,7 +1,6 @@
 #
 # Conditional build:
 %bcond_without	alsa		# don't build ALSA mm driver
-%bcond_without	arts		# don't build aRts mm driver
 %bcond_without	jack		# don't build JACK mm driver
 %bcond_without	nas		# don't build NAS mm driver
 %bcond_without	sane		# don't build TWAIN DLL with scanning support (through SANE)
@@ -27,13 +26,13 @@ Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	0.9.33
-Release:	2
+Version:	0.9.36
+Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}.tar.bz2
-# Source0-md5:	b2d04c70d17fb36b1a0d98d8e374285d
+# Source0-md5:	8cc54b83b5beafcc3d998a04ed723a39
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-makedep.patch
 Patch2:		%{name}-ncurses.patch
@@ -46,7 +45,6 @@ BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
-# BuildRequires:	chpax >= 0.20020901-2
 %{?with_cups:BuildRequires:	cups-devel}
 BuildRequires:	docbook-dtd31-sgml
 BuildRequires:	docbook-utils
@@ -71,6 +69,8 @@ BuildRequires:	xrender-devel
 Requires:	binfmt-detector
 # link to wine/ntdll.dll.so, without any SONAME
 Provides:	libntdll.dll.so
+Obsoletes:	wine-doc-pdf
+Obsoletes:	wine-drv-arts
 ExclusiveArch:	%{ix86}
 ExcludeArch:	i386
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -190,18 +190,6 @@ ALSA driver for WINE mm.dll (multimedia system) implementation.
 %description drv-alsa -l pl
 Sterownik ALSA dla implementacji mm.dll (systemu multimediów) w Wine.
 
-%package drv-arts
-Summary:	aRts driver for WINE mm.dll implementation
-Summary(pl):	Sterownik aRts dla implementacji mm.dll w Wine
-Group:		Applications/Emulators
-Requires:	%{name} = %{epoch}:%{version}-%{release}
-
-%description drv-arts
-aRts driver for WINE mm.dll (multimedia system) implementation.
-
-%description drv-arts -l pl
-Sterownik aRts dla implementacji mm.dll (systemu multimediów) w Wine.
-
 %package drv-jack
 Summary:	JACK driver for WINE mm.dll implementation
 Summary(pl):	Sterownik JACK-a dla implementacji mm.dll w Wine
@@ -316,7 +304,7 @@ rm -f files.programs;	touch files.programs
 cd $RPM_BUILD_ROOT%{_libdir}/wine
 for f in *.so; do
 	case $f in
-		d3d8.dll.so|d3d9.dll.so|d3dx8.dll.so|glu32.dll.so|opengl32.dll.so|sane.ds.so|twain.dll.so|twain_32.dll.so|winealsa.drv.so|winearts.drv.so|winejack.drv.so|winenas.drv.so)
+		d3d8.dll.so|d3d9.dll.so|d3dx8.dll.so|glu32.dll.so|opengl32.dll.so|sane.ds.so|twain.dll.so|twain_32.dll.so|winealsa.drv.so|winejack.drv.so|winenas.drv.so)
 			;;
 		*)
 			echo "%attr(755,root,root) %{_libdir}/wine/$f" >>$BZZZ/files.so
@@ -434,12 +422,6 @@ fi
 %files drv-alsa
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/wine/winealsa.drv.so
-%endif
-
-%if %{with arts}
-%files drv-arts
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/wine/winearts.drv.so
 %endif
 
 %if %{with jack}
