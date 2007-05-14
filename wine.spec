@@ -1,13 +1,10 @@
 #
 # Conditional build:
 %bcond_without	alsa		# don't build ALSA mm driver
-%bcond_without	arts		# don't build aRts mm driver
 %bcond_without	jack		# don't build JACK mm driver
 %bcond_without	nas		# don't build NAS mm driver
-%bcond_with	d3d9		# build with d3d9 patch
 %bcond_without	sane		# don't build TWAIN DLL with scanning support (through SANE)
 %bcond_without	cups		# without CUPS printing support in winspool,wineps DLLs
-%bcond_with	xlibs
 #
 # NOTE: wine detects the following SONAMES for dlopen at build time:
 #   libcrypto,libssl (wininet.dll)
@@ -21,7 +18,7 @@
 # thus requires rebuild after change of any of the above.
 #
 # JACK requires ALSA
-%if %{without alsa}
+%if !%{with alsa}
 %undefine	with_jack
 %endif
 Summary:	Program that lets you launch Win applications
@@ -29,41 +26,25 @@ Summary(es):	Ejecuta programas Windows en Linux
 Summary(pl):	Program pozwalaj±cy uruchamiaæ aplikacje Windows
 Summary(pt_BR):	Executa programas Windows no Linux
 Name:		wine
-Version:	0.9.5
+Version:	0.9.37
 Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
-#Source0:	http://dl.sourceforge.net/%{name}/Wine-%{version}.tar.gz
-#Source0:	ftp://ftp.ibiblio.org/pub/Linux/ALPHA/wine/development/Wine-%{version}.tar.gz
 Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}.tar.bz2
-# Source0-md5:	b0c8e65efd541eb690ae05fdf05fcd4d
-Source1:	%{name}.init
+# Source0-md5:	d8f361e6fe7520cda983a78673cd3bda
 Patch0:		%{name}-fontcache.patch
-Patch1:		%{name}-destdir.patch
-Patch2:		%{name}-makedep.patch
-Patch3:		%{name}-alsa.patch
-# Oliver Stieber's DirectX 9 support patch (unofficial, published on WWN Issue #271)
-Patch4:		%{name}-d3d9patch.patch
+Patch1:		%{name}-makedep.patch
+Patch2:		%{name}-ncurses.patch
 #PatchX:		%{name}-dga.patch
 URL:		http://www.winehq.org/
-%if %{with xlibs}
-BuildRequires:	libSM-devel
-BuildRequires:	libXrandr-devel
-BuildRequires:	libXrender-devel
-BuildRequires:	libXt-devel
-BuildRequires:	libXv-devel
-%else
+BuildRequires:	OpenGL-devel
 BuildRequires:	XFree86-devel
-%endif
-BuildRequires:	XFree86-OpenGL-devel-base
-BuildRequires:	XFree86-OpenGL-devel
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 %{?with_arts:BuildRequires:	artsc-devel}
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
-# BuildRequires:	chpax >= 0.20020901-2
 %{?with_cups:BuildRequires:	cups-devel}
 BuildRequires:	docbook-dtd31-sgml
 BuildRequires:	docbook-utils
@@ -71,10 +52,11 @@ BuildRequires:	flex
 BuildRequires:	fontconfig-devel
 BuildRequires:	fontforge
 BuildRequires:	freetype-devel >= 2.0.5
+BuildRequires:	glut-devel
+BuildRequires:	giflib-devel
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
 BuildRequires:	libjpeg-devel
 BuildRequires:	libtool
-BuildRequires:	libungif-devel
 %{?with_nas:BuildRequires:	nas-devel}
 BuildRequires:	ncurses-devel
 # db2* failed previously - probably openjade or opensp bug
@@ -82,12 +64,15 @@ BuildRequires:	openjade >= 1:1.3.3-0.pre1
 BuildRequires:	opensp >= 1:1.5.1
 BuildRequires:	openssl-devel >= 0.9.7d
 %{?with_sane:BuildRequires:	sane-backends-devel}
+BuildRequires:	valgrind
 BuildRequires:	xrender-devel
-Requires(post):	/sbin/ldconfig
-Requires(post,preun):	/sbin/chkconfig
+Requires:	binfmt-detector
 # link to wine/ntdll.dll.so, without any SONAME
 Provides:	libntdll.dll.so
+Obsoletes:	wine-doc-pdf
+Obsoletes:	wine-drv-arts
 ExclusiveArch:	%{ix86}
+ExcludeArch:	i386
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_noautoreqdep		libGL.so.1 libGLU.so.1
@@ -205,18 +190,6 @@ ALSA driver for WINE mm.dll (multimedia system) implementation.
 %description drv-alsa -l pl
 Sterownik ALSA dla implementacji mm.dll (systemu multimediów) w Wine.
 
-%package drv-arts
-Summary:	aRts driver for WINE mm.dll implementation
-Summary(pl):	Sterownik aRts dla implementacji mm.dll w Wine
-Group:		Applications/Emulators
-Requires:	%{name} = %{epoch}:%{version}-%{release}
-
-%description drv-arts
-aRts driver for WINE mm.dll (multimedia system) implementation.
-
-%description drv-arts -l pl
-Sterownik aRts dla implementacji mm.dll (systemu multimediów) w Wine.
-
 %package drv-jack
 Summary:	JACK driver for WINE mm.dll implementation
 Summary(pl):	Sterownik JACK-a dla implementacji mm.dll w Wine
@@ -250,8 +223,6 @@ Sterownik NAS dla implementacji mm.dll (systemu multimediów) w Wine.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
-%{?with_d3d9:%patch4 -p1}
 
 # turn off compilation of some tools
 sed -i -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in
@@ -259,6 +230,7 @@ sed -i -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in
 
 %build
 %{__autoconf}
+%{__autoheader}
 %configure \
 	%{!?debug:--disable-debug} \
 	%{!?debug:--disable-trace} \
@@ -280,19 +252,17 @@ install -d $RPM_BUILD_ROOT{%{_mandir}/man1,%{_aclocaldir}}
 %{__make} -C programs install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install tools/fnt2bdf			$RPM_BUILD_ROOT%{_bindir}
+install tools/fnt2bdf $RPM_BUILD_ROOT%{_bindir}
 
 install aclocal.m4 $RPM_BUILD_ROOT%{_aclocaldir}/wine.m4
 #mv -f $RPM_BUILD_ROOT{/usr/X11R6/share/aclocal,%{_aclocaldir}}/wine.m4
 
-install -d $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d \
+install -d \
 	$RPM_BUILD_ROOT%{_winedir}/windows/{system,Desktop,Favorites,Fonts} \
 	"$RPM_BUILD_ROOT%{_winedir}/windows/Start Menu/Programs/Startup" \
 	$RPM_BUILD_ROOT%{_winedir}/windows/{SendTo,ShellNew,system32,NetHood} \
 	$RPM_BUILD_ROOT%{_winedir}/windows/{Profiles/Administrator,Recent} \
 	$RPM_BUILD_ROOT%{_winedir}/{"Program Files/Common Files","My Documents"}
-
-install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/wine
 
 touch $RPM_BUILD_ROOT%{_winedir}/{autoexec.bat,config.sys,windows/win.ini}
 touch $RPM_BUILD_ROOT%{_winedir}/windows/system/{shell.dll,shell32.dll}
@@ -326,7 +296,7 @@ fi
 
 # /sbin/chstk -e $RPM_BUILD_ROOT%{_bindir}/wine
 
-programs="notepad progman regedit regsvr32 uninstaller wineconsole winefile winemine winepath winhelp wcmd"
+programs="notepad progman regedit regsvr32 uninstaller wineconsole winefile winemine winepath winhelp"
 
 BZZZ=`pwd`
 rm -f files.so;		touch files.so
@@ -334,7 +304,7 @@ rm -f files.programs;	touch files.programs
 cd $RPM_BUILD_ROOT%{_libdir}/wine
 for f in *.so; do
 	case $f in
-		d3d8.dll.so|d3d9.dll.so|d3dx8.dll.so|glu32.dll.so|opengl32.dll.so|twain.dll.so|twain_32.dll.so|winealsa.drv.so|winearts.drv.so|winejack.drv.so|winenas.drv.so)
+		d3d8.dll.so|d3d9.dll.so|d3dx8.dll.so|glu32.dll.so|opengl32.dll.so|sane.ds.so|twain.dll.so|twain_32.dll.so|winealsa.drv.so|winejack.drv.so|winenas.drv.so)
 			;;
 		*)
 			echo "%attr(755,root,root) %{_libdir}/wine/$f" >>$BZZZ/files.so
@@ -351,30 +321,24 @@ done
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post
-/sbin/ldconfig
-/sbin/chkconfig --add wine
-if [ ! -f /var/lock/subsys/wine ]; then
-	echo "Run \"/etc/rc.d/init.d/wine start\" to start wine service." >&2
-fi
+%post	-p /sbin/ldconfig
+%postun -p /sbin/ldconfig
 
-%preun
-if [ "$1" = "0" ]; then
-	if [ -f /var/lock/subsys/wine ]; then
-		/etc/rc.d/init.d/wine stop >&2
-	fi
+%triggerpostun -- wine < 1:0.9.12-1.9
+rm -f /var/lock/subsys/wine
+if [ -x /sbin/chkconfig ]; then
 	/sbin/chkconfig --del wine
 fi
 
-%postun -p /sbin/ldconfig
-
 %files -f files.so
 %defattr(644,root,root,755)
-%doc README DEVELOPERS-HINTS ChangeLog BUGS AUTHORS ANNOUNCE
+%doc README ChangeLog AUTHORS ANNOUNCE
 %lang(de) %doc documentation/README.de
 %lang(es) %doc documentation/README.es
 %lang(fr) %doc documentation/README.fr
 %lang(it) %doc documentation/README.it
+%lang(ko) %doc documentation/README.ko
+%lang(nb) %doc documentation/README.no
 %lang(pt) %doc documentation/README.pt
 %lang(pt_BR) %doc documentation/README.pt_br
 %attr(755,root,root) %{_bindir}/msiexec
@@ -392,12 +356,14 @@ fi
 %attr(755,root,root) %{_bindir}/wineshelllink
 %attr(755,root,root) %{_libdir}/*.so*
 %dir %{_libdir}/wine
-%{_mandir}/man1/wine.*
+%{_libdir}/wine/*.dll16
+%{_libdir}/wine/*.drv16
+%{_libdir}/wine/*.exe16
+%{_mandir}/man1/wine.1*
 %{_mandir}/man1/winedbg.1*
-%{_mandir}/man1/wineserver.*
-%attr(754,root,root) /etc/rc.d/init.d/wine
+%{_mandir}/man1/wineprefixcreate.1*
+%{_mandir}/man1/wineserver.1*
 %{_winedir}
-%{_datadir}/fonts/wine
 %{_desktopdir}/wine.desktop
 
 %files programs -f files.programs
@@ -448,6 +414,7 @@ fi
 %if %{with sane}
 %files dll-twain
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/wine/sane.ds.so
 %attr(755,root,root) %{_libdir}/wine/twain*.dll.so
 %endif
 
@@ -455,12 +422,6 @@ fi
 %files drv-alsa
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/wine/winealsa.drv.so
-%endif
-
-%if %{with arts}
-%files drv-arts
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/wine/winearts.drv.so
 %endif
 
 %if %{with jack}
