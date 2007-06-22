@@ -27,7 +27,7 @@ Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
 Version:	0.9.39
-Release:	2
+Release:	3
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
@@ -68,7 +68,7 @@ BuildRequires:	xorg-lib-libXmu-devel
 BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	xorg-lib-libXxf86dga-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
-Suggests:	binfmt-detector
+#Suggests:	binfmt-detector
 # link to wine/ntdll.dll.so, without any SONAME
 Provides:	libntdll.dll.so
 Obsoletes:	wine-doc-pdf
