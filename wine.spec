@@ -8,6 +8,7 @@
 #
 # NOTE:	wineconsole is a bit broken: try wineconsole cmd to see what will happen
 #	As a workaroound use `wineconsole --backend=user cmd' (works fine)
+#	ref: http://bugs.winehq.org/show_bug.cgi?id=8069
 #
 # NOTE: wine detects the following SONAMES for dlopen at build time:
 #   libcrypto,libssl (wininet.dll)
