@@ -17,25 +17,23 @@
  then
      AC_CHECK_LIB(ncurses,waddch,[CURSESLIBS="-lncurses"])
  elif test "$ac_cv_header_curses_h" = "yes"
---- wine-0.9.41/programs/wineconsole/curses.c	2007-07-13 19:46:16.000000000 +0200
-+++ wine-0.9.41/programs/wineconsole/n.curses.c	2007-07-14 20:28:14.208118757 +0200
-@@ -35,8 +35,8 @@
- #include <stdio.h>
- #include <stdarg.h>
- #include <stdlib.h>
--#ifdef HAVE_NCURSES_H
--# include <ncurses.h>
-+#if defined(HAVE_NCURSES_H) || defined(HAVE_NCURSES_H) || defined(HAVE_NCURSES_NCURSES_H)
-+# include <ncurses/ncurses.h>
+--- wine-0.9.41/programs/wineconsole/curses.c.old	2007-07-14 22:00:49.124363079 +0200
++++ wine-0.9.41/programs/wineconsole/curses.c	2007-07-14 22:07:46.714791368 +0200
+@@ -39,6 +39,8 @@
+ # include <ncurses.h>
  #elif defined(HAVE_CURSES_H)
  # include <curses.h>
++#elif defined(HAVE_NCURSES_NCURSES_H)
++# include <ncurses/ncurses.h>
  #endif
-@@ -62,7 +62,7 @@
+ /* avoid redefinition warnings */
+ #undef KEY_EVENT
+@@ -62,7 +64,7 @@
  
  #if defined(SONAME_LIBCURSES) || defined(SONAME_LIBNCURSES)
  
 -#ifdef HAVE_NCURSES_H
-+#if defined(HAVE_NCURSES_H) || defined(HAVE_NCURSES_H) || defined(HAVE_NCURSES_NCURSES_H)
++#if defined(HAVE_NCURSES_H) || defined(HAVE_NCURSES_NCURSES_H)
  # define CURSES_NAME "ncurses"
  #else
  # define CURSES_NAME "curses"
