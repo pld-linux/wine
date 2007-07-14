@@ -17,35 +17,25 @@
  then
      AC_CHECK_LIB(ncurses,waddch,[CURSESLIBS="-lncurses"])
  elif test "$ac_cv_header_curses_h" = "yes"
---- wine-0.9.13/programs/wineconsole/curses.c.old	2006-05-19 12:01:34.492841168 +0200
-+++ wine-0.9.13/programs/wineconsole/curses.c	2006-05-19 12:04:32.524776200 +0200
-@@ -37,6 +37,8 @@
+--- wine-0.9.41/programs/wineconsole/curses.c	2007-07-13 19:46:16.000000000 +0200
++++ wine-0.9.41/programs/wineconsole/n.curses.c	2007-07-14 20:28:14.208118757 +0200
+@@ -35,8 +35,8 @@
+ #include <stdio.h>
+ #include <stdarg.h>
  #include <stdlib.h>
- #ifdef HAVE_NCURSES_H
- # include <ncurses.h>
-+#elif defined(HAVE_NCURSES_NCURSES_H)
+-#ifdef HAVE_NCURSES_H
+-# include <ncurses.h>
++#if defined(HAVE_NCURSES_H) || defined(HAVE_NCURSES_H) || defined(HAVE_NCURSES_NCURSES_H)
 +# include <ncurses/ncurses.h>
  #elif defined(HAVE_CURSES_H)
  # include <curses.h>
  #endif
-@@ -57,9 +59,9 @@
+@@ -62,7 +62,7 @@
  
- #define PRIVATE(data)   ((struct inner_data_curse*)((data)->private))
- 
--#if defined(HAVE_CURSES_H) || defined(HAVE_NCURSES_H)
-+#if defined(HAVE_CURSES_H) || defined(HAVE_NCURSES_H) || defined(HAVE_NCURSES_NCURSES_H)
+ #if defined(SONAME_LIBCURSES) || defined(SONAME_LIBNCURSES)
  
 -#ifdef HAVE_NCURSES_H
-+#if defined(HAVE_NCURSES_H) || defined(HAVE_NCURSES_NCURSES_H)
++#if defined(HAVE_NCURSES_H) || defined(HAVE_NCURSES_H) || defined(HAVE_NCURSES_NCURSES_H)
  # define CURSES_NAME "ncurses"
  #else
  # define CURSES_NAME "curses"
-@@ -115,7 +117,7 @@
- 
- static BOOL WCCURSES_bind_libcurses(void)
- {
--#ifdef HAVE_NCURSES_H
-+#if defined(HAVE_NCURSES_H) || defined(HAVE_NCURSES_NCURSES_H)
-     static const char ncname[] = SONAME_LIBNCURSES;
- #else
-     static const char ncname[] = SONAME_LIBCURSES;

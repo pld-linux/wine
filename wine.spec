@@ -6,6 +6,9 @@
 %bcond_without	sane		# don't build TWAIN DLL with scanning support (through SANE)
 %bcond_without	cups		# without CUPS printing support in winspool,wineps DLLs
 #
+# NOTE:	wineconsole is a bit broken: try wineconsole cmd to see what will happen
+#	As a workaroound use `wineconsole --backend=user cmd' (works fine)
+#
 # NOTE: wine detects the following SONAMES for dlopen at build time:
 #   libcrypto,libssl (wininet.dll)
 #   libcups (winspool.dll.so,wineps.dll.so)
@@ -26,13 +29,13 @@ Summary(es.UTF-8):	Ejecuta programas Windows en Linux
 Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
-Version:	0.9.40
+Version:	0.9.41
 Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}.tar.bz2
-# Source0-md5:	412b64916b32c31cacd7655ffa4489b6
+# Source0-md5:	014e3760c07ac71906ba47c27f0471ab
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-makedep.patch
 Patch2:		%{name}-ncurses.patch
