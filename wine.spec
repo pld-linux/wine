@@ -73,7 +73,7 @@ BuildRequires:	xorg-lib-libXmu-devel
 BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	xorg-lib-libXxf86dga-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
-#Suggests:	binfmt-detector
+Suggests:	binfmt-detector
 # link to wine/ntdll.dll.so, without any SONAME
 Provides:	libntdll.dll.so
 Obsoletes:	wine-doc-pdf
