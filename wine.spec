@@ -31,7 +31,7 @@ Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
 Version:	0.9.46
-Release:	1
+Release:	2
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
@@ -243,6 +243,10 @@ sed -i -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in
 	--enable-curses \
 	--enable-opengl \
 	--with-x
+
+# $ORIGIN does not work in our builders
+export LD_LIBRARY_PATH=$(pwd)/libs/wine
+
 %{__make} depend
 %{__make}
 %{__make} -C programs
