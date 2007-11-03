@@ -31,7 +31,7 @@ Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
 Version:	0.9.48
-Release:	1
+Release:	2
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
@@ -64,6 +64,7 @@ BuildRequires:	libtool
 BuildRequires:	ncurses-devel
 # db2* failed previously - probably openjade or opensp bug
 BuildRequires:	openjade >= 1:1.3.3-0.pre1
+BuildRequires:	openldap-devel >= 2.4.6
 BuildRequires:	opensp >= 1:1.5.1
 BuildRequires:	openssl-devel >= 0.9.7d
 %{?with_sane:BuildRequires:	sane-backends-devel}
