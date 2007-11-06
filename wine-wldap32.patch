@@ -1,0 +1,124 @@
+13eebc48993a77e55a5c77a9beb636dd7db004eb
+diff --git a/configure b/configure
+index 8b14068..5a929ba 100755
+--- a/configure
++++ b/configure
+@@ -12902,11 +12902,19 @@ LIBS="$LIBS $LDAPLIBS $LIBPTHREAD"
+ 
+ 
+ 
++
++
++
++
+ for ac_func in \
+ 	ldap_count_references \
+ 	ldap_first_reference \
+ 	ldap_next_reference \
+-	ldap_parse_reference
++	ldap_parse_reference \
++	ldap_parse_sort_control \
++	ldap_parse_sortresponse_control \
++	ldap_parse_vlv_control \
++	ldap_parse_vlvresponse_control
+ do
+ as_ac_var=`echo "ac_cv_func_$ac_func" | $as_tr_sh`
+ { echo "$as_me:$LINENO: checking for $ac_func" >&5
+diff --git a/configure.ac b/configure.ac
+index cccb9b6..0b8671b 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -864,7 +864,11 @@ then
+ 	ldap_count_references \
+ 	ldap_first_reference \
+ 	ldap_next_reference \
+-	ldap_parse_reference,
++	ldap_parse_reference \
++	ldap_parse_sort_control \
++	ldap_parse_sortresponse_control \
++	ldap_parse_vlv_control \
++	ldap_parse_vlvresponse_control,
+         [$LDAPLIBS $LIBPTHREAD])
+ fi
+ WINE_NOTICE_IF([test "x$LDAPLIBS" = "x"],[libldap (OpenLDAP) development files not found.
+diff --git a/dlls/wldap32/parse.c b/dlls/wldap32/parse.c
+index e47adf2..8905def 100644
+--- a/dlls/wldap32/parse.c
++++ b/dlls/wldap32/parse.c
+@@ -325,7 +325,12 @@ ULONG CDECL ldap_parse_sort_controlW( WLDAP32_LDAP *ld, PLDAPControlW *control,
+ #ifdef HAVE_LDAP
+     char *attrU = NULL;
+     LDAPControl **controlU = NULL;
++#ifdef HAVE_LDAP_PARSE_SORT_CONTROL
+     unsigned long res;
++#endif
++#ifdef HAVE_LDAP_PARSE_SORTRESPONSE_CONTROL
++    ber_int_t res;
++#endif
+ 
+     TRACE( "(%p, %p, %p, %p)\n", ld, control, result, attr );
+ 
+@@ -336,7 +341,12 @@ ULONG CDECL ldap_parse_sort_controlW( WLDAP32_LDAP *ld, PLDAPControlW *control,
+         if (!controlU) return WLDAP32_LDAP_NO_MEMORY;
+     }
+ 
++#ifdef HAVE_LDAP_PARSE_SORT_CONTROL
+     ret = ldap_parse_sort_control( ld, controlU, &res, &attrU );
++#endif
++#ifdef HAVE_LDAP_PARSE_SORTRESPONSE_CONTROL
++    ret = ldap_parse_sortresponse_control( ld, controlU, &res, &attrU );
++#endif
+ 
+     *result = res;
+     *attr = strUtoW( attrU );
+@@ -405,7 +415,12 @@ INT CDECL ldap_parse_vlv_controlW( WLDAP32_LDAP *ld, PLDAPControlW *control,
+     int ret = LDAP_NOT_SUPPORTED;
+ #ifdef HAVE_LDAP
+     LDAPControl **controlU = NULL;
++#ifdef HAVE_LDAP_PARSE_VLV_CONTROL
+     unsigned long pos, count;
++#endif
++#ifdef HAVE_LDAP_PARSE_VLVRESPONSE_CONTROL
++    ber_int_t pos, count;
++#endif
+ 
+     TRACE( "(%p, %p, %p, %p, %p, %p)\n", ld, control, targetpos,
+            listcount, context, errcode );
+@@ -417,8 +432,14 @@ INT CDECL ldap_parse_vlv_controlW( WLDAP32_LDAP *ld, PLDAPControlW *control,
+         if (!controlU) return WLDAP32_LDAP_NO_MEMORY;
+     }
+ 
++#ifdef HAVE_LDAP_PARSE_VLV_CONTROL
+     ret = ldap_parse_vlv_control( ld, controlU, &pos, &count,
+                                   (struct berval **)context, errcode );
++#endif
++#ifdef HAVE_LDAP_PARSE_VLVRESPONSE_CONTROL
++    ret = ldap_parse_vlvresponse_control( ld, controlU, &pos, &count,
++                                          (struct berval **)context, errcode );
++#endif
+ 
+     *targetpos = pos;
+     *listcount = count;
+diff --git a/include/config.h.in b/include/config.h.in
+index c352c42..75e5d64 100644
+--- a/include/config.h.in
++++ b/include/config.h.in
+@@ -288,6 +288,18 @@
+ /* Define to 1 if you have the `ldap_parse_reference' function. */
+ #undef HAVE_LDAP_PARSE_REFERENCE
+ 
++/* Define to 1 if you have the `ldap_parse_sortresponse_control' function. */
++#undef HAVE_LDAP_PARSE_SORTRESPONSE_CONTROL
++
++/* Define to 1 if you have the `ldap_parse_sort_control' function. */
++#undef HAVE_LDAP_PARSE_SORT_CONTROL
++
++/* Define to 1 if you have the `ldap_parse_vlvresponse_control' function. */
++#undef HAVE_LDAP_PARSE_VLVRESPONSE_CONTROL
++
++/* Define to 1 if you have the `ldap_parse_vlv_control' function. */
++#undef HAVE_LDAP_PARSE_VLV_CONTROL
++
+ /* Define if you have libaudioIO */
+ #undef HAVE_LIBAUDIOIO
+ 
