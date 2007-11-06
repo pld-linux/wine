@@ -31,7 +31,7 @@ Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
 Version:	0.9.48
-Release:	2
+Release:	3
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
@@ -41,6 +41,7 @@ Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-makedep.patch
 Patch2:		%{name}-ncurses.patch
 Patch3:		%{name}-bug9177_workaround.patch
+Patch4:		%{name}-wldap32.patch
 #PatchX:		%{name}-dga.patch
 URL:		http://www.winehq.org/
 BuildRequires:	OpenGL-GLU-devel
@@ -234,6 +235,7 @@ Sterownik NAS dla implementacji mm.dll (systemu multimediów) w Wine.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 # turn off compilation of some tools
 sed -i -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in
