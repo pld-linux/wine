@@ -409,6 +409,7 @@ fi
 %{_mandir}/man1/widl.1*
 %{_mandir}/man1/winedump.1*
 %{_mandir}/man1/winegcc.1*
+%{_mandir}/man1/wineg++.1*
 %{_mandir}/man1/winemaker.1*
 %{_mandir}/man1/winebuild.1*
 %{_mandir}/man1/wmc.1*
