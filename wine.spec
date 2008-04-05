@@ -36,7 +36,7 @@ Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 Source0:	http://dl.sourceforge.net/wine/%{name}-%{version}.tar.bz2
-# Source0-md5:	2162b67f5f4f643ae8928ad40cb37b21
+# Source0-md5:	8704e227745382e8ef5246787c482b23
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-makedep.patch
 Patch2:		%{name}-ncurses.patch
@@ -374,6 +374,7 @@ fi
 %{_libdir}/wine/*.dll16
 %{_libdir}/wine/*.drv16
 %{_libdir}/wine/*.exe16
+%{_libdir}/wine/*.mod16
 %{_mandir}/man1/wine.1*
 %{_mandir}/man1/winedbg.1*
 %{_mandir}/man1/wineprefixcreate.1*
@@ -401,6 +402,7 @@ fi
 %{_libdir}/wine/lib*.def
 # no shared variants, so not separated
 %{_libdir}/wine/lib*.def.a
+%{_libdir}/wine/libadsiid.a
 %{_libdir}/wine/libdx*.a
 %{_libdir}/wine/libstrmiids.a
 %{_libdir}/wine/libuuid.a
