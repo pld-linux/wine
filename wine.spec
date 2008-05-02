@@ -79,7 +79,7 @@ Suggests:	binfmt-detector
 # for winelauncher
 Suggests:	xorg-app-xmessage
 # for ntlm_auth
-Suggests:	samba-common
+Suggests:	samba-common >= 1:3.0.25
 # link to wine/ntdll.dll.so, without any SONAME
 Provides:	libntdll.dll.so
 Obsoletes:	wine-doc-pdf
