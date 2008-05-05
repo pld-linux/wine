@@ -66,7 +66,7 @@ BuildRequires:	libtool
 BuildRequires:	ncurses-devel
 # db2* failed previously - probably openjade or opensp bug
 BuildRequires:	openjade >= 1:1.3.3-0.pre1
-BuildRequires:	openldap-devel >= 2.4.6
+BuildRequires:	openldap-devel
 BuildRequires:	opensp >= 1:1.5.1
 BuildRequires:	openssl-devel >= 0.9.7d
 %{?with_sane:BuildRequires:	sane-backends-devel}
