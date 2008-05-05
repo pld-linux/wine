@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=Wine Application Uninstaller
+Exec=uninstaller %f
+Icon=wine
+Categories=System;
