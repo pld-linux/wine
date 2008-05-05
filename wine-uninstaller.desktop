@@ -1,6 +1,9 @@
 [Desktop Entry]
 Type=Application
 Name=Wine Application Uninstaller
+Name[pl]=Narzędzie usuwania aplikacji Wine
+Comment=Remove installed Wine applications
+Comment[pl]=Usuwanie zainstalowanych aplikacji Wine
 Exec=uninstaller %f
 Icon=wine
 Categories=System;
