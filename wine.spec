@@ -25,7 +25,7 @@
 %if %{without alsa}
 %undefine	with_jack
 %endif
-%define		subver	rc1
+%define		subver	rc2
 Summary:	Program that lets you launch Win applications
 Summary(es.UTF-8):	Ejecuta programas Windows en Linux
 Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
@@ -36,8 +36,8 @@ Release:	0.%{subver}.1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
-Source0:	http://dl.sourceforge.net/wine/%{name}-%{version}-%{subver}.tar.bz2
-# Source0-md5:	2aa76ed20a327aa10e3ef07301c733fa
+Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}-%{subver}.tar.bz2
+# Source0-md5:	abeae87c2252b2541cf16e9b56af25ae
 Source1:	%{name}-uninstaller.desktop
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-makedep.patch
@@ -313,7 +313,7 @@ fi
 
 # /sbin/chstk -e $RPM_BUILD_ROOT%{_bindir}/wine
 
-programs="notepad progman regedit regsvr32 uninstaller wineconsole winefile winemine winepath winhelp"
+programs="msiexec notepad progman regedit regsvr32 uninstaller wineboot winebrowser winecfg wineconsole winedbg winefile winemine winepath"
 
 BZZZ=`pwd`
 rm -f files.so;		touch files.so
