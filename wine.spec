@@ -25,7 +25,7 @@
 %if %{without alsa}
 %undefine	with_jack
 %endif
-%define		subver	rc3
+%define		subver	rc4
 Summary:	Program that lets you launch Win applications
 Summary(es.UTF-8):	Ejecuta programas Windows en Linux
 Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
@@ -37,7 +37,7 @@ Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}-%{subver}.tar.bz2
-# Source0-md5:	bcef2a24ed6ffaa4bb14a491e3daff31
+# Source0-md5:	1ce2f46b03e1484a8d0845ea5519002b
 Source1:	%{name}-uninstaller.desktop
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-makedep.patch
@@ -353,7 +353,7 @@ fi
 
 %files -f files.so
 %defattr(644,root,root,755)
-%doc README ChangeLog AUTHORS ANNOUNCE
+%doc README documentation/ChangeLog* AUTHORS ANNOUNCE
 %lang(de) %doc documentation/README.de
 %lang(es) %doc documentation/README.es
 %lang(fr) %doc documentation/README.fr
