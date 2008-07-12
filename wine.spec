@@ -62,6 +62,7 @@ BuildRequires:	giflib-devel
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
 BuildRequires:	libjpeg-devel
 BuildRequires:	libtool
+BuildRequires:	libxslt-devel
 %{?with_nas:BuildRequires:	nas-devel}
 BuildRequires:	ncurses-devel
 # db2* failed previously - probably openjade or opensp bug
