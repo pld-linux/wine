@@ -30,13 +30,13 @@ Summary(es.UTF-8):	Ejecuta programas Windows en Linux
 Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
-Version:	1.1.2
-Release:	1
+Version:	0.9.61
+Release:	2
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 Source0:	http://dl.sourceforge.net/wine/%{name}-%{version}.tar.bz2
-# Source0-md5:	2df61f0422f30ebd46e9988c16935df1
+# Source0-md5:	d01518d529903dca013da592113bd995
 Source1:	%{name}-uninstaller.desktop
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-makedep.patch
@@ -314,7 +314,7 @@ fi
 
 # /sbin/chstk -e $RPM_BUILD_ROOT%{_bindir}/wine
 
-programs="msiexec notepad progman regedit regsvr32 uninstaller wineboot winebrowser winecfg wineconsole winedbg winefile winemine winepath"
+programs="notepad progman regedit regsvr32 uninstaller wineconsole winefile winemine winepath winhelp"
 
 BZZZ=`pwd`
 rm -f files.so;		touch files.so
@@ -354,7 +354,7 @@ fi
 
 %files -f files.so
 %defattr(644,root,root,755)
-%doc README documentation/ChangeLog* AUTHORS ANNOUNCE
+%doc README ChangeLog AUTHORS ANNOUNCE
 %lang(de) %doc documentation/README.de
 %lang(es) %doc documentation/README.es
 %lang(fr) %doc documentation/README.fr
