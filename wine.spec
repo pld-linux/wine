@@ -30,20 +30,18 @@ Summary(es.UTF-8):	Ejecuta programas Windows en Linux
 Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
-Version:	1.1.2
-Release:	1
+Version:	0.9.46
+Release:	3
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
-Source0:	http://dl.sourceforge.net/wine/%{name}-%{version}.tar.bz2
-# Source0-md5:	2df61f0422f30ebd46e9988c16935df1
-Source1:	%{name}-uninstaller.desktop
+Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}.tar.bz2
+# Source0-md5:	aa729097ddb324185a3e092b37a5f9fe
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-makedep.patch
 Patch2:		%{name}-ncurses.patch
 Patch3:		%{name}-bug9177_workaround.patch
-Patch4:		%{name}-disable-valgrind.patch
-#PatchX:	%{name}-dga.patch
+#PatchX:		%{name}-dga.patch
 URL:		http://www.winehq.org/
 BuildRequires:	OpenGL-devel
 BuildRequires:	XFree86-devel
@@ -68,17 +66,12 @@ BuildRequires:	libtool
 BuildRequires:	ncurses-devel
 # db2* failed previously - probably openjade or opensp bug
 BuildRequires:	openjade >= 1:1.3.3-0.pre1
-BuildRequires:	openldap-devel
 BuildRequires:	opensp >= 1:1.5.1
 BuildRequires:	openssl-devel >= 0.9.7d
 %{?with_sane:BuildRequires:	sane-backends-devel}
-#BuildRequires:	valgrind
+BuildRequires:	valgrind
 BuildRequires:	xrender-devel
 Suggests:	binfmt-detector
-# for winelauncher
-Suggests:	XFree86-tools
-# for ntlm_auth
-Suggests:	samba-common >= 1:3.0.25
 # link to wine/ntdll.dll.so, without any SONAME
 Provides:	libntdll.dll.so
 Obsoletes:	wine-doc-pdf
@@ -93,8 +86,6 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_winedir		%{_datadir}/%{name}
 
 %define		getsoname()	%((objdump -p %{1} 2>/dev/null || echo SONAME ERROR) | awk '/SONAME/ { print $2; s=1 }; END { if(s==0) print "ERROR" }')
-
-%undefine	debuginfocflags
 
 %description
 Wine is a program which allows running Microsoft Windows programs
@@ -238,7 +229,6 @@ Sterownik NAS dla implementacji mm.dll (systemu multimediów) w Wine.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
 
 # turn off compilation of some tools
 sed -i -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in
@@ -260,6 +250,7 @@ export LD_LIBRARY_PATH=$(pwd)/libs/wine
 %{__make} depend
 %{__make}
 %{__make} -C programs
+#%{__make} -C programs/regapi
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -274,6 +265,7 @@ install -d $RPM_BUILD_ROOT{%{_mandir}/man1,%{_aclocaldir}}
 install tools/fnt2bdf			$RPM_BUILD_ROOT%{_bindir}
 
 install aclocal.m4 $RPM_BUILD_ROOT%{_aclocaldir}/wine.m4
+#mv -f $RPM_BUILD_ROOT{/usr/X11R6/share/aclocal,%{_aclocaldir}}/wine.m4
 
 install -d \
 	$RPM_BUILD_ROOT%{_winedir}/windows/{system,Desktop,Favorites,Fonts} \
@@ -286,7 +278,7 @@ touch $RPM_BUILD_ROOT%{_winedir}/{autoexec.bat,config.sys,windows/win.ini}
 touch $RPM_BUILD_ROOT%{_winedir}/windows/system/{shell.dll,shell32.dll}
 touch $RPM_BUILD_ROOT%{_winedir}/windows/system/{winsock.dll,wsock32.dll}
 
-cat > $RPM_BUILD_ROOT%{_winedir}/windows/system.ini <<'EOF'
+cat >$RPM_BUILD_ROOT%{_winedir}/windows/system.ini <<EOF
 [mci]
 cdaudio=mcicda.drv
 sequencer=mciseq.drv
@@ -314,7 +306,7 @@ fi
 
 # /sbin/chstk -e $RPM_BUILD_ROOT%{_bindir}/wine
 
-programs="msiexec notepad progman regedit regsvr32 uninstaller wineboot winebrowser winecfg wineconsole winedbg winefile winemine winepath"
+programs="notepad progman regedit regsvr32 uninstaller wineconsole winefile winemine winepath winhelp"
 
 BZZZ=`pwd`
 rm -f files.so;		touch files.so
@@ -336,10 +328,6 @@ for p in $programs; do
 	mv -f files.so. files.so
 done
 
-install -d $RPM_BUILD_ROOT%{_pixmapsdir}/wine.svg
-install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
-install programs/winetest/winetest.svg $RPM_BUILD_ROOT%{_pixmapsdir}/wine.svg
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -354,7 +342,7 @@ fi
 
 %files -f files.so
 %defattr(644,root,root,755)
-%doc README documentation/ChangeLog* AUTHORS ANNOUNCE
+%doc README ChangeLog AUTHORS ANNOUNCE
 %lang(de) %doc documentation/README.de
 %lang(es) %doc documentation/README.es
 %lang(fr) %doc documentation/README.fr
@@ -370,7 +358,7 @@ fi
 %attr(755,root,root) %{_bindir}/winecfg
 %attr(755,root,root) %{_bindir}/winedbg
 %attr(755,root,root) %{_bindir}/wine-kthread
-#%attr(755,root,root) %{_bindir}/winelauncher
+%attr(755,root,root) %{_bindir}/winelauncher
 %attr(755,root,root) %{_bindir}/wineprefixcreate
 %attr(755,root,root) %{_bindir}/wine-preloader
 %attr(755,root,root) %{_bindir}/wine-pthread
@@ -381,15 +369,12 @@ fi
 %{_libdir}/wine/*.dll16
 %{_libdir}/wine/*.drv16
 %{_libdir}/wine/*.exe16
-%{_libdir}/wine/*.mod16
 %{_mandir}/man1/wine.1*
 %{_mandir}/man1/winedbg.1*
 %{_mandir}/man1/wineprefixcreate.1*
 %{_mandir}/man1/wineserver.1*
 %{_winedir}
 %{_desktopdir}/wine.desktop
-%{_desktopdir}/wine-uninstaller.desktop
-%{_pixmapsdir}/wine.svg
 
 %files programs -f files.programs
 %defattr(644,root,root,755)
@@ -404,14 +389,12 @@ fi
 %attr(755,root,root) %{_bindir}/wineg++
 %attr(755,root,root) %{_bindir}/winegcc
 %attr(755,root,root) %{_bindir}/winemaker
-%attr(755,root,root) %{_bindir}/winecpp
 #%attr(755,root,root) %{_bindir}/winewrap
 %attr(755,root,root) %{_bindir}/wmc
 %attr(755,root,root) %{_bindir}/wrc
 %{_libdir}/wine/lib*.def
 # no shared variants, so not separated
 %{_libdir}/wine/lib*.def.a
-%{_libdir}/wine/libadsiid.a
 %{_libdir}/wine/libdx*.a
 %{_libdir}/wine/libstrmiids.a
 %{_libdir}/wine/libuuid.a
@@ -420,7 +403,6 @@ fi
 %{_mandir}/man1/widl.1*
 %{_mandir}/man1/winedump.1*
 %{_mandir}/man1/winegcc.1*
-%{_mandir}/man1/wineg++.1*
 %{_mandir}/man1/winemaker.1*
 %{_mandir}/man1/winebuild.1*
 %{_mandir}/man1/wmc.1*
