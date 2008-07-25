@@ -1,0 +1,39 @@
+--- wine-0.9.28/configure.ac.orig	2006-12-22 17:17:47.000000000 +0100
++++ wine-0.9.28/configure.ac	2006-12-24 03:10:15.504363300 +0100
+@@ -194,6 +194,7 @@
+ 	machine/soundcard.h \
+ 	mntent.h \
+ 	ncurses.h \
++	ncurses/ncurses.h \
+ 	netdb.h \
+ 	netinet/in.h \
+ 	netinet/in_systm.h \
+@@ -519,7 +520,7 @@
+ 
+ dnl **** Check which curses lib to use ***
+ CURSESLIBS=""
+-if test "$ac_cv_header_ncurses_h" = "yes"
++if test "$ac_cv_header_ncurses_h" = "yes" || test "$ac_cv_header_ncurses_ncurses_h" = "yes"
+ then
+     AC_CHECK_LIB(ncurses,waddch,[CURSESLIBS="-lncurses"])
+ elif test "$ac_cv_header_curses_h" = "yes"
+--- wine-0.9.41/programs/wineconsole/curses.c.old	2007-07-14 22:00:49.124363079 +0200
++++ wine-0.9.41/programs/wineconsole/curses.c	2007-07-14 22:07:46.714791368 +0200
+@@ -39,6 +39,8 @@
+ # include <ncurses.h>
+ #elif defined(HAVE_CURSES_H)
+ # include <curses.h>
++#elif defined(HAVE_NCURSES_NCURSES_H)
++# include <ncurses/ncurses.h>
+ #endif
+ /* avoid redefinition warnings */
+ #undef KEY_EVENT
+@@ -62,7 +64,7 @@
+ 
+ #if defined(SONAME_LIBCURSES) || defined(SONAME_LIBNCURSES)
+ 
+-#ifdef HAVE_NCURSES_H
++#if defined(HAVE_NCURSES_H) || defined(HAVE_NCURSES_NCURSES_H)
+ # define CURSES_NAME "ncurses"
+ #else
+ # define CURSES_NAME "curses"
