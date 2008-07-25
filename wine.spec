@@ -30,13 +30,13 @@ Summary(es.UTF-8):	Ejecuta programas Windows en Linux
 Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
-Version:	1.1.2
+Version:	0.9.61
 Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 Source0:	http://dl.sourceforge.net/wine/%{name}-%{version}.tar.bz2
-# Source0-md5:	2df61f0422f30ebd46e9988c16935df1
+# Source0-md5:	d01518d529903dca013da592113bd995
 Source1:	%{name}-uninstaller.desktop
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-makedep.patch
@@ -76,7 +76,7 @@ BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	xrender-devel
 Suggests:	binfmt-detector
 # for winelauncher
-Suggests:	XFree86-tools
+Suggests:	X11-tools
 # for ntlm_auth
 Suggests:	samba-common >= 1:3.0.25
 # link to wine/ntdll.dll.so, without any SONAME
@@ -253,10 +253,6 @@ sed -i -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in
 	--enable-curses \
 	--enable-opengl \
 	--with-x
-
-# $ORIGIN does not work in our builders
-export LD_LIBRARY_PATH=$(pwd)/libs/wine
-
 %{__make} depend
 %{__make}
 %{__make} -C programs
@@ -314,7 +310,7 @@ fi
 
 # /sbin/chstk -e $RPM_BUILD_ROOT%{_bindir}/wine
 
-programs="msiexec notepad progman regedit regsvr32 uninstaller wineboot winebrowser winecfg wineconsole winedbg winefile winemine winepath"
+programs="notepad progman regedit regsvr32 uninstaller wineconsole winefile winemine winepath winhelp"
 
 BZZZ=`pwd`
 rm -f files.so;		touch files.so
@@ -354,7 +350,7 @@ fi
 
 %files -f files.so
 %defattr(644,root,root,755)
-%doc README documentation/ChangeLog* AUTHORS ANNOUNCE
+%doc README ChangeLog AUTHORS ANNOUNCE
 %lang(de) %doc documentation/README.de
 %lang(es) %doc documentation/README.es
 %lang(fr) %doc documentation/README.fr
