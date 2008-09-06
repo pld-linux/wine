@@ -6,10 +6,6 @@
 %bcond_without	sane		# don't build TWAIN DLL with scanning support (through SANE)
 %bcond_without	cups		# without CUPS printing support in winspool,wineps DLLs
 #
-# NOTE:	wineconsole is a bit broken: try wineconsole cmd to see what will happen
-#	As a workaroound use `wineconsole --backend=user cmd' (works fine)
-#	ref: http://bugs.winehq.org/show_bug.cgi?id=8069
-#
 # NOTE: wine detects the following SONAMES for dlopen at build time:
 #   libcrypto,libssl (wininet.dll)
 #   libcups (winspool.dll.so,wineps.dll.so)
@@ -31,7 +27,7 @@ Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
 Version:	1.1.4
-Release:	1
+Release:	2
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
@@ -59,8 +55,11 @@ BuildRequires:	fontconfig-devel
 BuildRequires:	fontforge
 BuildRequires:	freetype-devel >= 2.0.5
 BuildRequires:	giflib-devel
+BuildRequires:	hal-devel
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
+BuildRequires:	lcms-devel
 BuildRequires:	libjpeg-devel
+BuildRequires:	libgphoto2-devel
 BuildRequires:	libtool
 BuildRequires:	libxslt-devel
 %{?with_nas:BuildRequires:	nas-devel}
@@ -70,10 +69,15 @@ BuildRequires:	openjade >= 1:1.3.3-0.pre1
 BuildRequires:	openldap-devel
 BuildRequires:	opensp >= 1:1.5.1
 BuildRequires:	openssl-devel >= 0.9.7d
+BuildRequires:	pkgconfig
 %{?with_sane:BuildRequires:	sane-backends-devel}
 #BuildRequires:	valgrind
+BuildRequires:	xorg-lib-libXcomposite-devel
+BuildRequires:	xorg-lib-libXcursor-devel
 BuildRequires:	xorg-lib-libXi-devel
+BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXmu-devel
+BuildRequires:	xorg-lib-libXrandr-devel
 BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	xorg-lib-libXxf86dga-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
@@ -251,10 +255,15 @@ sed -i -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in
 %{__autoconf}
 %{__autoheader}
 %configure \
-	%{!?debug:--disable-debug} \
-	%{!?debug:--disable-trace} \
-	--enable-curses \
-	--enable-opengl \
+	--with-cms \
+	--with-gphoto \
+	--with-hal \
+	--with-xcomposite \
+	--with-xcursor \
+	--with-xinerama \
+	--with-xinput \
+	--with-xrandr \
+	--with-xxf86vm \
 	--with-x
 %{__make} depend
 %{__make}
