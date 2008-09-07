@@ -6,6 +6,9 @@
 %bcond_without	sane		# don't build TWAIN DLL with scanning support (through SANE)
 %bcond_without	cups		# without CUPS printing support in winspool,wineps DLLs
 #
+# TODO:
+# - support for CAPI (ISDN support; --with-capi)
+#
 # NOTE: wine detects the following SONAMES for dlopen at build time:
 #   libcrypto,libssl (wininet.dll)
 #   libcups (winspool.dll.so,wineps.dll.so)
@@ -58,8 +61,8 @@ BuildRequires:	giflib-devel
 BuildRequires:	hal-devel
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
 BuildRequires:	lcms-devel
-BuildRequires:	libjpeg-devel
 BuildRequires:	libgphoto2-devel
+BuildRequires:	libjpeg-devel
 BuildRequires:	libtool
 BuildRequires:	libxslt-devel
 %{?with_nas:BuildRequires:	nas-devel}
@@ -255,14 +258,38 @@ sed -i -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in
 %{__autoconf}
 %{__autoheader}
 %configure \
+	--with%{!?with_alsa:out}-alsa \
+	--with-audioio \
 	--with-cms \
+	--with%{!?with_cups:out}-cups \
+	--with-coreaudio \
+	--with-cups \
+	--with-curses \
+	--with-esd \
+	--with-fontconfig \
+	--with-freetype \
+	--with-glu \
 	--with-gphoto \
 	--with-hal \
+	--with%{!?with_jack:out}-jack \
+	--with-jpeg \
+	--with-ldap \
+	--with%{!?with_nas:out}-nas \
+	--with-opengl \
+	--with-openssl \
+	--with-oss \
+	--with-png \
+	--with%{!?with_sane:out}-sane \
 	--with-xcomposite \
 	--with-xcursor \
 	--with-xinerama \
 	--with-xinput \
+	--with-xml \
 	--with-xrandr \
+	--with-xrender \
+	--with-xshape \
+	--with-xshm \
+	--with-xslt \
 	--with-xxf86vm \
 	--with-x
 %{__make} depend
