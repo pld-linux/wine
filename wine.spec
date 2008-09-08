@@ -259,10 +259,8 @@ sed -i -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in
 %{__autoheader}
 %configure \
 	--with%{!?with_alsa:out}-alsa \
-	--with-audioio \
 	--with-cms \
 	--with%{!?with_cups:out}-cups \
-	--with-coreaudio \
 	--with-cups \
 	--with-curses \
 	--with-esd \
