@@ -6,9 +6,8 @@
 %bcond_without	sane		# don't build TWAIN DLL with scanning support (through SANE)
 %bcond_without	cups		# without CUPS printing support in winspool,wineps DLLs
 #
-# NOTE:	wineconsole is a bit broken: try wineconsole cmd to see what will happen
-#	As a workaroound use `wineconsole --backend=user cmd' (works fine)
-#	ref: http://bugs.winehq.org/show_bug.cgi?id=8069
+# TODO:
+# - support for CAPI (ISDN support; --with-capi)
 #
 # NOTE: wine detects the following SONAMES for dlopen at build time:
 #   libcrypto,libssl (wininet.dll)
@@ -30,13 +29,13 @@ Summary(es.UTF-8):	Ejecuta programas Windows en Linux
 Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
-Version:	1.1.2
+Version:	1.1.8
 Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
-Source0:	http://dl.sourceforge.net/wine/%{name}-%{version}.tar.bz2
-# Source0-md5:	2df61f0422f30ebd46e9988c16935df1
+Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}.tar.bz2
+# Source0-md5:	3a65ee3448b80519d1aa606d3bba92be
 Source1:	%{name}-uninstaller.desktop
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-makedep.patch
@@ -61,11 +60,17 @@ BuildRequires:	fontforge
 BuildRequires:	freetype-devel >= 2.0.5
 BuildRequires:	giflib-devel
 BuildRequires:	glut-devel
+BuildRequires:	gnutls-devel
+BuildRequires:	hal-devel
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
+BuildRequires:	lcms-devel
+BuildRequires:	libgphoto2-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libtool
 %{?with_nas:BuildRequires:	nas-devel}
 BuildRequires:	ncurses-devel
+BuildRequires:	pkgconfig
+BuildRequires:	rpmbuild(macros) >= 1.315
 # db2* failed previously - probably openjade or opensp bug
 BuildRequires:	openjade >= 1:1.3.3-0.pre1
 BuildRequires:	openldap-devel
@@ -95,6 +100,10 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		getsoname()	%((objdump -p %{1} 2>/dev/null || echo SONAME ERROR) | awk '/SONAME/ { print $2; s=1 }; END { if(s==0) print "ERROR" }')
 
 %undefine	debuginfocflags
+
+# X11 composite lib not linked properly with -lX11:
+# /usr/X11R6/lib/libXcomposite.so: undefined reference to `XFree'
+%define		filterout_ld	-Wl,--as-needed
 
 %description
 Wine is a program which allows running Microsoft Windows programs
@@ -248,15 +257,38 @@ sed -i -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in
 %{__autoconf}
 %{__autoheader}
 %configure \
-	%{!?debug:--disable-debug} \
-	%{!?debug:--disable-trace} \
-	--enable-curses \
-	--enable-opengl \
+	--with%{!?with_alsa:out}-alsa \
+	--with-cms \
+	--with%{!?with_cups:out}-cups \
+	--with-cups \
+	--with-curses \
+	--with-esd \
+	--with-fontconfig \
+	--with-freetype \
+	--with-glu \
+	--with-gphoto \
+	--with-hal \
+	--with%{!?with_jack:out}-jack \
+	--with-jpeg \
+	--with-ldap \
+	--with%{!?with_nas:out}-nas \
+	--with-opengl \
+	--with-openssl \
+	--with-oss \
+	--with-png \
+	--with%{!?with_sane:out}-sane \
+	--with-xcomposite \
+	--with-xcursor \
+	--with-xinerama \
+	--with-xinput \
+	--with-xml \
+	--with-xrandr \
+	--with-xrender \
+	--with-xshape \
+	--with-xshm \
+	--with-xslt \
+	--with-xxf86vm \
 	--with-x
-
-# $ORIGIN does not work in our builders
-export LD_LIBRARY_PATH=$(pwd)/libs/wine
-
 %{__make} depend
 %{__make}
 %{__make} -C programs
