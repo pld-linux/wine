@@ -1,0 +1,10 @@
+--- wine-1.1.8/dlls/crypt32/rootstore.c.org	2008-11-17 10:26:55.794870595 +0000
++++ wine-1.1.8/dlls/crypt32/rootstore.c	2008-11-17 10:30:18.050258256 +0000
+@@ -439,6 +439,7 @@
+  "/etc/ssl/certs",
+  "/etc/pki/tls/certs/ca-bundle.crt",
+  "/usr/local/share/certs/",
++ "/etc/certs/ca-certificates.crt",
+ };
+ 
+ static const BYTE authenticode[] = {
