@@ -86,6 +86,7 @@ BuildRequires:	xorg-lib-libXrandr-devel
 BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	xorg-lib-libXxf86dga-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
+Requires:	ca-certificates >= 20080809-4
 Suggests:	binfmt-detector
 # for winelauncher
 Suggests:	xorg-app-xmessage
