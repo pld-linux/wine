@@ -42,6 +42,7 @@ Patch1:		%{name}-makedep.patch
 Patch2:		%{name}-ncurses.patch
 Patch3:		%{name}-bug9177_workaround.patch
 Patch4:		%{name}-disable-valgrind.patch
+Patch5:		%{name}-ca_certificates.patch
 #PatchX:	%{name}-dga.patch
 URL:		http://www.winehq.org/
 BuildRequires:	OpenGL-GLU-devel
@@ -250,6 +251,7 @@ Sterownik NAS dla implementacji mm.dll (systemu multimediów) w Wine.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 # turn off compilation of some tools
 sed -i -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in
