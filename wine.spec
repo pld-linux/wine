@@ -86,9 +86,10 @@ BuildRequires:	xorg-lib-libXrandr-devel
 BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	xorg-lib-libXxf86dga-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
-Conflicts:	ca-certificates < 20080809-4
+Requires:	libfreetype.so.6
 Suggests:	binfmt-detector
 Suggests:	ca-certificates
+Conflicts:	ca-certificates < 20080809-4
 # for winelauncher
 Suggests:	xorg-app-xmessage
 # for ntlm_auth
