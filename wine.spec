@@ -29,18 +29,17 @@ Summary(es.UTF-8):	Ejecuta programas Windows en Linux
 Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
-Version:	1.1.9
+Version:	1.1.10
 Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}.tar.bz2
-# Source0-md5:	c3975c66640c1efaf2717ffa2260b6c7
+# Source0-md5:	939ddfacb80678a99b3c960edb3a30f5
 Source1:	%{name}-uninstaller.desktop
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-makedep.patch
 Patch2:		%{name}-ncurses.patch
-Patch3:		%{name}-bug9177_workaround.patch
 Patch4:		%{name}-disable-valgrind.patch
 Patch5:		%{name}-ca_certificates.patch
 #PatchX:	%{name}-dga.patch
@@ -252,7 +251,6 @@ Sterownik NAS dla implementacji mm.dll (systemu multimediów) w Wine.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 %patch4 -p1
 %patch5 -p1
 
