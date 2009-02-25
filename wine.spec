@@ -35,7 +35,7 @@ Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}.tar.bz2
-# Source0-md5:	5becf91455ef1d426e39cda34e6e7e81
+# Source0-md5:	475cbf9a683259eca3e61b20ea2d86e2
 Source1:	%{name}-uninstaller.desktop
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-makedep.patch
