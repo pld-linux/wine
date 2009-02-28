@@ -29,13 +29,13 @@ Summary(es.UTF-8):	Ejecuta programas Windows en Linux
 Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
-Version:	1.1.15
+Version:	1.1.16
 Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}.tar.bz2
-# Source0-md5:	475cbf9a683259eca3e61b20ea2d86e2
+# Source0-md5:	2aff938b7c8d78269409f5056d3670ca
 Source1:	%{name}-uninstaller.desktop
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-makedep.patch
@@ -353,7 +353,7 @@ fi
 
 # /sbin/chstk -e $RPM_BUILD_ROOT%{_bindir}/wine
 
-programs="msiexec notepad progman regedit regsvr32 uninstaller wineboot winebrowser winecfg wineconsole winedbg winefile winemine winepath"
+programs="msiexec notepad regedit regsvr32 wineboot winecfg wineconsole winedbg winefile winemine winepath"
 
 BZZZ=`pwd`
 rm -f files.so;		touch files.so
@@ -405,7 +405,6 @@ fi
 %attr(755,root,root) %{_bindir}/msiexec
 %attr(755,root,root) %{_bindir}/wine
 %attr(755,root,root) %{_bindir}/wineboot
-%attr(755,root,root) %{_bindir}/winebrowser
 %attr(755,root,root) %{_bindir}/winecfg
 %attr(755,root,root) %{_bindir}/winedbg
 %attr(755,root,root) %{_bindir}/wine-kthread
@@ -419,11 +418,13 @@ fi
 %{_libdir}/wine/*.dll16
 %{_libdir}/wine/*.drv16
 %{_libdir}/wine/*.exe16
-%{_libdir}/wine/*.mod16
 %{_mandir}/man1/wine.1*
+%lang(de.UTF-8) %{_mandir}/de.UTF-8/man1/wine.1*
+%lang(fr.UTF-8) %{_mandir}/fr.UTF-8/man1/wine.1*
 %{_mandir}/man1/winedbg.1*
 %{_mandir}/man1/wineprefixcreate.1*
 %{_mandir}/man1/wineserver.1*
+%lang(fr.UTF-8) %{_mandir}/fr.UTF-8/man1/wineserver.1*
 %{_winedir}
 %{_desktopdir}/wine.desktop
 %{_desktopdir}/wine-uninstaller.desktop
