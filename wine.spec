@@ -77,6 +77,7 @@ BuildRequires:	opensp >= 1:1.5.1
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	pkgconfig
 %{?with_sane:BuildRequires:	sane-backends-devel}
+BuildRequires:	unixODBC-devel >= 2.2.12-2
 #BuildRequires:	valgrind
 BuildRequires:	xorg-lib-libXcomposite-devel
 BuildRequires:	xorg-lib-libXcursor-devel
