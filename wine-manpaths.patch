@@ -11,9 +11,9 @@
  
  all: $(WINE_BINARIES) $(WINE_BINARIES:%=%-installed) $(MODULE) $(MANPAGES)
  
-@@ -88,13 +88,13 @@
- 	  fi; \
- 	done
+@@ -74,13 +74,13 @@
+ 	$(INSTALL_PROGRAM) wine-installed $(DESTDIR)$(bindir)/$(MODULE)
+ 	for f in $(EXTRA_BINARIES); do $(INSTALL_PROGRAM) $$f $(DESTDIR)$(bindir)/$$f; done
  	$(INSTALL_DATA) wine.man $(DESTDIR)$(mandir)/man$(prog_manext)/wine.$(prog_manext)
 -	$(INSTALL_DATA) wine.de.man $(DESTDIR)$(mandir)/de.UTF-8/man$(prog_manext)/wine.$(prog_manext)
 -	$(INSTALL_DATA) wine.fr.man $(DESTDIR)$(mandir)/fr.UTF-8/man$(prog_manext)/wine.$(prog_manext)
@@ -21,7 +21,7 @@
 +	$(INSTALL_DATA) wine.fr.man $(DESTDIR)$(mandir)/fr/man$(prog_manext)/wine.$(prog_manext)
  
  uninstall::
- 	-cd $(DESTDIR)$(bindir) && $(RM) $(WINE_BINARIES) $(MODULE)
+ 	-cd $(DESTDIR)$(bindir) && $(RM) $(EXTRA_BINARIES) $(MODULE)
  	$(RM) $(DESTDIR)$(mandir)/man$(prog_manext)/wine.$(prog_manext)
 -	$(RM) $(DESTDIR)$(mandir)/de.UTF-8/man$(prog_manext)/wine.$(prog_manext)
 -	$(RM) $(DESTDIR)$(mandir)/fr.UTF-8/man$(prog_manext)/wine.$(prog_manext)
