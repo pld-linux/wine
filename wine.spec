@@ -410,11 +410,11 @@ fi
 %attr(755,root,root) %{_bindir}/wineboot
 %attr(755,root,root) %{_bindir}/winecfg
 %attr(755,root,root) %{_bindir}/winedbg
-%attr(755,root,root) %{_bindir}/wine-kthread
+#%attr(755,root,root) %{_bindir}/wine-kthread
 #%attr(755,root,root) %{_bindir}/winelauncher
 %attr(755,root,root) %{_bindir}/wineprefixcreate
 %attr(755,root,root) %{_bindir}/wine-preloader
-%attr(755,root,root) %{_bindir}/wine-pthread
+#%attr(755,root,root) %{_bindir}/wine-pthread
 %attr(755,root,root) %{_bindir}/wineserver
 %attr(755,root,root) %{_libdir}/*.so*
 %dir %{_libdir}/wine
