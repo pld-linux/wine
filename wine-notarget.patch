@@ -1,15 +1,16 @@
 --- wine-1.1.15/tools/winegcc/winegcc.c~	2009-02-13 18:01:33.000000000 +0100
 +++ wine-1.1.15/tools/winegcc/winegcc.c	2009-02-25 14:37:44.743493303 +0100
 @@ -302,8 +302,7 @@
-         else str = CXX;
+         else str = CPP;
          break;
+     case proc_cc:
      case proc_as:
--        if (opts->target) str = strmake( "%s-as", opts->target );
--        else str = AS;
-+        str = AS;
+-        if (opts->target) str = strmake( "%s-gcc", opts->target );
+-        else str = CC;
++        str = CC;
          break;
-     default:
-         assert(0);
+     case proc_cxx:
+         if (opts->target) str = strmake( "%s-g++", opts->target );
 --- wine-1.1.15/tools/winebuild/utils.c~	2009-02-13 18:01:33.000000000 +0100
 +++ wine-1.1.15/tools/winebuild/utils.c	2009-02-25 14:52:51.450410422 +0100
 @@ -250,13 +250,6 @@

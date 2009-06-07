@@ -1,14 +1,12 @@
 diff -ruN wine-0.9.51./configure.ac wine-0.9.51/configure.ac
 --- wine-0.9.51./configure.ac	2007-12-16 20:15:52.000000000 +0100
 +++ wine-0.9.51/configure.ac	2007-12-16 20:31:42.099007759 +0100
-@@ -265,9 +265,7 @@
- 	syscall.h \
+@@ -377,8 +377,6 @@
  	termios.h \
  	unistd.h \
--	utime.h \
+ 	utime.h \
 -	valgrind/memcheck.h \
--	valgrind/valgrind.h
-+	utime.h
+-	valgrind/valgrind.h \
+ 	zlib.h
  )
  AC_HEADER_STAT()
- 
