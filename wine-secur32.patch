@@ -1,0 +1,61 @@
+diff --git a/dlls/secur32/schannel.c b/dlls/secur32/schannel.c
+index 8f127e6..ce711e4 100644
+--- a/dlls/secur32/schannel.c
++++ b/dlls/secur32/schannel.c
+@@ -48,6 +48,7 @@ MAKE_FUNCPTR(gnutls_alert_get);
+ MAKE_FUNCPTR(gnutls_alert_get_name);
+ MAKE_FUNCPTR(gnutls_certificate_allocate_credentials);
+ MAKE_FUNCPTR(gnutls_certificate_free_credentials);
++MAKE_FUNCPTR(gnutls_certificate_get_peers);
+ MAKE_FUNCPTR(gnutls_cipher_get);
+ MAKE_FUNCPTR(gnutls_credentials_set);
+ MAKE_FUNCPTR(gnutls_deinit);
+@@ -872,6 +873,31 @@ static SECURITY_STATUS SEC_ENTRY schan_QueryContextAttributesW(
+             return SEC_E_OK;
+         }
+ 
++        case SECPKG_ATTR_REMOTE_CERT_CONTEXT:
++        {
++            unsigned int list_count;
++            const gnutls_datum_t *list;
++            PCCERT_CONTEXT *context = (PCCERT_CONTEXT *)buffer;
++            list = pgnutls_certificate_get_peers(ctx->session, &list_count);
++            FIXME("Got %d certs\n", list_count);
++            *context = CertCreateCertificateContext(X509_ASN_ENCODING | PKCS_7_ASN_ENCODING, list[0].data, list[0].size);
++            return SEC_E_OK;
++        }
++
++        case SECPKG_ATTR_CONNECTION_INFO:
++        {
++            SecPkgContext_ConnectionInfo *conn_info = (SecPkgContext_ConnectionInfo *)buffer;
++            FIXME("conn_info %p\n", conn_info);
++            conn_info->dwProtocol = SP_PROT_TLS1_CLIENT;
++            conn_info->aiCipher = CALG_AES_256;
++            conn_info->dwCipherStrength = 256;
++            conn_info->aiHash = CALG_SHA;
++            conn_info->dwHashStrength = 160;
++            conn_info->aiExch = CALG_RSA_KEYX;
++            conn_info->dwExchStrength = 1024;
++            return SEC_E_OK;
++        }
++
+         default:
+             FIXME("Unhandled attribute %#x\n", attribute);
+             return SEC_E_UNSUPPORTED_FUNCTION;
+@@ -887,6 +913,8 @@ static SECURITY_STATUS SEC_ENTRY schan_QueryContextAttributesA(
+     switch(attribute)
+     {
+         case SECPKG_ATTR_STREAM_SIZES:
++        case SECPKG_ATTR_REMOTE_CERT_CONTEXT:
++        case SECPKG_ATTR_CONNECTION_INFO:
+             return schan_QueryContextAttributesW(context_handle, attribute, buffer);
+ 
+         default:
+@@ -1220,6 +1248,7 @@ void SECUR32_initSchannelSP(void)
+     LOAD_FUNCPTR(gnutls_alert_get_name)
+     LOAD_FUNCPTR(gnutls_certificate_allocate_credentials)
+     LOAD_FUNCPTR(gnutls_certificate_free_credentials)
++    LOAD_FUNCPTR(gnutls_certificate_get_peers)
+     LOAD_FUNCPTR(gnutls_cipher_get)
+     LOAD_FUNCPTR(gnutls_credentials_set)
+     LOAD_FUNCPTR(gnutls_deinit)
