@@ -1,6 +1,6 @@
---- wine-1.1.16/loader/Makefile.in~	2009-02-27 23:21:46.000000000 +0100
-+++ wine-1.1.16/loader/Makefile.in	2009-02-28 14:51:11.904159157 +0100
-@@ -40,8 +40,8 @@
+--- wine-1.1.28/loader/Makefile.in.orig	2009-08-22 23:32:18.000000000 +0200
++++ wine-1.1.28/loader/Makefile.in	2009-08-22 23:34:32.000000000 +0200
+@@ -23,8 +23,8 @@
  INSTALLDIRS = \
  	$(DESTDIR)$(bindir) \
  	$(DESTDIR)$(mandir)/man$(prog_manext) \
@@ -9,11 +9,11 @@
 +	$(DESTDIR)$(mandir)/de/man$(prog_manext) \
 +	$(DESTDIR)$(mandir)/fr/man$(prog_manext)
  
- all: $(WINE_BINARIES) $(WINE_BINARIES:%=%-installed) $(MODULE) $(MANPAGES)
+ all: wine wine-installed $(EXTRA_BINARIES) $(MANPAGES)
  
-@@ -74,13 +74,13 @@
- 	$(INSTALL_PROGRAM) wine-installed $(DESTDIR)$(bindir)/$(MODULE)
- 	for f in $(EXTRA_BINARIES); do $(INSTALL_PROGRAM) $$f $(DESTDIR)$(bindir)/$$f; done
+@@ -54,13 +54,13 @@
+ 
+ install-man-pages: $(MANPAGES) $(INSTALLDIRS) dummy
  	$(INSTALL_DATA) wine.man $(DESTDIR)$(mandir)/man$(prog_manext)/wine.$(prog_manext)
 -	$(INSTALL_DATA) wine.de.man $(DESTDIR)$(mandir)/de.UTF-8/man$(prog_manext)/wine.$(prog_manext)
 -	$(INSTALL_DATA) wine.fr.man $(DESTDIR)$(mandir)/fr.UTF-8/man$(prog_manext)/wine.$(prog_manext)
@@ -21,7 +21,7 @@
 +	$(INSTALL_DATA) wine.fr.man $(DESTDIR)$(mandir)/fr/man$(prog_manext)/wine.$(prog_manext)
  
  uninstall::
- 	-cd $(DESTDIR)$(bindir) && $(RM) $(EXTRA_BINARIES) $(MODULE)
+ 	-cd $(DESTDIR)$(bindir) && $(RM) $(MAIN_BINARY) $(EXTRA_BINARIES)
  	$(RM) $(DESTDIR)$(mandir)/man$(prog_manext)/wine.$(prog_manext)
 -	$(RM) $(DESTDIR)$(mandir)/de.UTF-8/man$(prog_manext)/wine.$(prog_manext)
 -	$(RM) $(DESTDIR)$(mandir)/fr.UTF-8/man$(prog_manext)/wine.$(prog_manext)
