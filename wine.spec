@@ -30,7 +30,7 @@ Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
 Version:	1.1.29
-Release:	1
+Release:	2
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
@@ -65,7 +65,9 @@ BuildRequires:	hal-devel
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
 BuildRequires:	lcms-devel
 BuildRequires:	libgphoto2-devel
+BuildRequires:	libgsm-devel
 BuildRequires:	libjpeg-devel
+BuildRequires:	libmpg123-devel
 BuildRequires:	libtool
 BuildRequires:	libxslt-devel
 %{?with_nas:BuildRequires:	nas-devel}
@@ -268,24 +270,30 @@ sed -i -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in
 %{__autoheader}
 %configure \
 	--with%{!?with_alsa:out}-alsa \
+	--with-audioio \
+	--without-capi \
 	--with-cms \
+	--with-coreaudio \
 	--with%{!?with_cups:out}-cups \
-	--with-cups \
 	--with-curses \
 	--with-esd \
 	--with-fontconfig \
 	--with-freetype \
 	--with-glu \
+	--with-gnutls \
 	--with-gphoto \
+	--with-gsm \
 	--with-hal \
 	--with%{!?with_jack:out}-jack \
 	--with-jpeg \
 	--with-ldap \
+	--with-mpg123 \
 	--with%{!?with_nas:out}-nas \
 	--with-opengl \
 	--with-openssl \
 	--with-oss \
 	--with-png \
+	--with-pthread \
 	--with%{!?with_sane:out}-sane \
 	--with-xcomposite \
 	--with-xcursor \
