@@ -29,13 +29,13 @@ Summary(es.UTF-8):	Ejecuta programas Windows en Linux
 Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
-Version:	1.1.30
+Version:	1.1.31
 Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}.tar.bz2
-# Source0-md5:	3b78497f71cf6f112bac6de74e5cb29f
+# Source0-md5:	87fb94c218e52dd67c75b4ae5ef50c0e
 Source1:	%{name}-uninstaller.desktop
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-makedep.patch
@@ -427,7 +427,7 @@ fi
 %attr(755,root,root) %{_libdir}/*.so*
 %dir %{_libdir}/wine
 %{_libdir}/wine/*.dll16
-%{_libdir}/wine/*.drv16
+#%{_libdir}/wine/*.drv16
 %{_libdir}/wine/*.exe16
 %dir %{_libdir}/wine/fakedlls
 %{_libdir}/wine/fakedlls/*.acm
