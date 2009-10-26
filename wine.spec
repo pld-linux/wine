@@ -94,6 +94,8 @@ Requires:	libfreetype.so.6
 Suggests:	binfmt-detector
 Suggests:	ca-certificates
 Conflicts:	ca-certificates < 20080809-4
+# for printing needs lpr
+Suggests:	cups-clients
 # for winelauncher
 Suggests:	xorg-app-xmessage
 # for ntlm_auth
