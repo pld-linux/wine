@@ -46,6 +46,7 @@ Patch6:		%{name}-notarget.patch
 Patch7:		%{name}-manpaths.patch
 #PatchX:	%{name}-dga.patch
 URL:		http://www.winehq.org/
+BuildRequires:	OpenAL-devel
 BuildRequires:	OpenGL-GLU-devel
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 %{?with_arts:BuildRequires:	artsc-devel}
@@ -323,7 +324,7 @@ install -d $RPM_BUILD_ROOT{%{_mandir}/man1,%{_aclocaldir}}
 %{__make} -C programs install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install tools/fnt2bdf			$RPM_BUILD_ROOT%{_bindir}
+install tools/fnt2bdf $RPM_BUILD_ROOT%{_bindir}
 
 install aclocal.m4 $RPM_BUILD_ROOT%{_aclocaldir}/wine.m4
 
