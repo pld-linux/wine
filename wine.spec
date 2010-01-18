@@ -29,13 +29,13 @@ Summary(es.UTF-8):	Ejecuta programas Windows en Linux
 Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
-Version:	1.1.35
+Version:	1.1.36
 Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}.tar.bz2
-# Source0-md5:	fc9312b86029a6046c5c1938887892e4
+# Source0-md5:	2afa7846175c7c2ce4c7482aa1d82f0f
 Source1:	%{name}-uninstaller.desktop
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-makedep.patch
@@ -421,17 +421,11 @@ fi
 %attr(755,root,root) %{_bindir}/wineboot
 %attr(755,root,root) %{_bindir}/winecfg
 %attr(755,root,root) %{_bindir}/winedbg
-#%attr(755,root,root) %{_bindir}/wine-kthread
-#%attr(755,root,root) %{_bindir}/winelauncher
 %attr(755,root,root) %{_bindir}/wineprefixcreate
 %attr(755,root,root) %{_bindir}/wine-preloader
-#%attr(755,root,root) %{_bindir}/wine-pthread
 %attr(755,root,root) %{_bindir}/wineserver
 %attr(755,root,root) %{_libdir}/*.so*
 %dir %{_libdir}/wine
-%{_libdir}/wine/*.dll16
-#%{_libdir}/wine/*.drv16
-%{_libdir}/wine/*.exe16
 %dir %{_libdir}/wine/fakedlls
 %{_libdir}/wine/fakedlls/*.acm
 %{_libdir}/wine/fakedlls/*.cpl
@@ -473,7 +467,6 @@ fi
 %attr(755,root,root) %{_bindir}/winegcc
 %attr(755,root,root) %{_bindir}/winemaker
 %attr(755,root,root) %{_bindir}/winecpp
-#%attr(755,root,root) %{_bindir}/winewrap
 %attr(755,root,root) %{_bindir}/wmc
 %attr(755,root,root) %{_bindir}/wrc
 %{_libdir}/wine/lib*.def
