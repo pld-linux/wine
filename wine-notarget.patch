@@ -1,7 +1,6 @@
---- wine-1.1.15/tools/winegcc/winegcc.c~	2009-02-13 18:01:33.000000000 +0100
-+++ wine-1.1.15/tools/winegcc/winegcc.c	2009-02-25 14:37:44.743493303 +0100
-@@ -302,8 +302,7 @@
-         else str = CPP;
+--- wine-1.1.36/tools/winegcc/winegcc.c.orig	2010-01-08 20:20:11.000000000 +0100
++++ wine-1.1.36/tools/winegcc/winegcc.c	2010-01-19 00:19:19.000000000 +0100
+@@ -289,8 +289,7 @@
          break;
      case proc_cc:
      case proc_as:
@@ -11,49 +10,3 @@
          break;
      case proc_cxx:
          if (opts->target) str = strmake( "%s-g++", opts->target );
---- wine-1.1.15/tools/winebuild/utils.c~	2009-02-13 18:01:33.000000000 +0100
-+++ wine-1.1.15/tools/winebuild/utils.c	2009-02-25 14:52:51.450410422 +0100
-@@ -250,13 +250,6 @@
- {
-     if (!as_command)
-     {
--        if (target_alias)
--        {
--            as_command = xmalloc( strlen(target_alias) + sizeof("-as") );
--            strcpy( as_command, target_alias );
--            strcat( as_command, "-as" );
--        }
--        else
-         {
-             static const char * const commands[] = { "gas", "as", NULL };
-             if (!(as_command = find_tool( commands ))) as_command = xstrdup("as");
---- wine-1.1.15/tools/winebuild/utils.c~	2009-02-25 14:53:45.976730869 +0100
-+++ wine-1.1.15/tools/winebuild/utils.c	2009-02-25 14:56:43.257219329 +0100
-@@ -269,13 +269,6 @@
- {
-     if (!ld_command)
-     {
--        if (target_alias)
--        {
--            ld_command = xmalloc( strlen(target_alias) + sizeof("-ld") );
--            strcpy( ld_command, target_alias );
--            strcat( ld_command, "-ld" );
--        }
--        else
-         {
-             static const char * const commands[] = { "ld", "gld", NULL };
-             if (!(ld_command = find_tool( commands ))) ld_command = xstrdup("ld");
-@@ -295,13 +288,6 @@
- {
-     if (!nm_command)
-     {
--        if (target_alias)
--        {
--            nm_command = xmalloc( strlen(target_alias) + sizeof("-nm") );
--            strcpy( nm_command, target_alias );
--            strcat( nm_command, "-nm" );
--        }
--        else
-         {
-             static const char * const commands[] = { "nm", "gnm", NULL };
-             if (!(nm_command = find_tool( commands ))) nm_command = xstrdup("nm");
