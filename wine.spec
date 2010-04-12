@@ -29,13 +29,13 @@ Summary(es.UTF-8):	Ejecuta programas Windows en Linux
 Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
-Version:	1.1.41
+Version:	1.1.42
 Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}.tar.bz2
-# Source0-md5:	6aac21d30239c2336254a46fd3c9aa2d
+# Source0-md5:	a4cd47db12a458cc0b548917d0dee64c
 Source1:	%{name}-uninstaller.desktop
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-makedep.patch
@@ -264,10 +264,6 @@ Sterownik NAS dla implementacji mm.dll (systemu multimediów) w Wine.
 %patch6 -p1
 %patch7 -p1
 
-# turn off compilation of some tools
-sed -i -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in
-#sed -i -e "s|avitools||" programs/Makefile.in
-
 %build
 %{__autoconf}
 %{__autoheader}
@@ -312,16 +308,12 @@ sed -i -e "s|winetest \\\|\\\|;s|avitools||" programs/Makefile.in
 	--with-x
 %{__make} depend
 %{__make}
-%{__make} -C programs
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_mandir}/man1,%{_aclocaldir}}
 
 %{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT
-
-%{__make} -C programs install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 install tools/fnt2bdf $RPM_BUILD_ROOT%{_bindir}
@@ -367,7 +359,7 @@ fi
 
 # /sbin/chstk -e $RPM_BUILD_ROOT%{_bindir}/wine
 
-programs="msiexec notepad regedit regsvr32 wineboot winecfg wineconsole winedbg winefile winemine winepath"
+programs="notepad regedit regsvr32 wineconsole winefile winemine winepath"
 
 BZZZ=`pwd`
 rm -f files.so;		touch files.so
