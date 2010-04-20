@@ -8,18 +8,18 @@
 -	$(DESTDIR)$(mandir)/fr.UTF-8/man$(prog_manext)
 +	$(DESTDIR)$(mandir)/de/man$(prog_manext) \
 +	$(DESTDIR)$(mandir)/fr/man$(prog_manext)
- 
+
  all: wine wine-installed $(EXTRA_BINARIES) $(MANPAGES)
- 
+
 @@ -55,11 +55,11 @@
- 
+
  install-man-pages: $(MANPAGES) $(INSTALLDIRS) dummy
  	$(INSTALL_DATA) wine.man $(DESTDIR)$(mandir)/man$(prog_manext)/wine.$(prog_manext)
 -	$(INSTALL_DATA) wine.de.man $(DESTDIR)$(mandir)/de.UTF-8/man$(prog_manext)/wine.$(prog_manext)
 -	$(INSTALL_DATA) wine.fr.man $(DESTDIR)$(mandir)/fr.UTF-8/man$(prog_manext)/wine.$(prog_manext)
 +	$(INSTALL_DATA) wine.de.man $(DESTDIR)$(mandir)/de/man$(prog_manext)/wine.$(prog_manext)
 +	$(INSTALL_DATA) wine.fr.man $(DESTDIR)$(mandir)/fr/man$(prog_manext)/wine.$(prog_manext)
- 
+
  uninstall::
  	-cd $(DESTDIR)$(bindir) && $(RM) $(MAIN_BINARY) $(EXTRA_BINARIES)
  	$(RM) $(DESTDIR)$(mandir)/man$(prog_manext)/wine.$(prog_manext)
@@ -27,25 +27,55 @@
 -	$(RM) $(DESTDIR)$(mandir)/fr.UTF-8/man$(prog_manext)/wine.$(prog_manext)
 +	$(RM) $(DESTDIR)$(mandir)/de/man$(prog_manext)/wine.$(prog_manext)
 +	$(RM) $(DESTDIR)$(mandir)/fr/man$(prog_manext)/wine.$(prog_manext)
---- wine-1.1.41/server/Makefile.in.orig	2010-03-19 20:02:16.000000000 +0100
-+++ wine-1.1.41/server/Makefile.in	2010-03-20 15:19:08.000000000 +0100
-@@ -57,7 +57,7 @@
+--- wine-1.1.43/server/Makefile.in.orig	2010-04-16 19:53:23.000000000 +0200
++++ wine-1.1.43/server/Makefile.in	2010-04-20 20:50:09.000000000 +0200
+@@ -57,8 +57,8 @@
  INSTALLDIRS = \
  	$(DESTDIR)$(bindir) \
  	$(DESTDIR)$(mandir)/man$(prog_manext) \
+-	$(DESTDIR)$(mandir)/de.UTF-8/man$(prog_manext) \
 -	$(DESTDIR)$(mandir)/fr.UTF-8/man$(prog_manext)
++	$(DESTDIR)$(mandir)/de/man$(prog_manext) \
 +	$(DESTDIR)$(mandir)/fr/man$(prog_manext)
- 
+
  all: $(PROGRAMS) $(MANPAGES)
- 
-@@ -72,8 +72,8 @@
+
+@@ -73,10 +73,10 @@
  install install-lib:: wineserver-installed $(MANPAGES) $(INSTALLDIRS)
  	$(INSTALL_PROGRAM) wineserver-installed $(DESTDIR)$(bindir)/wineserver
  	$(INSTALL_DATA) wineserver.man $(DESTDIR)$(mandir)/man$(prog_manext)/wineserver.$(prog_manext)
+-	$(INSTALL_DATA) wineserver.de.man $(DESTDIR)$(mandir)/de.UTF-8/man$(prog_manext)/wineserver.$(prog_manext)
 -	$(INSTALL_DATA) wineserver.fr.man $(DESTDIR)$(mandir)/fr.UTF-8/man$(prog_manext)/wineserver.$(prog_manext)
++	$(INSTALL_DATA) wineserver.de.man $(DESTDIR)$(mandir)/de/man$(prog_manext)/wineserver.$(prog_manext)
 +	$(INSTALL_DATA) wineserver.fr.man $(DESTDIR)$(mandir)/fr/man$(prog_manext)/wineserver.$(prog_manext)
- 
+
  uninstall::
  	$(RM) $(DESTDIR)$(bindir)/wineserver $(DESTDIR)$(mandir)/man$(prog_manext)/wineserver.$(prog_manext)
+-	$(RM) $(DESTDIR)$(mandir)/de.UTF-8/man$(prog_manext)/wineserver.$(prog_manext)
 -	$(RM) $(DESTDIR)$(mandir)/fr.UTF-8/man$(prog_manext)/wineserver.$(prog_manext)
++	$(RM) $(DESTDIR)$(mandir)/de/man$(prog_manext)/wineserver.$(prog_manext)
 +	$(RM) $(DESTDIR)$(mandir)/fr/man$(prog_manext)/wineserver.$(prog_manext)
+--- wine-1.1.43/tools/Makefile.in.orig	2010-04-20 21:03:11.000000000 +0200
++++ wine-1.1.43/tools/Makefile.in	2010-04-20 21:04:04.000000000 +0200
+@@ -38,7 +38,7 @@
+ 	$(DESTDIR)$(datadir)/applications \
+ 	$(DESTDIR)$(datadir)/wine \
+ 	$(DESTDIR)$(mandir)/man$(prog_manext) \
+-	$(DESTDIR)$(mandir)/de.UTF-8/man$(prog_manext)
++	$(DESTDIR)$(mandir)/de/man$(prog_manext)
+
+ UPDATE_DESKTOP_DATABASE = update-desktop-database
+
+@@ -84,10 +84,10 @@
+ install install-dev:: $(DESTDIR)$(bindir) $(DESTDIR)$(mandir)/man$(prog_manext)
+ 	$(INSTALL_SCRIPT) $(SRCDIR)/winemaker $(DESTDIR)$(bindir)/winemaker
+ 	$(INSTALL_DATA) winemaker.man $(DESTDIR)$(mandir)/man$(prog_manext)/winemaker.$(prog_manext)
+-	$(INSTALL_DATA) winemaker.de.man $(DESTDIR)$(mandir)/de.UTF-8/man$(prog_manext)/winemaker.$(prog_manext)
++	$(INSTALL_DATA) winemaker.de.man $(DESTDIR)$(mandir)/de/man$(prog_manext)/winemaker.$(prog_manext)
+
+ uninstall::
+-	$(RM) $(DESTDIR)$(bindir)/winemaker $(DESTDIR)$(bindir)/wineprefixcreate $(DESTDIR)$(mandir)/man$(prog_manext)/winemaker.$(prog_manext) $(DESTDIR)$(mandir)/de.UTF-8/man$(prog_manext)/winemaker.$(prog_manext) $(DESTDIR)$(mandir)/man$(prog_manext)/wineprefixcreate.$(prog_manext) $(DESTDIR)$(datadir)/wine/wine.inf $(DESTDIR)$(datadir)/applications/wine.desktop
++	$(RM) $(DESTDIR)$(bindir)/winemaker $(DESTDIR)$(bindir)/wineprefixcreate $(DESTDIR)$(mandir)/man$(prog_manext)/winemaker.$(prog_manext) $(DESTDIR)$(mandir)/de/man$(prog_manext)/winemaker.$(prog_manext) $(DESTDIR)$(mandir)/man$(prog_manext)/wineprefixcreate.$(prog_manext) $(DESTDIR)$(datadir)/wine/wine.inf $(DESTDIR)$(datadir)/applications/wine.desktop
+ 	-$(UPDATE_DESKTOP_DATABASE)
+
+ depend: makedep$(EXEEXT)
