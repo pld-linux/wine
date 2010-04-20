@@ -29,13 +29,13 @@ Summary(es.UTF-8):	Ejecuta programas Windows en Linux
 Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
-Version:	1.1.42
+Version:	1.1.43
 Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}.tar.bz2
-# Source0-md5:	a4cd47db12a458cc0b548917d0dee64c
+# Source0-md5:	78e3c8d8d39625d7959ffe070a59028d
 Source1:	%{name}-uninstaller.desktop
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-makedep.patch
@@ -46,7 +46,7 @@ Patch6:		%{name}-notarget.patch
 Patch7:		%{name}-manpaths.patch
 #PatchX:	%{name}-dga.patch
 URL:		http://www.winehq.org/
-BuildRequires:	OpenAL-devel
+BuildRequires:	OpenAL-devel >= 1.1
 BuildRequires:	OpenGL-GLU-devel
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 %{?with_arts:BuildRequires:	artsc-devel}
@@ -70,6 +70,7 @@ BuildRequires:	libgsm-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libmpg123-devel
 BuildRequires:	libtool
+BuildRequires:	libv4l-devel
 BuildRequires:	libxslt-devel
 %{?with_nas:BuildRequires:	nas-devel}
 BuildRequires:	ncurses-devel
@@ -403,16 +404,20 @@ fi
 %lang(de) %doc documentation/README.de
 %lang(es) %doc documentation/README.es
 %lang(fr) %doc documentation/README.fr
+%lang(hu) %doc documentation/README.hu
 %lang(it) %doc documentation/README.it
 %lang(ko) %doc documentation/README.ko
 %lang(nb) %doc documentation/README.no
 %lang(pt) %doc documentation/README.pt
 %lang(pt_BR) %doc documentation/README.pt_br
+%lang(ru) %doc documentation/README.ru
+%lang(sv) %doc documentation/README.sv
+%lang(tr) %doc documentation/README.tr
 %attr(755,root,root) %{_bindir}/msiexec
 %attr(755,root,root) %{_bindir}/wine
 %attr(755,root,root) %{_bindir}/wineboot
-%attr(755,root,root) %{_bindir}/winecfg
 %attr(755,root,root) %{_bindir}/winedbg
+%attr(755,root,root) %{_bindir}/winecfg
 %attr(755,root,root) %{_bindir}/wineprefixcreate
 %attr(755,root,root) %{_bindir}/wine-preloader
 %attr(755,root,root) %{_bindir}/wineserver
@@ -439,6 +444,7 @@ fi
 %{_mandir}/man1/winedbg.1*
 %{_mandir}/man1/wineprefixcreate.1*
 %{_mandir}/man1/wineserver.1*
+%lang(de) %{_mandir}/de/man1/wineserver.1*
 %lang(fr) %{_mandir}/fr/man1/wineserver.1*
 %{_winedir}
 %{_desktopdir}/wine.desktop
@@ -471,11 +477,12 @@ fi
 %{_libdir}/wine/libwinecrt0.a
 %{_includedir}/wine
 %{_mandir}/man1/widl.1*
+%{_mandir}/man1/winebuild.1*
 %{_mandir}/man1/winedump.1*
 %{_mandir}/man1/winegcc.1*
 %{_mandir}/man1/wineg++.1*
 %{_mandir}/man1/winemaker.1*
-%{_mandir}/man1/winebuild.1*
+%lang(de) %{_mandir}/de/man1/winemaker.1*
 %{_mandir}/man1/wmc.1*
 %{_mandir}/man1/wrc.1*
 %{_aclocaldir}/*.m4
