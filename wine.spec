@@ -29,13 +29,13 @@ Summary(es.UTF-8):	Ejecuta programas Windows en Linux
 Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
-Version:	1.1.43
+Version:	1.1.44
 Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}.tar.bz2
-# Source0-md5:	78e3c8d8d39625d7959ffe070a59028d
+# Source0-md5:	f18649bd71b9099fecad22436d239cba
 Source1:	%{name}-uninstaller.desktop
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-makedep.patch
@@ -418,7 +418,6 @@ fi
 %attr(755,root,root) %{_bindir}/wineboot
 %attr(755,root,root) %{_bindir}/winedbg
 %attr(755,root,root) %{_bindir}/winecfg
-%attr(755,root,root) %{_bindir}/wineprefixcreate
 %attr(755,root,root) %{_bindir}/wine-preloader
 %attr(755,root,root) %{_bindir}/wineserver
 %attr(755,root,root) %{_libdir}/*.so*
@@ -442,7 +441,6 @@ fi
 %lang(de) %{_mandir}/de/man1/wine.1*
 %lang(fr) %{_mandir}/fr/man1/wine.1*
 %{_mandir}/man1/winedbg.1*
-%{_mandir}/man1/wineprefixcreate.1*
 %{_mandir}/man1/wineserver.1*
 %lang(de) %{_mandir}/de/man1/wineserver.1*
 %lang(fr) %{_mandir}/fr/man1/wineserver.1*
