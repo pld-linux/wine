@@ -68,7 +68,7 @@ BuildRequires:	lcms-devel
 BuildRequires:	libgphoto2-devel
 BuildRequires:	libgsm-devel
 BuildRequires:	libjpeg-devel
-BuildRequires:	libmpg123-devel
+BuildRequires:	libmpg123-devel >= 1.5.0
 BuildRequires:	libtool
 BuildRequires:	libv4l-devel
 BuildRequires:	libxslt-devel
