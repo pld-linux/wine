@@ -1,6 +1,7 @@
 #
 # Conditional build:
 %bcond_without	alsa		# don't build ALSA mm driver
+%bcond_with	esd		# build ESD mm driver
 %bcond_without	jack		# don't build JACK mm driver
 %bcond_without	nas		# don't build NAS mm driver
 %bcond_without	sane		# don't build TWAIN DLL with scanning support (through SANE)
@@ -30,7 +31,7 @@ Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
 Version:	1.1.44
-Release:	1
+Release:	2
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
@@ -56,6 +57,7 @@ BuildRequires:	bison
 %{?with_cups:BuildRequires:	cups-devel}
 BuildRequires:	docbook-dtd31-sgml
 BuildRequires:	docbook-utils
+%{?with_esd:BuildRequires:	esound-devel}
 BuildRequires:	flex
 BuildRequires:	fontconfig-devel
 BuildRequires:	fontforge
@@ -276,7 +278,7 @@ Sterownik NAS dla implementacji mm.dll (systemu multimediów) w Wine.
 	--with-coreaudio \
 	--with%{!?with_cups:out}-cups \
 	--with-curses \
-	--with-esd \
+	--with%{!?with_esd:out}-esd \
 	--with-fontconfig \
 	--with-freetype \
 	--with-glu \
