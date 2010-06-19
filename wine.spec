@@ -26,7 +26,7 @@
 %undefine	with_jack
 %endif
 
-%define		_rc	rc2
+%define		_rc	rc4
 Summary:	Program that lets you launch Win applications
 Summary(es.UTF-8):	Ejecuta programas Windows en Linux
 Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
@@ -38,7 +38,7 @@ Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}-%{_rc}.tar.bz2
-# Source0-md5:	99b4511a5a005a1ef363700d482f80f1
+# Source0-md5:	761eaf2174aa1fff0b75059abf482e2f
 Source1:	%{name}-uninstaller.desktop
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-makedep.patch
