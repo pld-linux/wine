@@ -26,19 +26,18 @@
 %undefine	with_jack
 %endif
 
-%define		_rc	rc4
 Summary:	Program that lets you launch Win applications
 Summary(es.UTF-8):	Ejecuta programas Windows en Linux
 Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
 Version:	1.2
-Release:	0.%{_rc}.1
+Release:	0.1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
-Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}-%{_rc}.tar.bz2
-# Source0-md5:	761eaf2174aa1fff0b75059abf482e2f
+Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}.tar.bz2
+# Source0-md5:	eb4e5423b277fc1e77807b04f366f7b7
 Source1:	%{name}-uninstaller.desktop
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-makedep.patch
@@ -260,7 +259,7 @@ NAS driver for WINE mm.dll (multimedia system) implementation.
 Sterownik NAS dla implementacji mm.dll (systemu multimediów) w Wine.
 
 %prep
-%setup -q -n %{name}-%{version}-%{_rc}
+%setup -q
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
