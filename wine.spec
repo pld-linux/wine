@@ -32,13 +32,15 @@ Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
 Version:	1.2
-Release:	1
+Release:	2
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}.tar.bz2
 # Source0-md5:	eb4e5423b277fc1e77807b04f366f7b7
-Source1:	%{name}-uninstaller.desktop
+Source1:	http://downloads.sourceforge.net/wine/wine_gecko-1.0.0-x86.cab
+# Source1-md5:	9c5c335fc077c0558561afaf25a09e51
+Source2:	%{name}-uninstaller.desktop
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-makedep.patch
 Patch2:		%{name}-ncurses.patch
@@ -385,8 +387,11 @@ for p in $programs; do
 	mv -f files.so. files.so
 done
 
+install -d $RPM_BUILD_ROOT%{_winedir}/gecko
+install %{SOURCE1} $RPM_BUILD_ROOT%{_winedir}/gecko
+
 install -d $RPM_BUILD_ROOT%{_pixmapsdir}/wine.svg
-install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
+install %{SOURCE2} $RPM_BUILD_ROOT%{_desktopdir}
 install programs/winetest/winetest.svg $RPM_BUILD_ROOT%{_pixmapsdir}/wine.svg
 
 %clean
