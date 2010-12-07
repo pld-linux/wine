@@ -31,13 +31,13 @@ Summary(es.UTF-8):	Ejecuta programas Windows en Linux
 Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
-Version:	1.2.1
+Version:	1.2.2
 Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}.tar.bz2
-# Source0-md5:	efea24c69d058b0954da3e538ca52ec8
+# Source0-md5:	e976d64688e0833061e79efa3eac5d2c
 Source1:	http://downloads.sourceforge.net/wine/wine_gecko-1.0.0-x86.cab
 # Source1-md5:	9c5c335fc077c0558561afaf25a09e51
 Source2:	%{name}-uninstaller.desktop
@@ -383,6 +383,7 @@ cd -
 for p in $programs; do
 	echo "%attr(755,root,root) %{_bindir}/$p" >> files.programs
 	echo "%attr(755,root,root) %{_libdir}/wine/$p.exe.so" >> files.programs
+	echo "%{_mandir}/man1/$p.1*" >> files.programs
 	grep -v "$p\.exe\.so$" files.so > files.so.
 	mv -f files.so. files.so
 done
@@ -446,6 +447,9 @@ fi
 %{_libdir}/wine/fakedlls/*.tlb
 %{_libdir}/wine/fakedlls/*.vxd
 %{_mandir}/man1/wine.1*
+%{_mandir}/man1/msiexec.1*
+%{_mandir}/man1/wineboot.1*
+%{_mandir}/man1/winecfg.1*
 %lang(de) %{_mandir}/de/man1/wine.1*
 %lang(fr) %{_mandir}/fr/man1/wine.1*
 %{_mandir}/man1/winedbg.1*
@@ -484,6 +488,7 @@ fi
 %{_includedir}/wine
 %{_mandir}/man1/widl.1*
 %{_mandir}/man1/winebuild.1*
+%{_mandir}/man1/winecpp.1*
 %{_mandir}/man1/winedump.1*
 %{_mandir}/man1/winegcc.1*
 %{_mandir}/man1/wineg++.1*
