@@ -32,13 +32,13 @@ Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
 Version:	1.2.2
-Release:	1
+Release:	2
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}.tar.bz2
 # Source0-md5:	e976d64688e0833061e79efa3eac5d2c
-Source1:	http://downloads.sourceforge.net/wine/wine_gecko-1.0.0-x86.cab
+Source1:	http://downloads.sourceforge.net/wine/%{name}_gecko-1.0.0-x86.cab
 # Source1-md5:	9c5c335fc077c0558561afaf25a09e51
 Source2:	%{name}-uninstaller.desktop
 Patch0:		%{name}-fontcache.patch
@@ -68,6 +68,7 @@ BuildRequires:	freetype-devel >= 2.0.5
 BuildRequires:	giflib-devel
 BuildRequires:	gnutls-devel
 BuildRequires:	hal-devel
+BuildRequires:	icoutils
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
 BuildRequires:	lcms-devel
 BuildRequires:	libgphoto2-devel
@@ -271,6 +272,9 @@ Sterownik NAS dla implementacji mm.dll (systemu multimediów) w Wine.
 %patch7 -p1
 
 %build
+icotool -x --width=32 --height=32 --bit-depth=32 -o . dlls/user32/resources/oic_winlogo.ico
+mv -f oic_winlogo_*.png %{name}.png
+
 %{__autoconf}
 %{__autoheader}
 %configure \
@@ -318,13 +322,11 @@ Sterownik NAS dla implementacji mm.dll (systemu multimediów) w Wine.
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_mandir}/man1,%{_aclocaldir}}
-
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install tools/fnt2bdf $RPM_BUILD_ROOT%{_bindir}
-
-install aclocal.m4 $RPM_BUILD_ROOT%{_aclocaldir}/wine.m4
+install -p tools/fnt2bdf $RPM_BUILD_ROOT%{_bindir}
+cp -a aclocal.m4 $RPM_BUILD_ROOT%{_aclocaldir}/wine.m4
 
 install -d \
 	$RPM_BUILD_ROOT%{_winedir}/windows/{system,Desktop,Favorites,Fonts} \
@@ -365,21 +367,21 @@ fi
 
 # /sbin/chstk -e $RPM_BUILD_ROOT%{_bindir}/wine
 
-programs="notepad regedit regsvr32 wineconsole winefile winemine winepath"
-
-BZZZ=`pwd`
-rm -f files.so;		touch files.so
-rm -f files.programs;	touch files.programs
+dir=$(pwd)
+> files.so
+> files.programs
 cd $RPM_BUILD_ROOT%{_libdir}/wine
 for f in *.so; do
 	case $f in
-		d3d8.dll.so|d3d9.dll.so|d3dx8.dll.so|glu32.dll.so|opengl32.dll.so|sane.ds.so|twain.dll.so|twain_32.dll.so|winealsa.drv.so|winejack.drv.so|winenas.drv.so)
-			;;
-		*)
-			echo "%attr(755,root,root) %{_libdir}/wine/$f" >>$BZZZ/files.so
+	d3d8.dll.so|d3d9.dll.so|d3dx8.dll.so|glu32.dll.so|opengl32.dll.so|sane.ds.so|twain.dll.so|twain_32.dll.so|winealsa.drv.so|winejack.drv.so|winenas.drv.so)
+		;;
+	*)
+		echo "%attr(755,root,root) %{_libdir}/wine/$f" >> $dir/files.so
 	esac
 done
 cd -
+
+programs="notepad regedit regsvr32 wineconsole winefile winemine winepath"
 for p in $programs; do
 	echo "%attr(755,root,root) %{_bindir}/$p" >> files.programs
 	echo "%attr(755,root,root) %{_libdir}/wine/$p.exe.so" >> files.programs
@@ -389,11 +391,11 @@ for p in $programs; do
 done
 
 install -d $RPM_BUILD_ROOT%{_winedir}/gecko
-install %{SOURCE1} $RPM_BUILD_ROOT%{_winedir}/gecko
+cp -a %{SOURCE1} $RPM_BUILD_ROOT%{_winedir}/gecko
 
-install -d $RPM_BUILD_ROOT%{_pixmapsdir}/wine.svg
-install %{SOURCE2} $RPM_BUILD_ROOT%{_desktopdir}
-install programs/winetest/winetest.svg $RPM_BUILD_ROOT%{_pixmapsdir}/wine.svg
+install -d $RPM_BUILD_ROOT%{_pixmapsdir}
+cp -a %{SOURCE2} $RPM_BUILD_ROOT%{_desktopdir}
+cp -a %{name}.png $RPM_BUILD_ROOT%{_pixmapsdir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -459,7 +461,7 @@ fi
 %{_winedir}
 %{_desktopdir}/wine.desktop
 %{_desktopdir}/wine-uninstaller.desktop
-%{_pixmapsdir}/wine.svg
+%{_pixmapsdir}/%{name}.png
 
 %files programs -f files.programs
 %defattr(644,root,root,755)
