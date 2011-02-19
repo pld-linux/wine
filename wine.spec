@@ -32,7 +32,7 @@ Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
 Version:	1.2.2
-Release:	2
+Release:	3
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
@@ -113,7 +113,7 @@ Suggests:	samba-common >= 1:3.0.25
 Provides:	libntdll.dll.so
 Obsoletes:	wine-doc-pdf
 Obsoletes:	wine-drv-arts
-ExclusiveArch:	%{ix86}
+ExclusiveArch:	%{ix86} %{x8664}
 ExcludeArch:	i386
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -280,6 +280,9 @@ mv -f oic_winlogo_*.png %{name}.png
 %{__autoconf}
 %{__autoheader}
 %configure \
+%ifarch %{x8664}
+	--enable-win64 \
+%endif
 	--with%{!?with_alsa:out}-alsa \
 	--with-audioio \
 	--without-capi \
@@ -427,29 +430,35 @@ fi
 %lang(sv) %doc documentation/README.sv
 %lang(tr) %doc documentation/README.tr
 %attr(755,root,root) %{_bindir}/msiexec
-%attr(755,root,root) %{_bindir}/wine
 %attr(755,root,root) %{_bindir}/wineboot
 %attr(755,root,root) %{_bindir}/winedbg
 %attr(755,root,root) %{_bindir}/winecfg
-%attr(755,root,root) %{_bindir}/wine-preloader
 %attr(755,root,root) %{_bindir}/wineserver
+%ifarch %{x8664}
+%attr(755,root,root) %{_bindir}/wine64
+%else
+%attr(755,root,root) %{_bindir}/wine
+%attr(755,root,root) %{_bindir}/wine-preloader
+%endif
 %attr(755,root,root) %{_libdir}/*.so*
 %dir %{_libdir}/wine
 %dir %{_libdir}/wine/fakedlls
 %{_libdir}/wine/fakedlls/*.acm
 %{_libdir}/wine/fakedlls/*.cpl
 %{_libdir}/wine/fakedlls/*.dll
-%{_libdir}/wine/fakedlls/*.dll16
 %{_libdir}/wine/fakedlls/*.drv
-%{_libdir}/wine/fakedlls/*.drv16
 %{_libdir}/wine/fakedlls/*.ds
 %{_libdir}/wine/fakedlls/*.exe
-%{_libdir}/wine/fakedlls/*.exe16
-%{_libdir}/wine/fakedlls/*.mod16
 %{_libdir}/wine/fakedlls/*.ocx
 %{_libdir}/wine/fakedlls/*.sys
 %{_libdir}/wine/fakedlls/*.tlb
+%ifarch %{ix86}
+%{_libdir}/wine/fakedlls/*.dll16
+%{_libdir}/wine/fakedlls/*.drv16
+%{_libdir}/wine/fakedlls/*.exe16
+%{_libdir}/wine/fakedlls/*.mod16
 %{_libdir}/wine/fakedlls/*.vxd
+%endif
 %{_mandir}/man1/wine.1*
 %{_mandir}/man1/msiexec.1*
 %{_mandir}/man1/wineboot.1*
