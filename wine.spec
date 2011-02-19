@@ -99,7 +99,11 @@ BuildRequires:	xorg-lib-libXrandr-devel
 BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	xorg-lib-libXxf86dga-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
+%ifarch %{x8664}
+Requires:	libfreetype.so.6()(64bit)
+%else
 Requires:	libfreetype.so.6
+%endif
 Suggests:	binfmt-detector
 Suggests:	ca-certificates
 Conflicts:	ca-certificates < 20080809-4
