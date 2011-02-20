@@ -32,7 +32,7 @@ Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
 Version:	1.2.2
-Release:	3
+Release:	4
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
@@ -245,7 +245,11 @@ Group:		Applications/Emulators
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 Requires:	jack-audio-connection-kit
 # dlopened by SONAME detected at build time
+%ifarch %{x8664}
+%{?with_jack:Requires:  %{getsoname /usr/%{_lib}/libjack.so}()(64bit)}
+%else
 %{?with_jack:Requires:	%{getsoname /usr/%{_lib}/libjack.so}}
+%endif
 
 %description drv-jack
 JACK driver for WINE mm.dll (multimedia system) implementation.
