@@ -46,9 +46,8 @@ Patch1:		%{name}-makedep.patch
 Patch2:		%{name}-ncurses.patch
 Patch4:		%{name}-disable-valgrind.patch
 Patch5:		%{name}-ca_certificates.patch
-Patch6:		%{name}-notarget.patch
-Patch7:		%{name}-manpaths.patch
-Patch8:		desktop.patch
+Patch6:		%{name}-manpaths.patch
+Patch7:		desktop.patch
 #PatchX:	%{name}-dga.patch
 URL:		http://www.winehq.org/
 BuildRequires:	OpenAL-devel >= 1.1
@@ -279,7 +278,6 @@ Sterownik NAS dla implementacji mm.dll (systemu multimediów) w Wine.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
-%patch8 -p1
 
 %build
 icotool -x --width=32 --height=32 --bit-depth=32 -o . dlls/user32/resources/oic_winlogo.ico
