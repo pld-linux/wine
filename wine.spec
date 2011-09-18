@@ -32,7 +32,7 @@ Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
 Version:	1.2.3
-Release:	1
+Release:	2
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
@@ -103,6 +103,7 @@ Requires:	libfreetype.so.6()(64bit)
 %else
 Requires:	libfreetype.so.6
 %endif
+Requires(post):	/sbin/ldconfig
 Suggests:	binfmt-detector
 Suggests:	ca-certificates
 Conflicts:	ca-certificates < 20080809-4
@@ -411,7 +412,10 @@ cp -a %{name}.png $RPM_BUILD_ROOT%{_pixmapsdir}
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post	-p /sbin/ldconfig
+%post
+ /sbin/ldconfig
+%update_desktop_database
+
 %postun -p /sbin/ldconfig
 
 %triggerpostun -- wine < 1:0.9.12-1.9
