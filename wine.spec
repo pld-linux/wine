@@ -5,6 +5,7 @@
 %bcond_without	jack		# don't build JACK mm driver
 %bcond_without	nas		# don't build NAS mm driver
 %bcond_without	sane		# don't build TWAIN DLL with scanning support (through SANE)
+%bcond_without	ldap		# don't build LDAP DLL
 %bcond_without	cups		# without CUPS printing support in winspool,wineps DLLs
 #
 # TODO:
@@ -32,7 +33,7 @@ Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
 Version:	1.2.3
-Release:	2
+Release:	3
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
@@ -82,7 +83,7 @@ BuildRequires:	libxslt-devel
 BuildRequires:	ncurses-devel
 # db2* failed previously - probably openjade or opensp bug
 BuildRequires:	openjade >= 1:1.3.3-0.pre1
-BuildRequires:	openldap-devel
+%{?with_ldap:BuildRequires:	openldap-devel}
 BuildRequires:	opensp >= 1:1.5.1
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	pkgconfig
@@ -226,6 +227,14 @@ TWAIN implementation DLL for Wine (through SANE).
 %description dll-twain -l pl.UTF-8
 Biblioteka DLL z implementacją TWAIN dla Wine (poprzez SANE).
 
+%package dll-ldap
+Summary:	Win32 LDAP API DLL for Wine.
+Group:		Applications/Emulators
+Requires:	%{name} = %{epoch}:%{version}-%{release}
+
+%description dll-ldap
+Lightweight Directory Access Protocol Library.
+
 %package drv-alsa
 Summary:	ALSA driver for WINE mm.dll implementation
 Summary(pl.UTF-8):	Sterownik ALSA dla implementacji mm.dll w Wine
@@ -307,7 +316,7 @@ mv -f oic_winlogo_*.png %{name}.png
 	--with-hal \
 	--with%{!?with_jack:out}-jack \
 	--with-jpeg \
-	--with-ldap \
+	--with%{!?with_ldap:out}-ldap \
 	--with-mpg123 \
 	--with%{!?with_nas:out}-nas \
 	--with-opengl \
@@ -385,7 +394,7 @@ dir=$(pwd)
 cd $RPM_BUILD_ROOT%{_libdir}/wine
 for f in *.so; do
 	case $f in
-	d3d8.dll.so|d3d9.dll.so|d3dx8.dll.so|glu32.dll.so|opengl32.dll.so|sane.ds.so|twain.dll.so|twain_32.dll.so|winealsa.drv.so|winejack.drv.so|winenas.drv.so)
+	d3d8.dll.so|d3d9.dll.so|d3dx8.dll.so|glu32.dll.so|opengl32.dll.so|sane.ds.so|twain.dll.so|twain_32.dll.so|winealsa.drv.so|winejack.drv.so|winenas.drv.so|wldap32.dll.so)
 		;;
 	*)
 		echo "%attr(755,root,root) %{_libdir}/wine/$f" >> $dir/files.so
@@ -538,6 +547,12 @@ fi
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/wine/sane.ds.so
 %attr(755,root,root) %{_libdir}/wine/twain*.dll.so
+%endif
+
+%if %{with ldap}
+%files dll-ldap
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/wine/wldap*.dll.so
 %endif
 
 %if %{with alsa}
