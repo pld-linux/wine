@@ -68,7 +68,6 @@ BuildRequires:	fontforge
 BuildRequires:	freetype-devel >= 2.0.5
 BuildRequires:	giflib-devel
 BuildRequires:	gnutls-devel
-BuildRequires:	hal-devel
 BuildRequires:	icoutils
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
 BuildRequires:	lcms-devel
@@ -313,7 +312,6 @@ mv -f oic_winlogo_*.png %{name}.png
 	--with-gnutls \
 	--with-gphoto \
 	--with-gsm \
-	--with-hal \
 	--with%{!?with_jack:out}-jack \
 	--with-jpeg \
 	--with%{!?with_ldap:out}-ldap \
