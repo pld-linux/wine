@@ -1,15 +1,11 @@
 #
 # Conditional build:
 %bcond_without	alsa		# don't build ALSA mm driver
-%bcond_with	esd		# build ESD mm driver
-%bcond_without	jack		# don't build JACK mm driver
-%bcond_without	nas		# don't build NAS mm driver
+%bcond_without	capi		# don't build CAPI 2.0 (ISDN) support
+%bcond_without	gstreamer	# don't build GStreamer filters support
 %bcond_without	sane		# don't build TWAIN DLL with scanning support (through SANE)
 %bcond_without	ldap		# don't build LDAP DLL
 %bcond_without	cups		# without CUPS printing support in winspool,wineps DLLs
-#
-# TODO:
-# - support for CAPI (ISDN support; --with-capi)
 #
 # NOTE: wine detects the following SONAMES for dlopen at build time:
 #   libcrypto,libssl (wininet.dll)
@@ -18,30 +14,27 @@
 #   libfontconfig (gdi32.dll.so)
 #   libfreetype (wineps.dll.so,gdi32.dll.so)
 #   libGL (x11drv.dll.so,ddraw.dll.so)
-#   libjack (winejack.drv.so - explicit dependency in subpackage)
 #   libX11, libXext, libXi, libXrender (x11drv.dll.so)
 # thus requires rebuild after change of any of the above.
 #
-# JACK requires ALSA
-%if %{without alsa}
-%undefine	with_jack
-%endif
-
+%define		gecko_ver	1.4
 Summary:	Program that lets you launch Win applications
 Summary(es.UTF-8):	Ejecuta programas Windows en Linux
 Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
-Version:	1.2.3
-Release:	3
+Version:	1.4
+Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
-Source0:	http://ibiblio.org/pub/linux/system/emulators/wine/%{name}-%{version}.tar.bz2
-# Source0-md5:	a18ca677d1e01d1596d6692a8f3997e5
-Source1:	http://downloads.sourceforge.net/wine/%{name}_gecko-1.0.0-x86.cab
-# Source1-md5:	9c5c335fc077c0558561afaf25a09e51
-Source2:	%{name}-uninstaller.desktop
+Source0:	http://downloads.sourceforge.net/wine/%{name}-%{version}.tar.bz2
+# Source0-md5:	6594ab86a4b1fb2c09dadfb4ea7fc4af
+Source1:	http://downloads.sourceforge.net/wine/%{name}_gecko-%{gecko_ver}-x86.msi
+# Source1-md5:	700aaa08724be1992cffed7b87e79a44
+Source2:	http://downloads.sourceforge.net/wine/%{name}_gecko-%{gecko_ver}-x86_64.msi
+# Source2-md5:	7b4811f667fd01d300fdff68420a9c72
+Source3:	%{name}-uninstaller.desktop
 Patch0:		%{name}-fontcache.patch
 Patch1:		%{name}-makedep.patch
 Patch2:		%{name}-ncurses.patch
@@ -49,7 +42,6 @@ Patch4:		%{name}-disable-valgrind.patch
 Patch5:		%{name}-ca_certificates.patch
 Patch6:		%{name}-manpaths.patch
 Patch7:		desktop.patch
-#PatchX:	%{name}-dga.patch
 URL:		http://www.winehq.org/
 BuildRequires:	OpenAL-devel >= 1.1
 BuildRequires:	OpenGL-GLU-devel
@@ -58,18 +50,19 @@ BuildRequires:	OpenGL-GLU-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
+%{?with_capi:BuildRequires:	capi4k-utils-devel}
 %{?with_cups:BuildRequires:	cups-devel}
 BuildRequires:	docbook-dtd31-sgml
 BuildRequires:	docbook-utils
-%{?with_esd:BuildRequires:	esound-devel}
 BuildRequires:	flex
 BuildRequires:	fontconfig-devel
 BuildRequires:	fontforge
 BuildRequires:	freetype-devel >= 2.0.5
+BuildRequires:	gettext-devel
 BuildRequires:	giflib-devel
 BuildRequires:	gnutls-devel
+%{?with_gstreamer:BuildRequires:	gstreamer-plugins-base-devel}
 BuildRequires:	icoutils
-%{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
 BuildRequires:	lcms-devel
 BuildRequires:	libgphoto2-devel
 BuildRequires:	libgsm-devel
@@ -78,7 +71,6 @@ BuildRequires:	libmpg123-devel >= 1.5.0
 BuildRequires:	libtool
 BuildRequires:	libv4l-devel
 BuildRequires:	libxslt-devel
-%{?with_nas:BuildRequires:	nas-devel}
 BuildRequires:	ncurses-devel
 # db2* failed previously - probably openjade or opensp bug
 BuildRequires:	openjade >= 1:1.3.3-0.pre1
@@ -86,6 +78,7 @@ BuildRequires:	openjade >= 1:1.3.3-0.pre1
 BuildRequires:	opensp >= 1:1.5.1
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	pkgconfig
+BuildRequires:	prelink
 %{?with_sane:BuildRequires:	sane-backends-devel}
 BuildRequires:	unixODBC-devel >= 2.2.12-2
 #BuildRequires:	valgrind
@@ -98,14 +91,11 @@ BuildRequires:	xorg-lib-libXrandr-devel
 BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	xorg-lib-libXxf86dga-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
-%ifarch %{x8664}
-Requires:	libfreetype.so.6()(64bit)
-%else
 Requires:	libfreetype.so.6
-%endif
 Requires(post):	/sbin/ldconfig
 Suggests:	binfmt-detector
 Suggests:	ca-certificates
+Suggests:	cabextract
 Conflicts:	ca-certificates < 20080809-4
 # for printing needs lpr
 Suggests:	cups-clients
@@ -117,6 +107,8 @@ Suggests:	samba-common >= 1:3.0.25
 Provides:	libntdll.dll.so
 Obsoletes:	wine-doc-pdf
 Obsoletes:	wine-drv-arts
+Obsoletes:	wine-drv-jack
+Obsoletes:	wine-drv-nas
 ExclusiveArch:	%{ix86} %{x8664}
 ExcludeArch:	i386
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -188,6 +180,19 @@ Wine - programs.
 %description programs -l pl.UTF-8
 Wine - programy.
 
+%package dll-capi
+Summary:	CAPI 2.0 (ISDN) implementation DLLs for Wine
+Summary(pl.UTF-8):	Biblioteki DLL z implementacją CAPI 2.0 (ISDN) dla Wine
+Group:		Applications/Emulators
+Requires:	%{name} = %{epoch}:%{version}-%{release}
+
+%description dll-capi
+CAPI 2.0 (ISDN) implementation DLLs for Wine (through OpenGL).
+
+%description dll-capi -l pl.UTF-8
+Biblioteki DLL z implementacją CAPI 2.0 (ISDN) dla Wine (poprzez
+OpenGL).
+
 %package dll-d3d
 Summary:	Direct3D implementation DLLs for Wine
 Summary(pl.UTF-8):	Biblioteki DLL z implementacją Direct3D dla Wine
@@ -246,40 +251,8 @@ ALSA driver for WINE mm.dll (multimedia system) implementation.
 %description drv-alsa -l pl.UTF-8
 Sterownik ALSA dla implementacji mm.dll (systemu multimediów) w Wine.
 
-%package drv-jack
-Summary:	JACK driver for WINE mm.dll implementation
-Summary(pl.UTF-8):	Sterownik JACK-a dla implementacji mm.dll w Wine
-Group:		Applications/Emulators
-Requires:	%{name} = %{epoch}:%{version}-%{release}
-Requires:	jack-audio-connection-kit
-# dlopened by SONAME detected at build time
-%ifarch %{x8664}
-%{?with_jack:Requires:  %{getsoname /usr/%{_lib}/libjack.so}()(64bit)}
-%else
-%{?with_jack:Requires:	%{getsoname /usr/%{_lib}/libjack.so}}
-%endif
-
-%description drv-jack
-JACK driver for WINE mm.dll (multimedia system) implementation.
-
-%description drv-jack -l pl.UTF-8
-Sterownik JACK-a dla implementacji mm.dll (systemu multimediów) w
-Wine.
-
-%package drv-nas
-Summary:	NAS driver for WINE mm.dll implementation
-Summary(pl.UTF-8):	Sterownik NAS dla implementacji mm.dll w Wine
-Group:		Applications/Emulators
-Requires:	%{name} = %{epoch}:%{version}-%{release}
-
-%description drv-nas
-NAS driver for WINE mm.dll (multimedia system) implementation.
-
-%description drv-nas -l pl.UTF-8
-Sterownik NAS dla implementacji mm.dll (systemu multimediów) w Wine.
-
 %prep
-%setup -q
+%setup -q -n %{name}-%{version}
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -299,24 +272,21 @@ mv -f oic_winlogo_*.png %{name}.png
 	--enable-win64 \
 %endif
 	--with%{!?with_alsa:out}-alsa \
-	--with-audioio \
-	--without-capi \
+	--with%{!?with_capi:out}-capi \
 	--with-cms \
 	--with-coreaudio \
 	--with%{!?with_cups:out}-cups \
 	--with-curses \
-	--with%{!?with_esd:out}-esd \
 	--with-fontconfig \
 	--with-freetype \
 	--with-glu \
 	--with-gnutls \
 	--with-gphoto \
 	--with-gsm \
-	--with%{!?with_jack:out}-jack \
+	--with%{!?with_gstreamer:out}-gstreamer \
 	--with-jpeg \
 	--with%{!?with_ldap:out}-ldap \
 	--with-mpg123 \
-	--with%{!?with_nas:out}-nas \
 	--with-opengl \
 	--with-openssl \
 	--with-oss \
@@ -392,7 +362,7 @@ dir=$(pwd)
 cd $RPM_BUILD_ROOT%{_libdir}/wine
 for f in *.so; do
 	case $f in
-	d3d8.dll.so|d3d9.dll.so|d3dx8.dll.so|glu32.dll.so|opengl32.dll.so|sane.ds.so|twain.dll.so|twain_32.dll.so|winealsa.drv.so|winejack.drv.so|winenas.drv.so|wldap32.dll.so)
+	d3d8.dll.so|d3d9.dll.so|d3dx8.dll.so|glu32.dll.so|opengl32.dll.so|sane.ds.so|twain.dll.so|twain_32.dll.so|winealsa.drv.so|wldap32.dll.so)
 		;;
 	*)
 		echo "%attr(755,root,root) %{_libdir}/wine/$f" >> $dir/files.so
@@ -410,10 +380,14 @@ for p in $programs; do
 done
 
 install -d $RPM_BUILD_ROOT%{_winedir}/gecko
+%ifnarch %{x8664}
 cp -a %{SOURCE1} $RPM_BUILD_ROOT%{_winedir}/gecko
+%else
+cp -a %{SOURCE2} $RPM_BUILD_ROOT%{_winedir}/gecko
+%endif
 
 install -d $RPM_BUILD_ROOT%{_pixmapsdir}
-cp -a %{SOURCE2} $RPM_BUILD_ROOT%{_desktopdir}
+cp -a %{SOURCE3} $RPM_BUILD_ROOT%{_desktopdir}
 cp -a %{name}.png $RPM_BUILD_ROOT%{_pixmapsdir}
 
 %clean
@@ -447,45 +421,54 @@ fi
 %lang(sv) %doc documentation/README.sv
 %lang(tr) %doc documentation/README.tr
 %attr(755,root,root) %{_bindir}/msiexec
+%ifnarch %{x8664}
+%attr(755,root,root) %{_bindir}/wine
+%else
+%attr(755,root,root) %{_bindir}/wine64
+%endif
 %attr(755,root,root) %{_bindir}/wineboot
 %attr(755,root,root) %{_bindir}/winedbg
 %attr(755,root,root) %{_bindir}/winecfg
-%attr(755,root,root) %{_bindir}/wineserver
-%ifarch %{x8664}
-%attr(755,root,root) %{_bindir}/wine64
-%else
-%attr(755,root,root) %{_bindir}/wine
+%ifnarch %{x8664}
 %attr(755,root,root) %{_bindir}/wine-preloader
+%else
+%attr(755,root,root) %{_bindir}/wine64-preloader
 %endif
+%attr(755,root,root) %{_bindir}/wineserver
 %attr(755,root,root) %{_libdir}/*.so*
 %dir %{_libdir}/wine
 %dir %{_libdir}/wine/fakedlls
 %{_libdir}/wine/fakedlls/*.acm
 %{_libdir}/wine/fakedlls/*.cpl
 %{_libdir}/wine/fakedlls/*.dll
+%ifarch %{ix86}
+%{_libdir}/wine/fakedlls/*.dll16
+%endif
 %{_libdir}/wine/fakedlls/*.drv
+%ifarch %{ix86}
+%{_libdir}/wine/fakedlls/*.drv16
+%endif
 %{_libdir}/wine/fakedlls/*.ds
 %{_libdir}/wine/fakedlls/*.exe
+%ifarch %{ix86}
+%{_libdir}/wine/fakedlls/*.exe16
+%{_libdir}/wine/fakedlls/*.mod16
+%endif
 %{_libdir}/wine/fakedlls/*.ocx
 %{_libdir}/wine/fakedlls/*.sys
 %{_libdir}/wine/fakedlls/*.tlb
 %ifarch %{ix86}
-%{_libdir}/wine/fakedlls/*.dll16
-%{_libdir}/wine/fakedlls/*.drv16
-%{_libdir}/wine/fakedlls/*.exe16
-%{_libdir}/wine/fakedlls/*.mod16
 %{_libdir}/wine/fakedlls/*.vxd
 %endif
 %{_mandir}/man1/wine.1*
+%lang(de) %{_mandir}/de/man1/wine*.1*
+%lang(fr) %{_mandir}/fr/man1/wine*.1*
+%lang(pl) %{_mandir}/pl/man1/wine*.1*
 %{_mandir}/man1/msiexec.1*
 %{_mandir}/man1/wineboot.1*
 %{_mandir}/man1/winecfg.1*
-%lang(de) %{_mandir}/de/man1/wine.1*
-%lang(fr) %{_mandir}/fr/man1/wine.1*
 %{_mandir}/man1/winedbg.1*
 %{_mandir}/man1/wineserver.1*
-%lang(de) %{_mandir}/de/man1/wineserver.1*
-%lang(fr) %{_mandir}/fr/man1/wineserver.1*
 %{_winedir}
 %{_desktopdir}/wine.desktop
 %{_desktopdir}/wine-uninstaller.desktop
@@ -512,6 +495,7 @@ fi
 %{_libdir}/wine/lib*.def.a
 %{_libdir}/wine/libadsiid.a
 %{_libdir}/wine/libdx*.a
+%{_libdir}/wine/libstrmbase.a
 %{_libdir}/wine/libstrmiids.a
 %{_libdir}/wine/libuuid.a
 %{_libdir}/wine/libwinecrt0.a
@@ -528,6 +512,10 @@ fi
 %{_mandir}/man1/wmc.1*
 %{_mandir}/man1/wrc.1*
 %{_aclocaldir}/*.m4
+
+%files dll-capi
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/wine/capi2032.dll.so
 
 %files dll-d3d
 %defattr(644,root,root,755)
@@ -557,18 +545,6 @@ fi
 %files drv-alsa
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/wine/winealsa.drv.so
-%endif
-
-%if %{with jack}
-%files drv-jack
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/wine/winejack.drv.so
-%endif
-
-%if %{with nas}
-%files drv-nas
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/wine/winenas.drv.so
 %endif
 
 # additional dependencies in *.so not separated (yet?) from main package
