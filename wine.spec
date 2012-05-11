@@ -18,6 +18,13 @@
 #   libpng (windowscodecs.dll: SONAME_LIBPNG in dlls/windowscodecs/pngformat.c)
 # thus requires rebuild after change of any of the above.
 
+# library qualifier in rpm generated deps
+%ifarch %{x8664} ia64 ppc64 s390x sparc64
+%define	libqual ()(64bit)
+%else
+%define	libqual %{nil}
+%endif
+
 %define		gecko_ver	1.4
 Summary:	Program that lets you launch Win applications
 Summary(es.UTF-8):	Ejecuta programas Windows en Linux
@@ -93,8 +100,8 @@ BuildRequires:	xorg-lib-libXrandr-devel
 BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	xorg-lib-libXxf86dga-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
-Requires:	libfreetype.so.6
-Requires:	libpng15.so.15
+Requires:	libfreetype.so.6%{libqual}
+Requires:	libpng15.so.15%{libqual}
 Requires(post):	/sbin/ldconfig
 Suggests:	binfmt-detector
 Suggests:	ca-certificates
