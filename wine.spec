@@ -473,7 +473,7 @@ fi
 %{_mandir}/man1/wine.1*
 %lang(de) %{_mandir}/de/man1/wine*.1*
 %lang(fr) %{_mandir}/fr/man1/wine*.1*
-%lang(pl) %{_mandir}/pl/man1/wine*.1*
+#%lang(pl) %{_mandir}/pl/man1/wine*.1*
 %{_mandir}/man1/msiexec.1*
 %{_mandir}/man1/wineboot.1*
 %{_mandir}/man1/winecfg.1*
