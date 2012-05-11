@@ -15,8 +15,9 @@
 #   libfreetype (wineps.dll.so,gdi32.dll.so)
 #   libGL (x11drv.dll.so,ddraw.dll.so)
 #   libX11, libXext, libXi, libXrender (x11drv.dll.so)
+#   libpng (windowscodecs.dll: SONAME_LIBPNG in dlls/windowscodecs/pngformat.c)
 # thus requires rebuild after change of any of the above.
-#
+
 %define		gecko_ver	1.4
 Summary:	Program that lets you launch Win applications
 Summary(es.UTF-8):	Ejecuta programas Windows en Linux
@@ -73,6 +74,7 @@ BuildRequires:	libv4l-devel
 BuildRequires:	libxslt-devel
 BuildRequires:	ncurses-devel
 # db2* failed previously - probably openjade or opensp bug
+BuildRequires:	libpng-devel >= 1.5
 BuildRequires:	openjade >= 1:1.3.3-0.pre1
 %{?with_ldap:BuildRequires:	openldap-devel}
 BuildRequires:	opensp >= 1:1.5.1
@@ -92,6 +94,7 @@ BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	xorg-lib-libXxf86dga-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
 Requires:	libfreetype.so.6
+Requires:	libpng15.so.15
 Requires(post):	/sbin/ldconfig
 Suggests:	binfmt-detector
 Suggests:	ca-certificates
@@ -232,7 +235,7 @@ TWAIN implementation DLL for Wine (through SANE).
 Biblioteka DLL z implementacją TWAIN dla Wine (poprzez SANE).
 
 %package dll-ldap
-Summary:	Win32 LDAP API DLL for Wine.
+Summary:	Win32 LDAP API DLL for Wine
 Group:		Applications/Emulators
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
@@ -252,7 +255,7 @@ ALSA driver for WINE mm.dll (multimedia system) implementation.
 Sterownik ALSA dla implementacji mm.dll (systemu multimediów) w Wine.
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -381,20 +384,20 @@ done
 
 install -d $RPM_BUILD_ROOT%{_winedir}/gecko
 %ifnarch %{x8664}
-cp -a %{SOURCE1} $RPM_BUILD_ROOT%{_winedir}/gecko
+cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_winedir}/gecko
 %else
-cp -a %{SOURCE2} $RPM_BUILD_ROOT%{_winedir}/gecko
+cp -p %{SOURCE2} $RPM_BUILD_ROOT%{_winedir}/gecko
 %endif
 
 install -d $RPM_BUILD_ROOT%{_pixmapsdir}
-cp -a %{SOURCE3} $RPM_BUILD_ROOT%{_desktopdir}
-cp -a %{name}.png $RPM_BUILD_ROOT%{_pixmapsdir}
+cp -p %{SOURCE3} $RPM_BUILD_ROOT%{_desktopdir}
+cp -p %{name}.png $RPM_BUILD_ROOT%{_pixmapsdir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post
- /sbin/ldconfig
+/sbin/ldconfig
 %update_desktop_database
 
 %postun -p /sbin/ldconfig
