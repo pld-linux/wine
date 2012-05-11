@@ -66,6 +66,7 @@ BuildRequires:	flex
 BuildRequires:	fontconfig-devel
 BuildRequires:	fontforge
 BuildRequires:	freetype-devel >= 2.0.5
+BuildRequires:	fslint
 BuildRequires:	gettext-devel
 BuildRequires:	giflib-devel
 BuildRequires:	gnutls-devel
@@ -323,6 +324,8 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_mandir}/man1,%{_aclocaldir}}
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
+
+findup -m $RPM_BUILD_ROOT%{_winedir}/fakedlls
 
 install -p tools/fnt2bdf $RPM_BUILD_ROOT%{_bindir}
 cp -a aclocal.m4 $RPM_BUILD_ROOT%{_aclocaldir}/wine.m4
