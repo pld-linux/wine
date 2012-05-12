@@ -131,7 +131,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		getsoname()	%((objdump -p %{1} 2>/dev/null || echo SONAME ERROR) | awk '/SONAME/ { print $2; s=1 }; END { if(s==0) print "ERROR" }')
 
-%undefine	debuginfocflags
+#undefine	debuginfocflags
 
 %description
 Wine is a program which allows running Microsoft Windows programs
@@ -351,21 +351,6 @@ videodisc=mcipionr.drv
 vcr=mciviscd.drv
 MPEGVideo=mciqtz.drv
 EOF
-
-%if %{?debug:0}%{!?debug:1}
-echo "Strip executable binaries and shared object files."
-filelist=`find $RPM_BUILD_ROOT -type f ! -regex ".*ld-[0-9.]*so.*"`
-elfexelist=`echo $filelist | xargs -r file | \
-	awk '/ELF.*executable/ {print $1}' | cut -d: -f1`
-elfsharedlist=`echo $filelist | xargs -r file | \
-	awk '/LF.*shared object/ {print $1}' | cut -d: -f1`; \
-if [ -n "$elfexelist" ]; then \
-	strip -R .note -R .comment $elfexelist
-fi
-if [ -n "$elfsharedlist" ]; then
-	strip --strip-unneeded -R .note -R .comment $elfsharedlist
-fi
-%endif
 
 # /sbin/chstk -e $RPM_BUILD_ROOT%{_bindir}/wine
 
