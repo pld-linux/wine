@@ -129,10 +129,6 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_winedir		%{_datadir}/%{name}
 
-%define		getsoname()	%((objdump -p %{1} 2>/dev/null || echo SONAME ERROR) | awk '/SONAME/ { print $2; s=1 }; END { if(s==0) print "ERROR" }')
-
-#undefine	debuginfocflags
-
 %description
 Wine is a program which allows running Microsoft Windows programs
 (including DOS, Windows 3.x and Win32 executables) on Unix. It
