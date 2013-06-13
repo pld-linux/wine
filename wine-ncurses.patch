@@ -66,3 +66,27 @@
  # define CURSES_NAME "ncurses"
  #else
  # define CURSES_NAME "curses"
+diff -urN wine-1.4.1.org/configure.ac wine-1.4.1/configure.ac
+--- wine-1.4.1.org/configure.ac	2012-06-15 21:17:00.000000000 +0200
++++ wine-1.4.1/configure.ac	2013-06-13 17:34:25.210134842 +0200
+@@ -1281,6 +1281,9 @@
+ if test "$ac_cv_header_ncurses_h" = "yes"
+ then
+     WINE_CHECK_SONAME(ncurses,waddch,[CURSESLIBS="-lncurses"])
++    if test "x$ac_cv_lib_soname_ncurses" = "x"; then
++        WINE_CHECK_SONAME(ncursesw,waddch,[CURSESLIBS="-lncursesw"])
++    fi
+ elif test "$ac_cv_header_curses_h" = "yes"
+ then
+     WINE_CHECK_SONAME(curses,waddch,[CURSESLIBS="-lcurses"])
+@@ -1289,8 +1292,8 @@
+ LIBS="$LIBS $CURSESLIBS"
+ AC_CHECK_FUNCS(mousemask)
+ LIBS="$ac_save_LIBS"
+-WINE_NOTICE_WITH(curses,[test "x$ac_cv_lib_soname_curses$ac_cv_lib_soname_ncurses" = "x"],
+-                 [lib(n)curses ${notice_platform}development files not found, curses won't be supported.])
++WINE_NOTICE_WITH(curses,[test "x$ac_cv_lib_soname_curses$ac_cv_lib_soname_ncurses$ac_cv_lib_soname_ncursesw" = "x"],
++                 [lib(n)curses(w) ${notice_platform}development files not found, curses won't be supported.])
+ 
+ dnl **** Check for SANE ****
+ if test "x$with_sane" != "xno"
