@@ -32,7 +32,7 @@ Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
 Version:	1.4.1
-Release:	3
+Release:	4
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
@@ -358,7 +358,7 @@ dir=$(pwd)
 cd $RPM_BUILD_ROOT%{_libdir}/wine
 for f in *.so; do
 	case $f in
-	d3d8.dll.so|d3d9.dll.so|d3dx8.dll.so|glu32.dll.so|opengl32.dll.so|sane.ds.so|twain.dll.so|twain_32.dll.so|winealsa.drv.so|wldap32.dll.so)
+	capi2032.dll.so|d3d8.dll.so|d3d9.dll.so|d3dx8.dll.so|glu32.dll.so|opengl32.dll.so|sane.ds.so|twain.dll.so|twain_32.dll.so|winealsa.drv.so|wined3d.dll.so|wldap32.dll.so)
 		;;
 	*)
 		echo "%attr(755,root,root) %{_libdir}/wine/$f" >> $dir/files.so
@@ -457,14 +457,13 @@ fi
 %{_libdir}/wine/fakedlls/*.vxd
 %endif
 %{_mandir}/man1/wine.1*
-%lang(de) %{_mandir}/de/man1/wine*.1*
-%lang(fr) %{_mandir}/fr/man1/wine*.1*
-#%lang(pl) %{_mandir}/pl/man1/wine*.1*
 %{_mandir}/man1/msiexec.1*
 %{_mandir}/man1/wineboot.1*
 %{_mandir}/man1/winecfg.1*
 %{_mandir}/man1/winedbg.1*
 %{_mandir}/man1/wineserver.1*
+%lang(de) %{_mandir}/de/man1/wineserver.1*
+%lang(fr) %{_mandir}/fr/man1/wineserver.1*
 %{_winedir}
 %{_desktopdir}/wine.desktop
 %{_desktopdir}/wine-uninstaller.desktop
