@@ -1,0 +1,87 @@
+diff -dur wine-1.6.orig/loader/wine.de.man.in wine-1.6/loader/wine.de.man.in
+--- wine-1.6.orig/loader/wine.de.man.in	2013-07-18 19:57:36.000000000 +0200
++++ wine-1.6/loader/wine.de.man.in	2013-10-27 16:00:56.166403298 +0100
+@@ -1,14 +1,14 @@
+ .\" -*- nroff -*-
+-.TH WINE 1 "November 2007" "@PACKAGE_STRING@" "Windows On Unix"
++.TH WINE64 1 "November 2007" "@PACKAGE_STRING@" "Windows On Unix"
+ .SH NAME
+ wine \- Windows-Programme auf Unix-Systemen ausführen
+ .SH ÜBERSICHT
+-.BI "wine " Programm
++.BI "wine64 " Programm
+ [Argumente ... ]
+ .br
+-.B wine --help
++.B wine64 --help
+ .br
+-.B wine --version
++.B wine64 --version
+ .PP
+ Für das Übergeben von Kommandos an Windows-Programme siehe den
+ Abschnitt
+diff -dur wine-1.6.orig/loader/wine.fr.man.in wine-1.6/loader/wine.fr.man.in
+--- wine-1.6.orig/loader/wine.fr.man.in	2013-07-18 19:57:36.000000000 +0200
++++ wine-1.6/loader/wine.fr.man.in	2013-10-27 16:01:15.983990116 +0100
+@@ -1,14 +1,14 @@
+ .\" -*- nroff -*-
+-.TH WINE 1 "juin 2013" "@PACKAGE_STRING@" "Windows sur Unix"
++.TH WINE64 1 "juin 2013" "@PACKAGE_STRING@" "Windows sur Unix"
+ .SH NOM
+ wine \- exécuter des programmes Windows sur Unix
+ .SH SYNOPSIS
+-.BI "wine " programme
++.BI "wine64 " programme
+ [arguments ... ]
+ .br
+-.B wine --help
++.B wine64 --help
+ .br
+-.B wine --version
++.B wine64 --version
+ .PP
+ Pour des instructions sur le passage d'arguments aux programmes Windows, veuillez lire la section
+ .B
+diff -dur wine-1.6.orig/loader/wine.man.in wine-1.6/loader/wine.man.in
+--- wine-1.6.orig/loader/wine.man.in	2013-07-18 19:57:36.000000000 +0200
++++ wine-1.6/loader/wine.man.in	2013-10-27 16:00:15.187833961 +0100
+@@ -1,13 +1,13 @@
+-.TH WINE 1 "July 2013" "@PACKAGE_STRING@" "Windows On Unix"
++.TH WINE64 1 "July 2013" "@PACKAGE_STRING@" "Windows On Unix"
+ .SH NAME
+ wine \- run Windows programs on Unix
+ .SH SYNOPSIS
+-.BI "wine " program
++.BI "wine64 " program
+ [arguments ... ]
+ .br
+-.B wine --help
++.B wine64 --help
+ .br
+-.B wine --version
++.B wine64 --version
+ .PP
+ For instructions on passing arguments to Windows programs, please see the
+ .B
+diff -dur wine-1.6.orig/loader/wine.pl.man.in wine-1.6/loader/wine.pl.man.in
+--- wine-1.6.orig/loader/wine.pl.man.in	2013-07-18 19:57:36.000000000 +0200
++++ wine-1.6/loader/wine.pl.man.in	2013-10-27 16:00:32.485303762 +0100
+@@ -1,14 +1,14 @@
+ .\" -*- nroff -*-
+-.TH WINE 1 "October 2005" "@PACKAGE_STRING@" "Windows On Unix"
++.TH WINE64 1 "October 2005" "@PACKAGE_STRING@" "Windows On Unix"
+ .SH NAZWA
+ wine \- uruchamiaj programy Windowsowe na Uniksie
+ .SH SKŁADNIA
+-.BI "wine " program
++.BI "wine64 " program
+ [opcje ... ]
+ .br
+-.B wine --help
++.B wine64 --help
+ .br
+-.B wine --version
++.B wine64 --version
+ .PP
+ Informacji na temat przekazywania opcji programom Windowsowym szukaj w rozdziale
+ .B

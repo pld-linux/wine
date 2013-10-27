@@ -50,6 +50,7 @@ Patch4:		%{name}-disable-valgrind.patch
 Patch5:		%{name}-ca_certificates.patch
 Patch6:		%{name}-manpaths.patch
 Patch7:		desktop.patch
+Patch8:		%{name}-wine64_man.patch
 URL:		http://www.winehq.org/
 BuildRequires:	OpenAL-devel >= 1.1
 BuildRequires:	OpenGL-GLU-devel
@@ -267,6 +268,9 @@ Sterownik ALSA dla implementacji mm.dll (systemu multimediów) w Wine.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%ifarch %{x8664}
+%patch8 -p1
+%endif
 
 %build
 icotool -x --width=32 --height=32 --bit-depth=32 -o . dlls/user32/resources/oic_winlogo.ico
@@ -373,6 +377,12 @@ for p in $programs; do
 	mv -f files.so. files.so
 done
 
+%ifarch %{x8664}
+for langdir in "" de/ fr/ pl/ ; do
+mv $RPM_BUILD_ROOT%{_mandir}/${langdir}man1/{wine,wine64}.1
+done
+%endif
+
 install -d $RPM_BUILD_ROOT%{_winedir}/gecko
 %ifnarch %{x8664}
 cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_winedir}/gecko
@@ -454,10 +464,17 @@ fi
 %ifarch %{ix86}
 %{_libdir}/wine/fakedlls/*.vxd
 %endif
+%ifnarch %{x8664}
 %{_mandir}/man1/wine.1*
 %lang(de) %{_mandir}/de/man1/wine.1*
 %lang(fr) %{_mandir}/fr/man1/wine.1*
 %lang(pl) %{_mandir}/pl/man1/wine.1*
+%else
+%{_mandir}/man1/wine64.1*
+%lang(de) %{_mandir}/de/man1/wine64.1*
+%lang(fr) %{_mandir}/fr/man1/wine64.1*
+%lang(pl) %{_mandir}/pl/man1/wine64.1*
+%endif
 %{_mandir}/man1/msiexec.1*
 %{_mandir}/man1/wineboot.1*
 %{_mandir}/man1/winecfg.1*
