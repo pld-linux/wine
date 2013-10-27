@@ -25,32 +25,31 @@
 %define	libqual %{nil}
 %endif
 
-%define		gecko_ver	1.4
+%define		gecko_ver	2.21
 Summary:	Program that lets you launch Win applications
 Summary(es.UTF-8):	Ejecuta programas Windows en Linux
 Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
-Version:	1.4.1
-Release:	4
+Version:	1.6
+Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 Source0:	http://downloads.sourceforge.net/wine/%{name}-%{version}.tar.bz2
-# Source0-md5:	0c28702ed478df7a1c097f3a9c4cabd6
+# Source0-md5:	47cf1e121d395e9c8ca1a4ab88f1e658
 Source1:	http://downloads.sourceforge.net/wine/%{name}_gecko-%{gecko_ver}-x86.msi
-# Source1-md5:	700aaa08724be1992cffed7b87e79a44
+# Source1-md5:	432eb3a2d05c3f07df67864f53c87c60
 Source2:	http://downloads.sourceforge.net/wine/%{name}_gecko-%{gecko_ver}-x86_64.msi
-# Source2-md5:	7b4811f667fd01d300fdff68420a9c72
+# Source2-md5:	580bbabde1ec99ba9caa439c2dbca3f6
 Source3:	%{name}-uninstaller.desktop
-Patch0:		%{name}-fontcache.patch
+Patch0:		%{name}-bison3.patch
 Patch1:		%{name}-makedep.patch
 Patch2:		%{name}-ncurses.patch
 Patch4:		%{name}-disable-valgrind.patch
 Patch5:		%{name}-ca_certificates.patch
 Patch6:		%{name}-manpaths.patch
 Patch7:		desktop.patch
-Patch8:		wine-gnutls.patch
 URL:		http://www.winehq.org/
 BuildRequires:	OpenAL-devel >= 1.1
 BuildRequires:	OpenGL-GLU-devel
@@ -268,7 +267,6 @@ Sterownik ALSA dla implementacji mm.dll (systemu multimediów) w Wine.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
-%patch8 -p1
 
 %build
 icotool -x --width=32 --height=32 --bit-depth=32 -o . dlls/user32/resources/oic_winlogo.ico
@@ -325,7 +323,7 @@ install -d $RPM_BUILD_ROOT{%{_mandir}/man1,%{_aclocaldir}}
 
 findup -m $RPM_BUILD_ROOT%{_winedir}/fakedlls
 
-install -p tools/fnt2bdf $RPM_BUILD_ROOT%{_bindir}
+install -p tools/fnt2fon $RPM_BUILD_ROOT%{_bindir}
 cp -a aclocal.m4 $RPM_BUILD_ROOT%{_aclocaldir}/wine.m4
 
 install -d \
@@ -403,7 +401,7 @@ fi
 
 %files -f files.so
 %defattr(644,root,root,755)
-%doc README documentation/ChangeLog* AUTHORS ANNOUNCE
+%doc README AUTHORS ANNOUNCE
 %lang(de) %doc documentation/README.de
 %lang(es) %doc documentation/README.es
 %lang(fr) %doc documentation/README.fr
@@ -457,6 +455,9 @@ fi
 %{_libdir}/wine/fakedlls/*.vxd
 %endif
 %{_mandir}/man1/wine.1*
+%lang(de) %{_mandir}/de/man1/wine.1*
+%lang(fr) %{_mandir}/fr/man1/wine.1*
+%lang(pl) %{_mandir}/pl/man1/wine.1*
 %{_mandir}/man1/msiexec.1*
 %{_mandir}/man1/wineboot.1*
 %{_mandir}/man1/winecfg.1*
@@ -474,7 +475,7 @@ fi
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/fnt2bdf
+%attr(755,root,root) %{_bindir}/fnt2fon
 %attr(755,root,root) %{_bindir}/function_grep.pl
 %attr(755,root,root) %{_bindir}/widl
 %attr(755,root,root) %{_bindir}/winebuild

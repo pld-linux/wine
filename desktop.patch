@@ -1,10 +1,11 @@
---- wine-1.2.2/tools/wine.desktop~	2010-12-03 20:37:15.000000000 +0200
-+++ wine-1.2.2/tools/wine.desktop	2010-12-22 02:29:30.206200511 +0200
-@@ -1,6 +1,7 @@
- [Desktop Entry]
- Type=Application
- Name=Wine Windows Program Loader
+diff -dur wine-1.6.orig/tools/wine.desktop wine-1.6/tools/wine.desktop
+--- wine-1.6.orig/tools/wine.desktop	2013-07-18 19:57:36.000000000 +0200
++++ wine-1.6/tools/wine.desktop	2013-10-26 17:34:16.255593785 +0200
+@@ -24,6 +24,7 @@
+ Name[hr]=Wine - dizač Windows programa
+ Name[he]=Wine — מריץ תכניות Windows
+ Name[ja]=Wine Windowsプログラムローダー
 +Comment=Launch Windows Program with Wine
- Name[cs]=Zavaděč programů pro Wine
- Name[de]=Wine Windows-Programmstarter
- Name[es]=Wine Cargador de programas de Windows
+ Exec=wine start /unix %f
+ MimeType=application/x-ms-dos-executable;application/x-msi;application/x-ms-shortcut;
+ Icon=wine

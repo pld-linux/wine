@@ -1,0 +1,385 @@
+
+patch from: http://bugs.winehq.org/show_bug.cgi?id=34329
+
+
+From: Alexandre Julliard <julliard@winehq.org>
+Date: Thu, 1 Aug 2013 09:59:12 +0000 (+0200)
+Subject: jscript: Use bison directives instead of defines to specify extra lexer parameters.
+X-Git-Tag: wine-1.7.0~38
+X-Git-Url: http://source.winehq.org/git
+
+jscript: Use bison directives instead of defines to specify extra lexer parameters.
+---
+
+diff --git a/dlls/jscript/parser.y b/dlls/jscript/parser.y
+index f5a2e72..327366a 100644
+--- a/dlls/jscript/parser.y
++++ b/dlls/jscript/parser.y
+@@ -25,10 +25,7 @@
+ 
+ WINE_DEFAULT_DEBUG_CHANNEL(jscript);
+ 
+-#define YYLEX_PARAM ctx
+-#define YYPARSE_PARAM ctx
+-
+-static int parser_error(const char*);
++static int parser_error(parser_ctx_t*,const char*);
+ static void set_error(parser_ctx_t*,UINT);
+ static BOOL explicit_error(parser_ctx_t*,void*,WCHAR);
+ static BOOL allow_auto_semicolon(parser_ctx_t*);
+@@ -139,7 +136,9 @@ static source_elements_t *source_elements_add_statement(source_elements_t*,state
+ 
+ %}
+ 
+-%pure_parser
++%lex-param { parser_ctx_t *ctx }
++%parse-param { parser_ctx_t *ctx }
++%pure-parser
+ %start Program
+ 
+ %union {
+@@ -1386,7 +1385,7 @@ static expression_t *new_call_expression(parser_ctx_t *ctx, expression_t *expres
+     return &ret->expr;
+ }
+ 
+-static int parser_error(const char *str)
++static int parser_error(parser_ctx_t *ctx, const char *str)
+ {
+     return 0;
+ }
+From: Alexandre Julliard <julliard@winehq.org>
+Date: Thu, 1 Aug 2013 10:00:04 +0000 (+0200)
+Subject: msi: Use bison directives instead of defines to specify extra lexer parameters.
+X-Git-Tag: wine-1.7.0~37
+X-Git-Url: http://source.winehq.org/git
+
+msi: Use bison directives instead of defines to specify extra lexer parameters.
+---
+
+diff --git a/dlls/msi/cond.y b/dlls/msi/cond.y
+index 97bb002..fa55825 100644
+--- a/dlls/msi/cond.y
++++ b/dlls/msi/cond.y
+@@ -42,11 +42,6 @@
+ #include "wine/unicode.h"
+ #include "wine/list.h"
+ 
+-#define YYLEX_PARAM info
+-#define YYPARSE_PARAM info
+-
+-static int cond_error(const char *str);
+-
+ WINE_DEFAULT_DEBUG_CHANNEL(msi);
+ 
+ typedef struct tag_yyinput
+@@ -66,6 +61,7 @@ struct cond_str {
+ static LPWSTR COND_GetString( COND_input *info, const struct cond_str *str );
+ static LPWSTR COND_GetLiteral( COND_input *info, const struct cond_str *str );
+ static int cond_lex( void *COND_lval, COND_input *info);
++static int cond_error( COND_input *info, const char *str);
+ 
+ static void *cond_alloc( COND_input *cond, unsigned int sz );
+ static void *cond_track_mem( COND_input *cond, void *ptr, unsigned int sz );
+@@ -110,6 +106,8 @@ static BOOL num_from_prop( LPCWSTR p, INT *val )
+ 
+ %}
+ 
++%lex-param { COND_input *info }
++%parse-param { COND_input *info }
+ %pure-parser
+ 
+ %union
+@@ -798,7 +796,7 @@ static void cond_free( void *ptr )
+     }
+ }
+ 
+-static int cond_error(const char *str)
++static int cond_error( COND_input *info, const char *str )
+ {
+     TRACE("%s\n", str );
+     return 0;
+diff --git a/dlls/msi/query.h b/dlls/msi/query.h
+index ca34b4c..063fbb9 100644
+--- a/dlls/msi/query.h
++++ b/dlls/msi/query.h
+@@ -96,6 +96,19 @@ struct expr
+     } u;
+ };
+ 
++typedef struct
++{
++    MSIDATABASE *db;
++    LPCWSTR command;
++    DWORD n, len;
++    UINT r;
++    MSIVIEW **view;  /* View structure for the resulting query.  This value
++                      * tracks the view currently being created so we can free
++                      * this view on syntax error.
++                      */
++    struct list *mem;
++} SQL_input;
++
+ UINT MSI_ParseSQL( MSIDATABASE *db, LPCWSTR command, MSIVIEW **phview,
+                    struct list *mem ) DECLSPEC_HIDDEN;
+ 
+diff --git a/dlls/msi/sql.y b/dlls/msi/sql.y
+index ead7743..fa54741 100644
+--- a/dlls/msi/sql.y
++++ b/dlls/msi/sql.y
+@@ -34,29 +34,12 @@
+ #include "wine/debug.h"
+ #include "wine/unicode.h"
+ 
+-#define YYLEX_PARAM info
+-#define YYPARSE_PARAM info
+-
+-static int sql_error(const char *str);
+-
+ WINE_DEFAULT_DEBUG_CHANNEL(msi);
+ 
+-typedef struct tag_SQL_input
+-{
+-    MSIDATABASE *db;
+-    LPCWSTR command;
+-    DWORD n, len;
+-    UINT r;
+-    MSIVIEW **view;  /* View structure for the resulting query.  This value
+-                      * tracks the view currently being created so we can free
+-                      * this view on syntax error.
+-                      */
+-    struct list *mem;
+-} SQL_input;
+-
+ static UINT SQL_getstring( void *info, const struct sql_str *strdata, LPWSTR *str );
+ static INT SQL_getint( void *info );
+ static int sql_lex( void *SQL_lval, SQL_input *info );
++static int sql_error( SQL_input *info, const char *str);
+ 
+ static LPWSTR parser_add_table( void *info, LPCWSTR list, LPCWSTR table );
+ static void *parser_alloc( void *info, unsigned int sz );
+@@ -77,6 +60,8 @@ static struct expr * EXPR_wildcard( void *info );
+ 
+ %}
+ 
++%lex-param { SQL_input *info }
++%parse-param { SQL_input *info }
+ %pure-parser
+ 
+ %union
+@@ -866,7 +851,7 @@ INT SQL_getint( void *info )
+     return r;
+ }
+ 
+-static int sql_error( const char *str )
++static int sql_error( SQL_input *info, const char *str )
+ {
+     return 0;
+ }
+From: Alexandre Julliard <julliard@winehq.org>
+Date: Thu, 1 Aug 2013 10:00:23 +0000 (+0200)
+Subject: vbscript: Use bison directives instead of defines to specify extra lexer parameters.
+X-Git-Tag: wine-1.7.0~36
+X-Git-Url: http://source.winehq.org/git
+
+vbscript: Use bison directives instead of defines to specify extra lexer parameters.
+---
+
+diff --git a/dlls/vbscript/parser.y b/dlls/vbscript/parser.y
+index 4b380ef..3c54fd8 100644
+--- a/dlls/vbscript/parser.y
++++ b/dlls/vbscript/parser.y
+@@ -25,10 +25,7 @@
+ 
+ WINE_DEFAULT_DEBUG_CHANNEL(vbscript);
+ 
+-#define YYLEX_PARAM ctx
+-#define YYPARSE_PARAM ctx
+-
+-static int parser_error(const char*);
++static int parser_error(parser_ctx_t *,const char*);
+ 
+ static void parse_complete(parser_ctx_t*,BOOL);
+ 
+@@ -82,7 +79,9 @@ static const WCHAR propertyW[] = {'p','r','o','p','e','r','t','y',0};
+ 
+ %}
+ 
+-%pure_parser
++%lex-param { parser_ctx_t *ctx }
++%parse-param { parser_ctx_t *ctx }
++%pure-parser
+ %start Program
+ 
+ %union {
+@@ -426,7 +425,7 @@ Identifier
+     | tPROPERTY      { $$ = propertyW; }
+ %%
+ 
+-static int parser_error(const char *str)
++static int parser_error(parser_ctx_t *ctx, const char *str)
+ {
+     return 0;
+ }
+From: Alexandre Julliard <julliard@winehq.org>
+Date: Thu, 1 Aug 2013 10:00:44 +0000 (+0200)
+Subject: wbemprox: Use bison directives instead of defines to specify extra lexer parameters.
+X-Git-Tag: wine-1.7.0~35
+X-Git-Url: http://source.winehq.org/git
+
+wbemprox: Use bison directives instead of defines to specify extra lexer parameters.
+---
+
+diff --git a/dlls/wbemprox/wql.y b/dlls/wbemprox/wql.y
+index 8e347c2..58663d0 100644
+--- a/dlls/wbemprox/wql.y
++++ b/dlls/wbemprox/wql.y
+@@ -30,11 +30,6 @@
+ #include "wine/debug.h"
+ #include "wine/unicode.h"
+ 
+-#define YYLEX_PARAM ctx
+-#define YYPARSE_PARAM ctx
+-#define YYERROR_DEBUG 1
+-#define YYERROR_VERBOSE 1
+-
+ WINE_DEFAULT_DEBUG_CHANNEL(wbemprox);
+ 
+ struct parser
+@@ -181,7 +176,7 @@ static struct expr *expr_propval( struct parser *parser, const struct property *
+     return e;
+ }
+ 
+-static int wql_error( const char *str );
++static int wql_error( struct parser *parser, const char *str );
+ static int wql_lex( void *val, struct parser *parser );
+ 
+ #define PARSER_BUBBLE_UP_VIEW( parser, result, current_view ) \
+@@ -190,6 +185,9 @@ static int wql_lex( void *val, struct parser *parser );
+ 
+ %}
+ 
++%lex-param { struct parser *ctx }
++%parse-param { struct parser *ctx }
++%error-verbose
+ %pure-parser
+ 
+ %union
+@@ -691,7 +689,7 @@ static int wql_lex( void *p, struct parser *parser )
+     return token;
+ }
+ 
+-static int wql_error( const char *str )
++static int wql_error( struct parser *parser, const char *str )
+ {
+     ERR("%s\n", str);
+     return 0;
+From: Alexandre Julliard <julliard@winehq.org>
+Date: Thu, 1 Aug 2013 10:04:24 +0000 (+0200)
+Subject: widl: Remove non-bison compatibility code.
+X-Git-Tag: wine-1.7.0~34
+X-Git-Url: http://source.winehq.org/git
+
+widl: Remove non-bison compatibility code.
+---
+
+diff --git a/tools/widl/parser.y b/tools/widl/parser.y
+index b7fa2f6..579cbc6 100644
+--- a/tools/widl/parser.y
++++ b/tools/widl/parser.y
+@@ -38,33 +38,6 @@
+ #include "expr.h"
+ #include "typetree.h"
+ 
+-#if defined(YYBYACC)
+-	/* Berkeley yacc (byacc) doesn't seem to know about these */
+-	/* Some *BSD supplied versions do define these though */
+-# ifndef YYEMPTY
+-#  define YYEMPTY	(-1)	/* Empty lookahead value of yychar */
+-# endif
+-# ifndef YYLEX
+-#  define YYLEX		yylex()
+-# endif
+-
+-#elif defined(YYBISON)
+-	/* Bison was used for original development */
+-	/* #define YYEMPTY -2 */
+-	/* #define YYLEX   yylex() */
+-
+-#else
+-	/* No yacc we know yet */
+-# if !defined(YYEMPTY) || !defined(YYLEX)
+-#  error Yacc version/type unknown. This version needs to be verified for settings of YYEMPTY and YYLEX.
+-# elif defined(__GNUC__)	/* gcc defines the #warning directive */
+-#  warning Yacc version/type unknown. It defines YYEMPTY and YYLEX, but is not tested
+-  /* #else we just take a chance that it works... */
+-# endif
+-#endif
+-
+-#define YYERROR_VERBOSE
+-
+ static unsigned char pointer_default = RPC_FC_UP;
+ 
+ typedef struct list typelist_t;
+@@ -323,6 +296,8 @@ static statement_list_t *append_statement(statement_list_t *list, statement_t *s
+ %right '!' '~' CAST PPTR POS NEG ADDRESSOF tSIZEOF
+ %left '.' MEMBERPTR '[' ']'
+ 
++%error-verbose
++
+ %%
+ 
+ input:   gbl_statements				{ fix_incomplete();
+From: Alexandre Julliard <julliard@winehq.org>
+Date: Thu, 1 Aug 2013 10:04:29 +0000 (+0200)
+Subject: wrc: Remove non-bison compatibility code.
+X-Git-Tag: wine-1.7.0~33
+X-Git-Url: http://source.winehq.org/git
+
+wrc: Remove non-bison compatibility code.
+---
+
+diff --git a/tools/wrc/parser.y b/tools/wrc/parser.y
+index ad5fb98..ff59327 100644
+--- a/tools/wrc/parser.y
++++ b/tools/wrc/parser.y
+@@ -142,31 +142,6 @@
+ #include "wingdi.h"
+ #include "winuser.h"
+ 
+-#if defined(YYBYACC)
+-	/* Berkeley yacc (byacc) doesn't seem to know about these */
+-	/* Some *BSD supplied versions do define these though */
+-# ifndef YYEMPTY
+-#  define YYEMPTY	(-1)	/* Empty lookahead value of yychar */
+-# endif
+-# ifndef YYLEX
+-#  define YYLEX		yylex()
+-# endif
+-
+-#elif defined(YYBISON)
+-	/* Bison was used for original development */
+-	/* #define YYEMPTY -2 */
+-	/* #define YYLEX   yylex() */
+-
+-#else
+-	/* No yacc we know yet */
+-# if !defined(YYEMPTY) || !defined(YYLEX)
+-#  error Yacc version/type unknown. This version needs to be verified for settings of YYEMPTY and YYLEX.
+-# elif defined(__GNUC__)	/* gcc defines the #warning directive */
+-#  warning Yacc version/type unknown. It defines YYEMPTY and YYLEX, but is not tested
+-  /* #else we just take a chance that it works... */
+-# endif
+-#endif
+-
+ int want_nl = 0;	/* Signal flex that we need the next newline */
+ int want_id = 0;	/* Signal flex that we need the next identifier */
+ static stringtable_t *tagstt;	/* Stringtable tag.
+@@ -2837,7 +2812,7 @@ static int rsrcid_to_token(int lookahead)
+ 
+ 	/* Get a token if we don't have one yet */
+ 	if(lookahead == YYEMPTY)
+-		lookahead = YYLEX;
++		lookahead = yylex();
+ 
+ 	/* Only numbers are possibly interesting */
+ 	switch(lookahead)
