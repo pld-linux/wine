@@ -32,7 +32,7 @@ Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
 Version:	1.6
-Release:	2
+Release:	3
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
