@@ -32,7 +32,7 @@ Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
 Version:	1.6
-Release:	4
+Release:	5
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
@@ -103,7 +103,7 @@ BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	xorg-lib-libXxf86dga-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
 Requires:	libfreetype.so.6%{libqual}
-Requires:	libpng15.so.15%{libqual}
+Requires:	libpng16.so.16%{libqual}
 Requires(post):	/sbin/ldconfig
 Suggests:	binfmt-detector
 Suggests:	ca-certificates
