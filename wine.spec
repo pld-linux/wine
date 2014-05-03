@@ -6,6 +6,7 @@
 %bcond_without	sane		# don't build TWAIN DLL with scanning support (through SANE)
 %bcond_without	ldap		# don't build LDAP DLL
 %bcond_without	cups		# without CUPS printing support in winspool,wineps DLLs
+%bcond_without	netapi		# don't use the Samba NetAPI library
 #
 # NOTE: wine detects the following SONAMES for dlopen at build time:
 #   libcrypto,libssl (wininet.dll)
@@ -55,7 +56,9 @@ Patch7:		desktop.patch
 Patch8:		%{name}-wine64_man.patch
 URL:		http://www.winehq.org/
 BuildRequires:	OpenAL-devel >= 1.1
+BuildRequires:	ocl-icd-libOpenCL-devel
 BuildRequires:	OpenGL-GLU-devel
+BuildRequires:	Mesa-libOSMesa-devel
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 %{?with_arts:BuildRequires:	artsc-devel}
 BuildRequires:	autoconf
@@ -63,6 +66,7 @@ BuildRequires:	automake
 BuildRequires:	bison
 %{?with_capi:BuildRequires:	capi4k-utils-devel}
 %{?with_cups:BuildRequires:	cups-devel}
+BuildRequires:	dbus-devel
 BuildRequires:	docbook-dtd31-sgml
 BuildRequires:	docbook-utils
 BuildRequires:	flex
@@ -92,6 +96,7 @@ BuildRequires:	opensp >= 1:1.5.1
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	pkgconfig
 BuildRequires:	prelink
+BuildRequires:	samba-devel
 %{?with_sane:BuildRequires:	sane-backends-devel}
 BuildRequires:	unixODBC-devel >= 2.2.12-2
 #BuildRequires:	valgrind
@@ -290,26 +295,35 @@ mv -f oic_winlogo_*.png %{name}.png
 	--with-coreaudio \
 	--with%{!?with_cups:out}-cups \
 	--with-curses \
+	--with-dbus \
 	--with-fontconfig \
 	--with-freetype \
+	--with-gphoto \
 	--with-glu \
 	--with-gnutls \
-	--with-gphoto \
 	--with-gsm \
 	--with%{!?with_gstreamer:out}-gstreamer \
+	--without-hal \
 	--with-jpeg \
 	--with%{!?with_ldap:out}-ldap \
 	--with-mpg123 \
+	--with%{!?with_netapi:out}-netapi \
+	--with-openal \
+	--with-opencl \
 	--with-opengl \
 	--with-openssl \
+	--with-osmesa \
 	--with-oss \
 	--with-png \
 	--with-pthread \
 	--with%{!?with_sane:out}-sane \
+	--with-tiff \
+	--with-v4l \
 	--with-xcomposite \
 	--with-xcursor \
 	--with-xinerama \
 	--with-xinput \
+	--with-xinput2 \
 	--with-xml \
 	--with-xrandr \
 	--with-xrender \
@@ -317,7 +331,8 @@ mv -f oic_winlogo_*.png %{name}.png
 	--with-xshm \
 	--with-xslt \
 	--with-xxf86vm \
-	--with-x
+	--with-x \
+	--with-zlib
 %{__make} depend
 %{__make}
 
