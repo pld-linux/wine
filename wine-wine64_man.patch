@@ -1,6 +1,6 @@
-diff -dur wine-1.6.orig/loader/wine.de.man.in wine-1.6/loader/wine.de.man.in
---- wine-1.6.orig/loader/wine.de.man.in	2013-07-18 19:57:36.000000000 +0200
-+++ wine-1.6/loader/wine.de.man.in	2013-10-27 16:00:56.166403298 +0100
+diff -durN wine-1.6.2.orig/loader/wine.de.man.in wine-1.6.2/loader/wine.de.man.in
+--- wine-1.6.2.orig/loader/wine.de.man.in	2014-01-10 21:37:29.000000000 +0100
++++ wine-1.6.2/loader/wine.de.man.in	2014-05-03 12:07:16.337846160 +0200
 @@ -1,14 +1,14 @@
  .\" -*- nroff -*-
 -.TH WINE 1 "November 2007" "@PACKAGE_STRING@" "Windows On Unix"
@@ -20,19 +20,18 @@ diff -dur wine-1.6.orig/loader/wine.de.man.in wine-1.6/loader/wine.de.man.in
  .PP
  Für das Übergeben von Kommandos an Windows-Programme siehe den
  Abschnitt
-diff -dur wine-1.6.orig/loader/wine.fr.man.in wine-1.6/loader/wine.fr.man.in
---- wine-1.6.orig/loader/wine.fr.man.in	2013-07-18 19:57:36.000000000 +0200
-+++ wine-1.6/loader/wine.fr.man.in	2013-10-27 16:01:15.983990116 +0100
-@@ -1,14 +1,14 @@
- .\" -*- nroff -*-
--.TH WINE 1 "juin 2013" "@PACKAGE_STRING@" "Windows sur Unix"
-+.TH WINE64 1 "juin 2013" "@PACKAGE_STRING@" "Windows sur Unix"
+diff -durN wine-1.6.2.orig/loader/wine.fr.man.in wine-1.6.2/loader/wine.fr.man.in
+--- wine-1.6.2.orig/loader/wine.fr.man.in	2014-01-10 21:37:29.000000000 +0100
++++ wine-1.6.2/loader/wine.fr.man.in	2014-05-03 12:07:54.424511977 +0200
+@@ -1,13 +1,13 @@
+-.TH WINE 1 "juillet 2013" "@PACKAGE_STRING@" "Windows sur Unix"
++.TH WINE64 1 "juillet 2013" "@PACKAGE_STRING@" "Windows sur Unix"
  .SH NOM
  wine \- exécuter des programmes Windows sur Unix
  .SH SYNOPSIS
--.BI "wine " programme
-+.BI "wine64 " programme
- [arguments ... ]
+-.B wine
++.B wine64
+ .IR "programme " [ arguments ]
  .br
 -.B wine --help
 +.B wine64 --help
@@ -42,18 +41,18 @@ diff -dur wine-1.6.orig/loader/wine.fr.man.in wine-1.6/loader/wine.fr.man.in
  .PP
  Pour des instructions sur le passage d'arguments aux programmes Windows, veuillez lire la section
  .B
-diff -dur wine-1.6.orig/loader/wine.man.in wine-1.6/loader/wine.man.in
---- wine-1.6.orig/loader/wine.man.in	2013-07-18 19:57:36.000000000 +0200
-+++ wine-1.6/loader/wine.man.in	2013-10-27 16:00:15.187833961 +0100
+diff -durN wine-1.6.2.orig/loader/wine.man.in wine-1.6.2/loader/wine.man.in
+--- wine-1.6.2.orig/loader/wine.man.in	2014-01-10 21:37:29.000000000 +0100
++++ wine-1.6.2/loader/wine.man.in	2014-05-03 12:08:34.081177747 +0200
 @@ -1,13 +1,13 @@
 -.TH WINE 1 "July 2013" "@PACKAGE_STRING@" "Windows On Unix"
 +.TH WINE64 1 "July 2013" "@PACKAGE_STRING@" "Windows On Unix"
  .SH NAME
  wine \- run Windows programs on Unix
  .SH SYNOPSIS
--.BI "wine " program
-+.BI "wine64 " program
- [arguments ... ]
+-.B wine
++.B wine64
+ .IR "program " [ arguments ]
  .br
 -.B wine --help
 +.B wine64 --help
@@ -63,9 +62,9 @@ diff -dur wine-1.6.orig/loader/wine.man.in wine-1.6/loader/wine.man.in
  .PP
  For instructions on passing arguments to Windows programs, please see the
  .B
-diff -dur wine-1.6.orig/loader/wine.pl.man.in wine-1.6/loader/wine.pl.man.in
---- wine-1.6.orig/loader/wine.pl.man.in	2013-07-18 19:57:36.000000000 +0200
-+++ wine-1.6/loader/wine.pl.man.in	2013-10-27 16:00:32.485303762 +0100
+diff -durN wine-1.6.2.orig/loader/wine.pl.man.in wine-1.6.2/loader/wine.pl.man.in
+--- wine-1.6.2.orig/loader/wine.pl.man.in	2014-01-10 21:37:29.000000000 +0100
++++ wine-1.6.2/loader/wine.pl.man.in	2014-05-03 12:07:16.337846160 +0200
 @@ -1,14 +1,14 @@
  .\" -*- nroff -*-
 -.TH WINE 1 "October 2005" "@PACKAGE_STRING@" "Windows On Unix"

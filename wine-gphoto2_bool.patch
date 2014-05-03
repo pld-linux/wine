@@ -1,0 +1,14 @@
+--- wine-1.6.2.orig/dlls/gphoto2.ds/gphoto2_i.h	2014-01-10 21:37:29.000000000 +0100
++++ wine-1.6.2/dlls/gphoto2.ds/gphoto2_i.h	2014-05-03 12:30:26.674481549 +0200
+@@ -32,7 +32,11 @@
+ #ifdef HAVE_GPHOTO2
+ /* Hack for gphoto2, which changes behaviour when WIN32 is set. */
+ #undef WIN32
++#define TRUE 1
++#define FALSE 0
+ #include <gphoto2/gphoto2-camera.h>
++#undef TRUE
++#undef FALSE
+ #define WIN32
+ #endif
+ 

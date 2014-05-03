@@ -31,19 +31,19 @@ Summary(es.UTF-8):	Ejecuta programas Windows en Linux
 Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
-Version:	1.6
-Release:	5
+Version:	1.6.2
+Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 Source0:	http://downloads.sourceforge.net/wine/%{name}-%{version}.tar.bz2
-# Source0-md5:	47cf1e121d395e9c8ca1a4ab88f1e658
+# Source0-md5:	0f6c56f86befe38e219090915f81f48a
 Source1:	http://downloads.sourceforge.net/wine/%{name}_gecko-%{gecko_ver}-x86.msi
 # Source1-md5:	432eb3a2d05c3f07df67864f53c87c60
 Source2:	http://downloads.sourceforge.net/wine/%{name}_gecko-%{gecko_ver}-x86_64.msi
 # Source2-md5:	580bbabde1ec99ba9caa439c2dbca3f6
 Source3:	%{name}-uninstaller.desktop
-Patch0:		%{name}-bison3.patch
+Patch0:		%{name}-gphoto2_bool.patch
 Patch1:		%{name}-makedep.patch
 Patch2:		%{name}-ncurses.patch
 Patch4:		%{name}-disable-valgrind.patch
@@ -71,9 +71,9 @@ BuildRequires:	fslint
 BuildRequires:	gettext-devel
 BuildRequires:	giflib-devel
 BuildRequires:	gnutls-devel
-%{?with_gstreamer:BuildRequires:	gstreamer-plugins-base-devel}
+%{?with_gstreamer:BuildRequires:	gstreamer0.10-plugins-base-devel}
 BuildRequires:	icoutils
-BuildRequires:	lcms-devel
+BuildRequires:	lcms2-devel
 BuildRequires:	libgphoto2-devel
 BuildRequires:	libgsm-devel
 BuildRequires:	libjpeg-devel
