@@ -51,9 +51,8 @@ Patch1:		%{name}-makedep.patch
 Patch2:		%{name}-ncurses.patch
 Patch4:		%{name}-disable-valgrind.patch
 Patch5:		%{name}-ca_certificates.patch
-Patch6:		%{name}-manpaths.patch
-Patch7:		desktop.patch
-Patch8:		%{name}-wine64_man.patch
+Patch6:		desktop.patch
+Patch7:		%{name}-wine64_man.patch
 URL:		http://www.winehq.org/
 BuildRequires:	OpenAL-devel >= 1.1
 BuildRequires:	ocl-icd-libOpenCL-devel
@@ -274,9 +273,8 @@ Sterownik ALSA dla implementacji mm.dll (systemu multimediów) w Wine.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
-%patch7 -p1
 %ifarch %{x8664}
-%patch8 -p1
+%patch7 -p1
 %endif
 
 %build
@@ -342,9 +340,7 @@ install -d $RPM_BUILD_ROOT{%{_mandir}/man1,%{_aclocaldir}}
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-findup -m $RPM_BUILD_ROOT%{_winedir}/fakedlls
-
-install -p tools/fnt2fon $RPM_BUILD_ROOT%{_bindir}
+install -p tools/sfnt2fon/sfnt2fon $RPM_BUILD_ROOT%{_bindir}
 cp -a aclocal.m4 $RPM_BUILD_ROOT%{_aclocaldir}/wine.m4
 
 install -d \
@@ -392,6 +388,10 @@ for p in $programs; do
 	echo "%{_mandir}/man1/$p.1*" >> files.programs
 	grep -v "$p\.exe\.so$" files.so > files.so.
 	mv -f files.so. files.so
+done
+
+for dir in $RPM_BUILD_ROOT%{_mandir}/*.UTF-8 ; do
+	mv "$dir" "${dir%.UTF-8}"
 done
 
 %ifarch %{x8664}
@@ -509,7 +509,7 @@ fi
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/fnt2fon
+%attr(755,root,root) %{_bindir}/sfnt2fon
 %attr(755,root,root) %{_bindir}/function_grep.pl
 %attr(755,root,root) %{_bindir}/widl
 %attr(755,root,root) %{_bindir}/winebuild
