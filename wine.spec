@@ -37,7 +37,7 @@ Name:		wine
 # 1.6.x – stable
 # 1.7.x – development (DEVEL branch)
 Version:	1.7.18
-Release:	0.1
+Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
