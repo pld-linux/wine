@@ -7,6 +7,7 @@
 %bcond_without	ldap		# don't build LDAP DLL
 %bcond_without	cups		# without CUPS printing support in winspool,wineps DLLs
 %bcond_without	netapi		# don't use the Samba NetAPI library
+%bcond_without	compholio	# don't use the compholio patches for Silverlight
 #
 # NOTE: wine detects the following SONAMES for dlopen at build time:
 #   libcrypto,libssl (wininet.dll)
@@ -27,6 +28,7 @@
 %endif
 
 %define		gecko_ver	2.24
+%define		compholio_ver	%{version}
 Summary:	Program that lets you launch Win applications
 Summary(es.UTF-8):	Ejecuta programas Windows en Linux
 Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
@@ -46,6 +48,8 @@ Source1:	http://downloads.sourceforge.net/wine/%{name}_gecko-%{gecko_ver}-x86.ms
 Source2:	http://downloads.sourceforge.net/wine/%{name}_gecko-%{gecko_ver}-x86_64.msi
 # Source2-md5:	1912fd191872c72d5f562283e44e8ab4
 Source3:	%{name}-uninstaller.desktop
+Source4:	https://github.com/compholio/wine-compholio-daily/archive/v%{compholio_ver}/wine-compholio-%{compholio_ver}.tar.gz
+# Source4-md5:	7e5b25b732415112f6d4b9418a2e5945
 Patch0:		%{name}-gphoto2_bool.patch
 Patch1:		%{name}-makedep.patch
 Patch2:		%{name}-ncurses.patch
@@ -60,6 +64,7 @@ BuildRequires:	OpenGL-GLU-devel
 BuildRequires:	Mesa-libOSMesa-devel
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 %{?with_arts:BuildRequires:	artsc-devel}
+%{?with_compholio:BuildRequires:	attr-devel}
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
@@ -123,6 +128,13 @@ Suggests:	xorg-app-xmessage
 Suggests:	samba-common >= 1:3.0.25
 # link to wine/ntdll.dll.so, without any SONAME
 Provides:	libntdll.dll.so
+%if %{with compholio}
+Provides:	wine(compholio) = %{compholio_ver}
+%ifarch %{ix86}
+# Pipelight dependency on x86_64
+Provides:	wine(compholio)(32bit) = %{compholio_ver}
+%endif
+%endif
 Obsoletes:	wine-doc-pdf
 Obsoletes:	wine-drv-arts
 Obsoletes:	wine-drv-jack
@@ -266,7 +278,7 @@ ALSA driver for WINE mm.dll (multimedia system) implementation.
 Sterownik ALSA dla implementacji mm.dll (systemu multimediów) w Wine.
 
 %prep
-%setup -q
+%setup -q -a4
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -277,9 +289,24 @@ Sterownik ALSA dla implementacji mm.dll (systemu multimediów) w Wine.
 %patch7 -p1
 %endif
 
+%if %{with compholio}
+# binary patch that doesn't apply
+# and real Arial may be installed through fonts-TTF-microsoft
+rm -r wine-compholio-*/patches/10-Missing_Fonts
+
+for patch in wine-compholio-*/patches/*/*.patch ; do
+	patch -N -p0 --strip=1 < "${patch}"
+#	wine-compholio-*/debian/tools/gitapply.sh < "${patch}"
+done
+%endif
+
 %build
 icotool -x --width=32 --height=32 --bit-depth=32 -o . dlls/user32/resources/oic_winlogo.ico
 mv -f oic_winlogo_*.png %{name}.png
+
+%if %{with compholio}
+tools/make_requests
+%endif
 
 %{__autoconf}
 %{__autoheader}
