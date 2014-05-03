@@ -25,7 +25,7 @@
 %define	libqual %{nil}
 %endif
 
-%define		gecko_ver	2.21
+%define		gecko_ver	2.24
 Summary:	Program that lets you launch Win applications
 Summary(es.UTF-8):	Ejecuta programas Windows en Linux
 Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
@@ -33,17 +33,17 @@ Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
 # 1.6.x – stable
 # 1.7.x – development (DEVEL branch)
-Version:	1.6.2
-Release:	1
+Version:	1.7.18
+Release:	0.1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 Source0:	http://downloads.sourceforge.net/wine/%{name}-%{version}.tar.bz2
-# Source0-md5:	0f6c56f86befe38e219090915f81f48a
+# Source0-md5:	b13c19ef69a99f2aa6c0b3fd08ae8d90
 Source1:	http://downloads.sourceforge.net/wine/%{name}_gecko-%{gecko_ver}-x86.msi
-# Source1-md5:	432eb3a2d05c3f07df67864f53c87c60
+# Source1-md5:	766bb034172f7f0a97443951a02a0df8
 Source2:	http://downloads.sourceforge.net/wine/%{name}_gecko-%{gecko_ver}-x86_64.msi
-# Source2-md5:	580bbabde1ec99ba9caa439c2dbca3f6
+# Source2-md5:	1912fd191872c72d5f562283e44e8ab4
 Source3:	%{name}-uninstaller.desktop
 Patch0:		%{name}-gphoto2_bool.patch
 Patch1:		%{name}-makedep.patch
