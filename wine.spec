@@ -1,21 +1,32 @@
 #
 # Conditional build:
-%bcond_without	alsa		# don't build ALSA mm driver
-%bcond_without	capi		# don't build CAPI 2.0 (ISDN) support
-%bcond_without	gstreamer	# don't build GStreamer filters support
-%bcond_without	sane		# don't build TWAIN DLL with scanning support (through SANE)
-%bcond_without	ldap		# don't build LDAP DLL
-%bcond_without	cups		# without CUPS printing support in winspool,wineps DLLs
+%bcond_without	alsa		# ALSA mm driver
+%bcond_without	capi		# CAPI 2.0 (ISDN) support
+%bcond_without	gstreamer	# GStreamer filters support
+%bcond_without	sane		# TWAIN DLL with scanning support (through SANE)
+%bcond_with	hal		# HAL dynamic device support [deprecated]
+%bcond_without	ldap		# LDAP DLL
+%bcond_without	cups		# CUPS printing support in winspool,wineps DLLs
 #
 # NOTE: wine detects the following SONAMES for dlopen at build time:
-#   libcrypto,libssl (wininet.dll)
-#   libcups (winspool.dll.so,wineps.dll.so)
-#   libcurses/libncurses (wineconsole program)
+#   libGL (winex11.drv.so)
+#   libOSMesa (gdi32.dll.so)
+#   libX11 libXcomposite libXcursor libXext libXi libXinerama libXrandr libXrender libXxf86vm (winex11.drv.so)
+#   libcapi20 (capi2032.dll.so)
+#   libcups (winspool.drv.so)
+#   libdbus (mountmgr.sys.so)
 #   libfontconfig (gdi32.dll.so)
-#   libfreetype (wineps.dll.so,gdi32.dll.so)
-#   libGL (x11drv.dll.so,ddraw.dll.so)
-#   libX11, libXext, libXi, libXrender (x11drv.dll.so)
-#   libpng (windowscodecs.dll: SONAME_LIBPNG in dlls/windowscodecs/pngformat.c)
+#   libfreetype (gdi32.dll.so)
+#   libgnutls (secur32.dll.so)
+#   libhal (mountmgr.sys.so)
+#   libjpeg (gphoto2.ds.so windowscodecs.dll.so)
+#   libncurses (kernel32.dll.so)
+#   libodbc (odbc32.dll.so)
+#   libpng (windowscodecs.dll.so)
+#   libsane (sane.ds.so)
+#   libtiff (windowscodecs.dll.so)
+#   libv4l1 (qcap.dll.so)
+#   libxslt (msxml3.dll.so)
 # thus requires rebuild after change of any of the above.
 
 # library qualifier in rpm generated deps
@@ -54,56 +65,69 @@ Patch6:		%{name}-manpaths.patch
 Patch7:		desktop.patch
 Patch8:		%{name}-wine64_man.patch
 URL:		http://www.winehq.org/
+BuildRequires:	Mesa-libOSMesa-devel
 BuildRequires:	OpenAL-devel >= 1.1
+BuildRequires:	OpenCL-devel
 BuildRequires:	OpenGL-GLU-devel
+BuildRequires:	OpenGL-GLX-devel
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 %{?with_arts:BuildRequires:	artsc-devel}
-BuildRequires:	autoconf
+BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake
 BuildRequires:	bison
 %{?with_capi:BuildRequires:	capi4k-utils-devel}
 %{?with_cups:BuildRequires:	cups-devel}
+BuildRequires:	dbus-devel
 BuildRequires:	docbook-dtd31-sgml
 BuildRequires:	docbook-utils
-BuildRequires:	flex
+BuildRequires:	flex >= 2.5.33
 BuildRequires:	fontconfig-devel
 BuildRequires:	fontforge
 BuildRequires:	freetype-devel >= 2.0.5
+# for findup used after make install
 BuildRequires:	fslint
+%ifarch %{x8664}
+BuildRequires:	gcc >= 6:4.4
+%endif
 BuildRequires:	gettext-devel
 BuildRequires:	giflib-devel
 BuildRequires:	gnutls-devel
-%{?with_gstreamer:BuildRequires:	gstreamer0.10-plugins-base-devel}
-BuildRequires:	icoutils
-BuildRequires:	lcms2-devel
+%{?with_gstreamer:BuildRequires:	gstreamer0.10-devel >= 0.10}
+%{?with_gstreamer:BuildRequires:	gstreamer0.10-plugins-base-devel >= 0.10}
+%{?with_hal:BuildRequires:	hal-devel}
+# for icotool used in build
+BuildRequires:	icoutils >= 0.29.0
+BuildRequires:	lcms2-devel >= 2
 BuildRequires:	libgphoto2-devel
 BuildRequires:	libgsm-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libmpg123-devel >= 1.5.0
+BuildRequires:	libpng-devel >= 1.5
+BuildRequires:	libtiff-devel
 BuildRequires:	libtool
 BuildRequires:	libv4l-devel
+BuildRequires:	libxml2-devel >= 2.0
 BuildRequires:	libxslt-devel
 BuildRequires:	ncurses-devel
 # db2* failed previously - probably openjade or opensp bug
-BuildRequires:	libpng-devel >= 1.5
 BuildRequires:	openjade >= 1:1.3.3-0.pre1
 %{?with_ldap:BuildRequires:	openldap-devel}
 BuildRequires:	opensp >= 1:1.5.1
-BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	pkgconfig
 BuildRequires:	prelink
 %{?with_sane:BuildRequires:	sane-backends-devel}
 BuildRequires:	unixODBC-devel >= 2.2.12-2
 #BuildRequires:	valgrind
+BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXcomposite-devel
 BuildRequires:	xorg-lib-libXcursor-devel
+BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXi-devel
 BuildRequires:	xorg-lib-libXinerama-devel
-BuildRequires:	xorg-lib-libXmu-devel
 BuildRequires:	xorg-lib-libXrandr-devel
 BuildRequires:	xorg-lib-libXrender-devel
-BuildRequires:	xorg-lib-libXxf86dga-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
+BuildRequires:	zlib-devel
 Requires:	libfreetype.so.6%{libqual}
 Requires:	libpng16.so.16%{libqual}
 Requires(post):	/sbin/ldconfig
@@ -123,11 +147,10 @@ Obsoletes:	wine-doc-pdf
 Obsoletes:	wine-drv-arts
 Obsoletes:	wine-drv-jack
 Obsoletes:	wine-drv-nas
-ExclusiveArch:	%{ix86} %{x8664}
+ExclusiveArch:	%{ix86} %{x8664} arm
 ExcludeArch:	i386
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_noautoreqdep		libGL.so.1 libGLU.so.1
 %define		no_install_post_strip	1
 
 %define		_winedir		%{_datadir}/%{name}
@@ -284,11 +307,11 @@ mv -f oic_winlogo_*.png %{name}.png
 %ifarch %{x8664}
 	--enable-win64 \
 %endif
-	--with%{!?with_alsa:out}-alsa \
-	--with%{!?with_capi:out}-capi \
+	--with-alsa%{!?with_alsa:=no} \
+	--with-capi%{!?with_capi:=no} \
 	--with-cms \
 	--with-coreaudio \
-	--with%{!?with_cups:out}-cups \
+	--with-cups%{!?with_cups:=no} \
 	--with-curses \
 	--with-fontconfig \
 	--with-freetype \
@@ -296,16 +319,16 @@ mv -f oic_winlogo_*.png %{name}.png
 	--with-gnutls \
 	--with-gphoto \
 	--with-gsm \
-	--with%{!?with_gstreamer:out}-gstreamer \
+	--with-gstreamer%{!?with_gstreamer:=no} \
+	--with-hal%{!?with_hal:=no} \
 	--with-jpeg \
-	--with%{!?with_ldap:out}-ldap \
+	--with-ldap%{!?with_ldap:=no} \
 	--with-mpg123 \
 	--with-opengl \
-	--with-openssl \
 	--with-oss \
 	--with-png \
 	--with-pthread \
-	--with%{!?with_sane:out}-sane \
+	--with-sane%{!?with_sane:=no} \
 	--with-xcomposite \
 	--with-xcursor \
 	--with-xinerama \
