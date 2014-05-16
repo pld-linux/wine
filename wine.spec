@@ -220,11 +220,10 @@ Group:		Applications/Emulators
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description dll-capi
-CAPI 2.0 (ISDN) implementation DLLs for Wine (through OpenGL).
+CAPI 2.0 (ISDN) implementation DLLs for Wine.
 
 %description dll-capi -l pl.UTF-8
-Biblioteki DLL z implementacją CAPI 2.0 (ISDN) dla Wine (poprzez
-OpenGL).
+Biblioteki DLL z implementacją CAPI 2.0 (ISDN) dla Wine.
 
 %package dll-d3d
 Summary:	Direct3D implementation DLLs for Wine
@@ -266,11 +265,15 @@ Biblioteka DLL z implementacją TWAIN dla Wine (poprzez SANE).
 
 %package dll-ldap
 Summary:	Win32 LDAP API DLL for Wine
+Summary(pl.UTF-8):	Biblioteka DLL z implementacją API Win32 LDAP dla Wine
 Group:		Applications/Emulators
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description dll-ldap
-Lightweight Directory Access Protocol Library.
+Lightweight Directory Access Protocol Library for Wine.
+
+%description dll-ldap -l pl.UTF-8
+Biblioteka LDAP (Lightweight Directory Access Protocol) dla Wine.
 
 %package drv-alsa
 Summary:	ALSA driver for WINE mm.dll implementation
@@ -586,6 +589,5 @@ fi
 %endif
 
 # additional dependencies in *.so not separated (yet?) from main package
-#   ddraw.dll.so,x11drv.dll.so depend on X11 libs
-#   ole2disp.dll.so,oleaut32.dll.so,typelib.dll.so depend on lib(un)gif,libjpeg,libX11
-#   ttydrv.dll.so depends on ncurses
+#   ddraw.dll.so,winex11.drv.so depend on X11 libs
+#   ole2disp.dll16.so,oleaut32.dll.so,typelib.dll16.so depend on libX11
