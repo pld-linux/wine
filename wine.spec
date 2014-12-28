@@ -89,7 +89,7 @@ BuildRequires:	fslint
 %ifarch %{x8664}
 BuildRequires:	gcc >= 6:4.4
 %endif
-BuildRequires:	gettext-devel
+BuildRequires:	gettext-tools
 BuildRequires:	giflib-devel
 BuildRequires:	gnutls-devel
 %{?with_gstreamer:BuildRequires:	gstreamer0.10-devel >= 0.10}
