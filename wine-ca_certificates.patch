@@ -1,10 +1,11 @@
---- wine-1.3.25/dlls/crypt32/rootstore.c~	2011-07-22 19:32:43.000000000 +0200
-+++ wine-1.3.25/dlls/crypt32/rootstore.c	2011-07-29 14:50:36.459205636 +0200
-@@ -487,6 +487,7 @@
+diff -dur -x '*~' -x '*.orig' -x '*.rej' wine-1.7.35.orig/dlls/crypt32/rootstore.c wine-1.7.35/dlls/crypt32/rootstore.c
+--- wine-1.7.35.orig/dlls/crypt32/rootstore.c	2015-01-23 21:06:27.000000000 +0100
++++ wine-1.7.35/dlls/crypt32/rootstore.c	2015-01-28 16:32:00.343994824 +0100
+@@ -488,6 +488,7 @@
   "/etc/pki/tls/certs/ca-bundle.crt",
+  "/usr/share/ca-certificates/ca-bundle.crt",
   "/usr/local/share/certs/",
-  "/etc/sfw/openssl/certs",
 + "/etc/certs/ca-certificates.crt",
+  "/etc/sfw/openssl/certs",
+  "/etc/security/cacerts",  /* Android */
  };
- 
- static const BYTE authenticode[] = {

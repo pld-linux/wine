@@ -1,0 +1,13 @@
+diff -dur wine-1.7.35.orig/wine-staging-1.7.35/patches/patchinstall.sh wine-1.7.35/wine-staging-1.7.35/patches/patchinstall.sh
+--- wine-1.7.35.orig/wine-staging-1.7.35/patches/patchinstall.sh	2015-01-24 16:04:50.000000000 +0100
++++ wine-1.7.35/wine-staging-1.7.35/patches/patchinstall.sh	2015-01-28 16:56:06.046971532 +0100
+@@ -708,8 +708,7 @@
+ # are applied, but the exitcode is zero. To avoid broken builds we
+ # will workaround this issue or abort. For more information see
+ # https://github.com/wine-compholio/wine-staging/issues/7
+-test ! -d "$DESTDIR/.git" && (cd "$DESTDIR"; git rev-parse --git-dir) &> /dev/null
+-workaround_git_bug="$?"
++workaround_git_bug="1"
+ 
+ # Apply the patches using gitapply.sh, a small wrapper around 'patch'
+ if test "$backend" = "patch"; then

@@ -36,27 +36,27 @@ Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
 # 1.6.x – stable
 # 1.7.x – development (DEVEL branch)
-Version:	1.7.18
+Version:	1.7.35
 Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 Source0:	http://downloads.sourceforge.net/wine/%{name}-%{version}.tar.bz2
-# Source0-md5:	b13c19ef69a99f2aa6c0b3fd08ae8d90
+# Source0-md5:	c33d5f3187218ef53e233da3b5cccc80
 Source1:	http://downloads.sourceforge.net/wine/%{name}_gecko-%{gecko_ver}-x86.msi
 # Source1-md5:	766bb034172f7f0a97443951a02a0df8
 Source2:	http://downloads.sourceforge.net/wine/%{name}_gecko-%{gecko_ver}-x86_64.msi
 # Source2-md5:	1912fd191872c72d5f562283e44e8ab4
 Source3:	%{name}-uninstaller.desktop
-Source4:	https://github.com/compholio/wine-compholio-daily/archive/v%{compholio_ver}/wine-compholio-%{compholio_ver}.tar.gz
-# Source4-md5:	7e5b25b732415112f6d4b9418a2e5945
+Source4:	https://github.com/wine-compholio/wine-staging/archive/v%{compholio_ver}/wine-staging-%{compholio_ver}.tar.gz
+# Source4-md5:	41bc21247e5a4f4f3c68667fd9d489fa
 Patch0:		%{name}-gphoto2_bool.patch
 Patch1:		%{name}-makedep.patch
-Patch2:		%{name}-ncurses.patch
-Patch4:		%{name}-disable-valgrind.patch
-Patch5:		%{name}-ca_certificates.patch
-Patch6:		desktop.patch
-Patch7:		%{name}-wine64_man.patch
+Patch2:		%{name}-disable-valgrind.patch
+Patch3:		%{name}-ca_certificates.patch
+Patch4:		desktop.patch
+Patch5:		%{name}-wine64_man.patch
+Patch6:		%{name}-compholio-patchinstall.patch
 URL:		http://www.winehq.org/
 BuildRequires:	OpenAL-devel >= 1.1
 BuildRequires:	ocl-icd-libOpenCL-devel
@@ -80,6 +80,7 @@ BuildRequires:	freetype-devel >= 2.0.5
 BuildRequires:	fslint
 BuildRequires:	gettext-devel
 BuildRequires:	giflib-devel
+%{?with_compholio:BuildRequires:	git-core}
 BuildRequires:	gnutls-devel
 %{?with_gstreamer:BuildRequires:	gstreamer0.10-plugins-base-devel}
 BuildRequires:	icoutils
@@ -282,22 +283,15 @@ Sterownik ALSA dla implementacji mm.dll (systemu multimediów) w Wine.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 %patch4 -p1
-%patch5 -p1
-%patch6 -p1
 %ifarch %{x8664}
-%patch7 -p1
+%patch5 -p1
 %endif
 
 %if %{with compholio}
-# binary patch that doesn't apply
-# and real Arial may be installed through fonts-TTF-microsoft
-rm -r wine-compholio-*/patches/10-Missing_Fonts
-
-for patch in wine-compholio-*/patches/*/*.patch ; do
-	patch -N -p0 --strip=1 < "${patch}"
-#	wine-compholio-*/debian/tools/gitapply.sh < "${patch}"
-done
+%patch6 -p1
+./wine-staging-*/patches/patchinstall.sh DESTDIR=$PWD --all --backend=git-apply
 %endif
 
 %build
