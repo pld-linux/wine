@@ -115,6 +115,7 @@ BuildRequires:	ncurses-devel
 BuildRequires:	openjade >= 1:1.3.3-0.pre1
 %{?with_ldap:BuildRequires:	openldap-devel}
 BuildRequires:	opensp >= 1:1.5.1
+BuildRequires:	pulseaudio-devel
 BuildRequires:	pkgconfig
 BuildRequires:	prelink
 BuildRequires:	samba-devel
