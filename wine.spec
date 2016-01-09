@@ -46,7 +46,7 @@ Name:		wine
 # 1.8.x – stable
 # 1.9.x – development
 Version:	1.8
-Release:	0.1
+Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
