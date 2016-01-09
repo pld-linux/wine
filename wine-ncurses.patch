@@ -1,7 +1,7 @@
-diff -durN -x '*~' -x '*.orig' wine-1.7.18.orig/configure.ac wine-1.7.18/configure.ac
---- wine-1.7.18.orig/configure.ac	2014-05-02 20:15:48.000000000 +0200
-+++ wine-1.7.18/configure.ac	2014-05-03 13:18:36.421083206 +0200
-@@ -443,6 +443,7 @@
+diff -dur wine-1.8.orig/configure.ac wine-1.8/configure.ac
+--- wine-1.8.orig/configure.ac	2015-12-19 16:57:44.000000000 +0100
++++ wine-1.8/configure.ac	2016-01-09 18:16:41.889401226 +0100
+@@ -450,6 +450,7 @@
  	machine/sysarch.h \
  	mntent.h \
  	ncurses.h \
@@ -9,21 +9,21 @@ diff -durN -x '*~' -x '*.orig' wine-1.7.18.orig/configure.ac wine-1.7.18/configu
  	netdb.h \
  	netinet/in.h \
  	netinet/in_systm.h \
-@@ -1354,9 +1355,12 @@
+@@ -1274,9 +1275,12 @@
  
  dnl **** Check which curses lib to use ***
  CURSES_LIBS=""
 -if test "$ac_cv_header_ncurses_h" = "yes"
 +if test "$ac_cv_header_ncurses_h" = "yes" || test "$ac_cv_header_ncurses_ncurses_h" = "yes"
  then
-     WINE_CHECK_SONAME(ncurses,waddch,[CURSES_LIBS="-lncurses"])
+     WINE_CHECK_SONAME(ncurses,waddch,[CURSES_LIBS="-lncurses"],,,[[libncursesw\\{0,1\\}]])
 +    if test "x$ac_cv_lib_soname_ncurses" = "x"; then
 +        WINE_CHECK_SONAME(ncursesw,waddch,[CURSESLIBS="-lncursesw"])
 +    fi
  elif test "$ac_cv_header_curses_h" = "yes"
  then
      WINE_CHECK_SONAME(curses,waddch,[CURSES_LIBS="-lcurses"])
-@@ -1365,8 +1369,8 @@
+@@ -1285,8 +1289,8 @@
  LIBS="$LIBS $CURSES_LIBS"
  AC_CHECK_FUNCS(mousemask)
  LIBS="$ac_save_LIBS"
@@ -34,9 +34,9 @@ diff -durN -x '*~' -x '*.orig' wine-1.7.18.orig/configure.ac wine-1.7.18/configu
  
  dnl **** Check for SANE ****
  if test "x$with_sane" != "xno"
-diff -durN -x '*~' -x '*.orig' wine-1.7.18.orig/dlls/kernel32/term.c wine-1.7.18/dlls/kernel32/term.c
---- wine-1.7.18.orig/dlls/kernel32/term.c	2014-05-02 20:15:48.000000000 +0200
-+++ wine-1.7.18/dlls/kernel32/term.c	2014-05-03 13:16:18.597752974 +0200
+diff -dur wine-1.8.orig/dlls/kernel32/term.c wine-1.8/dlls/kernel32/term.c
+--- wine-1.8.orig/dlls/kernel32/term.c	2015-12-19 16:57:44.000000000 +0100
++++ wine-1.8/dlls/kernel32/term.c	2016-01-09 18:15:39.868921555 +0100
 @@ -27,6 +27,8 @@
  # include <ncurses.h>
  #elif defined(HAVE_CURSES_H)
@@ -64,9 +64,9 @@ diff -durN -x '*~' -x '*.orig' wine-1.7.18.orig/dlls/kernel32/term.c wine-1.7.18
  # define CURSES_NAME "ncurses"
  #else
  # define CURSES_NAME "curses"
-diff -durN -x '*~' -x '*.orig' wine-1.7.18.orig/programs/wineconsole/curses.c wine-1.7.18/programs/wineconsole/curses.c
---- wine-1.7.18.orig/programs/wineconsole/curses.c	2014-05-02 20:15:48.000000000 +0200
-+++ wine-1.7.18/programs/wineconsole/curses.c	2014-05-03 13:16:18.597752974 +0200
+diff -dur wine-1.8.orig/programs/wineconsole/curses.c wine-1.8/programs/wineconsole/curses.c
+--- wine-1.8.orig/programs/wineconsole/curses.c	2015-12-19 16:57:44.000000000 +0100
++++ wine-1.8/programs/wineconsole/curses.c	2016-01-09 18:15:39.872254915 +0100
 @@ -40,6 +40,8 @@
  # include <ncurses.h>
  #elif defined(HAVE_CURSES_H)

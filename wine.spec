@@ -45,13 +45,13 @@ Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
 # 1.6.x – stable
 # 1.7.x – development (DEVEL branch)
-Version:	1.7.18
+Version:	1.8
 Release:	0.1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 Source0:	http://downloads.sourceforge.net/wine/%{name}-%{version}.tar.bz2
-# Source0-md5:	b13c19ef69a99f2aa6c0b3fd08ae8d90
+# Source0-md5:	96b51a2f2ae727802d71095354e69fef
 Source1:	http://downloads.sourceforge.net/wine/%{name}_gecko-%{gecko_ver}-x86.msi
 # Source1-md5:	766bb034172f7f0a97443951a02a0df8
 Source2:	http://downloads.sourceforge.net/wine/%{name}_gecko-%{gecko_ver}-x86_64.msi
@@ -103,6 +103,7 @@ BuildRequires:	libgphoto2-devel
 BuildRequires:	libgsm-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libmpg123-devel >= 1.5.0
+BuildRequires:	libcap-devel
 BuildRequires:	libpng-devel >= 1.5
 BuildRequires:	libtiff-devel
 BuildRequires:	libtool
@@ -333,11 +334,12 @@ mv -f oic_winlogo_*.png %{name}.png
 	--with-openal \
 	--with-opencl \
 	--with-opengl \
-	--with-openssl \
 	--with-osmesa \
 	--with-oss \
+	--with-pcap \
 	--with-png \
 	--with-pthread \
+	--with-pulse \
 	--with%{!?with_sane:out}-sane \
 	--with-tiff \
 	--with-v4l \
@@ -419,8 +421,16 @@ for dir in $RPM_BUILD_ROOT%{_mandir}/*.UTF-8 ; do
 done
 
 %ifarch %{x8664}
-for langdir in "" de/ fr/ pl/ ; do
-mv $RPM_BUILD_ROOT%{_mandir}/${langdir}man1/{wine,wine64}.1
+install loader/wine.man $RPM_BUILD_ROOT%{_mandir}/man1/wine64.1
+for lang in de fr pl ; do
+install -d $RPM_BUILD_ROOT%{_mandir}/${lang}/man1
+install loader/wine.${lang}.UTF-8.man $RPM_BUILD_ROOT%{_mandir}/${lang}/man1/wine64.1
+done
+%else
+install loader/wine.man $RPM_BUILD_ROOT%{_mandir}/man1/wine.1
+for lang in de fr pl ; do
+install -d $RPM_BUILD_ROOT%{_mandir}/${lang}/man1
+install loader/wine.${lang}.UTF-8.man $RPM_BUILD_ROOT%{_mandir}/${lang}/man1/wine.1
 done
 %endif
 

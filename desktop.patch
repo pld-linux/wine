@@ -1,6 +1,6 @@
-diff -dur wine-1.6.orig/tools/wine.desktop wine-1.6/tools/wine.desktop
---- wine-1.6.orig/tools/wine.desktop	2013-07-18 19:57:36.000000000 +0200
-+++ wine-1.6/tools/wine.desktop	2013-10-26 17:34:16.255593785 +0200
+diff -dur wine-1.8.orig/loader/wine.desktop wine-1.8/loader/wine.desktop
+--- wine-1.8.orig/loader/wine.desktop	2015-12-19 16:57:44.000000000 +0100
++++ wine-1.8/loader/wine.desktop	2016-01-09 18:22:26.828643807 +0100
 @@ -24,6 +24,7 @@
  Name[hr]=Wine - dizač Windows programa
  Name[he]=Wine — מריץ תכניות Windows
