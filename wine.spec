@@ -1,12 +1,13 @@
 #
 # Conditional build:
-%bcond_without	alsa		# ALSA mm driver
-%bcond_without	capi		# CAPI 2.0 (ISDN) support
-%bcond_without	gstreamer	# GStreamer filters support
-%bcond_without	sane		# TWAIN DLL with scanning support (through SANE)
+%bcond_without	alsa		# don't build ALSA mm driver
+%bcond_without	capi		# don't build CAPI 2.0 (ISDN) support
+%bcond_without	gstreamer	# don't build GStreamer filters support
+%bcond_without	sane		# don't build TWAIN DLL with scanning support (through SANE)
 %bcond_with	hal		# HAL dynamic device support [deprecated]
-%bcond_without	ldap		# LDAP DLL
-%bcond_without	cups		# CUPS printing support in winspool,wineps DLLs
+%bcond_without	ldap		# don't build LDAP DLL
+%bcond_without	cups		# without CUPS printing support in winspool,wineps DLLs
+%bcond_without	netapi		# don't use the Samba NetAPI library
 #
 # NOTE: wine detects the following SONAMES for dlopen at build time:
 #   libGL (winex11.drv.so)
@@ -36,7 +37,7 @@
 %define	libqual %{nil}
 %endif
 
-%define		gecko_ver	2.21
+%define		gecko_ver	2.24
 Summary:	Program that lets you launch Win applications
 Summary(es.UTF-8):	Ejecuta programas Windows en Linux
 Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
@@ -44,32 +45,32 @@ Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
 # 1.6.x – stable
 # 1.7.x – development (DEVEL branch)
-Version:	1.6.2
-Release:	2
+Version:	1.7.18
+Release:	0.1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 Source0:	http://downloads.sourceforge.net/wine/%{name}-%{version}.tar.bz2
-# Source0-md5:	0f6c56f86befe38e219090915f81f48a
+# Source0-md5:	b13c19ef69a99f2aa6c0b3fd08ae8d90
 Source1:	http://downloads.sourceforge.net/wine/%{name}_gecko-%{gecko_ver}-x86.msi
-# Source1-md5:	432eb3a2d05c3f07df67864f53c87c60
+# Source1-md5:	766bb034172f7f0a97443951a02a0df8
 Source2:	http://downloads.sourceforge.net/wine/%{name}_gecko-%{gecko_ver}-x86_64.msi
-# Source2-md5:	580bbabde1ec99ba9caa439c2dbca3f6
+# Source2-md5:	1912fd191872c72d5f562283e44e8ab4
 Source3:	%{name}-uninstaller.desktop
 Patch0:		%{name}-gphoto2_bool.patch
 Patch1:		%{name}-makedep.patch
 Patch2:		%{name}-ncurses.patch
 Patch4:		%{name}-disable-valgrind.patch
 Patch5:		%{name}-ca_certificates.patch
-Patch6:		%{name}-manpaths.patch
-Patch7:		desktop.patch
-Patch8:		%{name}-wine64_man.patch
+Patch6:		desktop.patch
+Patch7:		%{name}-wine64_man.patch
 URL:		http://www.winehq.org/
 BuildRequires:	Mesa-libOSMesa-devel
 BuildRequires:	OpenAL-devel >= 1.1
 BuildRequires:	OpenCL-devel
 BuildRequires:	OpenGL-GLU-devel
 BuildRequires:	OpenGL-GLX-devel
+BuildRequires:	Mesa-libOSMesa-devel
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 %{?with_arts:BuildRequires:	artsc-devel}
 BuildRequires:	autoconf >= 2.62
@@ -115,6 +116,7 @@ BuildRequires:	openjade >= 1:1.3.3-0.pre1
 BuildRequires:	opensp >= 1:1.5.1
 BuildRequires:	pkgconfig
 BuildRequires:	prelink
+BuildRequires:	samba-devel
 %{?with_sane:BuildRequires:	sane-backends-devel}
 BuildRequires:	unixODBC-devel >= 2.2.12-2
 #BuildRequires:	valgrind
@@ -295,9 +297,8 @@ Sterownik ALSA dla implementacji mm.dll (systemu multimediów) w Wine.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
-%patch7 -p1
 %ifarch %{x8664}
-%patch8 -p1
+%patch7 -p1
 %endif
 
 %build
@@ -316,26 +317,35 @@ mv -f oic_winlogo_*.png %{name}.png
 	--with-coreaudio \
 	--with-cups%{!?with_cups:=no} \
 	--with-curses \
+	--with-dbus \
 	--with-fontconfig \
 	--with-freetype \
+	--with-gphoto \
 	--with-glu \
 	--with-gnutls \
-	--with-gphoto \
 	--with-gsm \
-	--with-gstreamer%{!?with_gstreamer:=no} \
-	--with-hal%{!?with_hal:=no} \
+	%{__with_without gstreamer} \
+	%{__with_without hal} \
 	--with-jpeg \
 	--with-ldap%{!?with_ldap:=no} \
 	--with-mpg123 \
+	--with%{!?with_netapi:out}-netapi \
+	--with-openal \
+	--with-opencl \
 	--with-opengl \
+	--with-openssl \
+	--with-osmesa \
 	--with-oss \
 	--with-png \
 	--with-pthread \
-	--with-sane%{!?with_sane:=no} \
+	--with%{!?with_sane:out}-sane \
+	--with-tiff \
+	--with-v4l \
 	--with-xcomposite \
 	--with-xcursor \
 	--with-xinerama \
 	--with-xinput \
+	--with-xinput2 \
 	--with-xml \
 	--with-xrandr \
 	--with-xrender \
@@ -343,7 +353,8 @@ mv -f oic_winlogo_*.png %{name}.png
 	--with-xshm \
 	--with-xslt \
 	--with-xxf86vm \
-	--with-x
+	--with-x \
+	--with-zlib
 %{__make} depend
 %{__make}
 
@@ -353,9 +364,7 @@ install -d $RPM_BUILD_ROOT{%{_mandir}/man1,%{_aclocaldir}}
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-findup -m $RPM_BUILD_ROOT%{_winedir}/fakedlls
-
-install -p tools/fnt2fon $RPM_BUILD_ROOT%{_bindir}
+install -p tools/sfnt2fon/sfnt2fon $RPM_BUILD_ROOT%{_bindir}
 cp -a aclocal.m4 $RPM_BUILD_ROOT%{_aclocaldir}/wine.m4
 
 install -d \
@@ -403,6 +412,10 @@ for p in $programs; do
 	echo "%{_mandir}/man1/$p.1*" >> files.programs
 	grep -v "$p\.exe\.so$" files.so > files.so.
 	mv -f files.so. files.so
+done
+
+for dir in $RPM_BUILD_ROOT%{_mandir}/*.UTF-8 ; do
+	mv "$dir" "${dir%.UTF-8}"
 done
 
 %ifarch %{x8664}
@@ -520,7 +533,7 @@ fi
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/fnt2fon
+%attr(755,root,root) %{_bindir}/sfnt2fon
 %attr(755,root,root) %{_bindir}/function_grep.pl
 %attr(755,root,root) %{_bindir}/widl
 %attr(755,root,root) %{_bindir}/winebuild
