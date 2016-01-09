@@ -43,8 +43,8 @@ Summary(es.UTF-8):	Ejecuta programas Windows en Linux
 Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
-# 1.6.x – stable
-# 1.7.x – development (DEVEL branch)
+# 1.8.x – stable
+# 1.9.x – development
 Version:	1.8
 Release:	0.1
 Epoch:		1
