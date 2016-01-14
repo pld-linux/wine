@@ -71,14 +71,12 @@ BuildRequires:	OpenCL-devel
 BuildRequires:	OpenGL-GLU-devel
 BuildRequires:	OpenGL-GLX-devel
 BuildRequires:	Mesa-libOSMesa-devel
-BuildRequires:	ParaView-devel
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 %{?with_arts:BuildRequires:	artsc-devel}
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake
 BuildRequires:	bison
 %{?with_capi:BuildRequires:	capi4k-utils-devel}
-BuildRequires:	crossmingw64-gcc
 %{?with_cups:BuildRequires:	cups-devel}
 BuildRequires:	dbus-devel
 BuildRequires:	docbook-dtd31-sgml
@@ -89,7 +87,6 @@ BuildRequires:	fontforge
 BuildRequires:	freetype-devel >= 2.0.5
 # for findup used after make install
 BuildRequires:	fslint
-BuildRequires:	ganv-devel
 BuildRequires:	gegl-devel
 BuildRequires:	gettext-devel
 %ifarch %{x8664}
@@ -103,14 +100,10 @@ BuildRequires:	gnutls-devel
 %{?with_hal:BuildRequires:	hal-devel}
 # for icotool used in build
 BuildRequires:	icoutils >= 0.29.0
-BuildRequires:	klibc-devel
-BuildRequires:	kudzu-devel
 BuildRequires:	lcms2-devel >= 2
-BuildRequires:	libgcj-devel
 BuildRequires:	libgphoto2-devel
 BuildRequires:	libgsm-devel
 BuildRequires:	libjpeg-devel
-BuildRequires:	libkqueue-devel
 BuildRequires:	libmpg123-devel >= 1.5.0
 BuildRequires:	libcap-devel
 BuildRequires:	libpcap-devel
@@ -120,7 +113,6 @@ BuildRequires:	libtool
 BuildRequires:	libv4l-devel
 BuildRequires:	libxml2-devel >= 2.0
 BuildRequires:	libxslt-devel
-BuildRequires:	lwp-devel
 BuildRequires:	ncurses-devel
 # db2* failed previously - probably openjade or opensp bug
 BuildRequires:	openjade >= 1:1.3.3-0.pre1
@@ -142,7 +134,6 @@ BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXrandr-devel
 BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
-BuildRequires:	zfs-devel
 BuildRequires:	zlib-devel
 Requires:	libfreetype.so.6%{libqual}
 Requires:	libpng16.so.16%{libqual}
