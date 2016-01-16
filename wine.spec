@@ -69,8 +69,6 @@ BuildRequires:	Mesa-libOSMesa-devel
 BuildRequires:	OpenAL-devel >= 1.1
 BuildRequires:	OpenCL-devel
 BuildRequires:	OpenGL-GLU-devel
-BuildRequires:	OpenGL-GLX-devel
-BuildRequires:	Mesa-libOSMesa-devel
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 %{?with_arts:BuildRequires:	artsc-devel}
 BuildRequires:	autoconf >= 2.62
@@ -79,21 +77,16 @@ BuildRequires:	bison
 %{?with_capi:BuildRequires:	capi4k-utils-devel}
 %{?with_cups:BuildRequires:	cups-devel}
 BuildRequires:	dbus-devel
-BuildRequires:	docbook-dtd31-sgml
-BuildRequires:	docbook-utils
 BuildRequires:	flex >= 2.5.33
 BuildRequires:	fontconfig-devel
-BuildRequires:	fontforge
 BuildRequires:	freetype-devel >= 2.0.5
 # for findup used after make install
 BuildRequires:	fslint
-BuildRequires:	gegl-devel
 BuildRequires:	gettext-devel
 %ifarch %{x8664}
 BuildRequires:	gcc >= 6:4.4
 %endif
 BuildRequires:	gettext-tools
-BuildRequires:	giflib-devel
 BuildRequires:	gnutls-devel
 %{?with_gstreamer:BuildRequires:	gstreamer0.10-devel >= 0.10}
 %{?with_gstreamer:BuildRequires:	gstreamer0.10-plugins-base-devel >= 0.10}
@@ -101,30 +94,24 @@ BuildRequires:	gnutls-devel
 # for icotool used in build
 BuildRequires:	icoutils >= 0.29.0
 BuildRequires:	lcms2-devel >= 2
+BuildRequires:	libcap-devel
 BuildRequires:	libgphoto2-devel
 BuildRequires:	libgsm-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libmpg123-devel >= 1.5.0
-BuildRequires:	libcap-devel
 BuildRequires:	libpcap-devel
 BuildRequires:	libpng-devel >= 1.5
 BuildRequires:	libtiff-devel
-BuildRequires:	libtool
 BuildRequires:	libv4l-devel
 BuildRequires:	libxml2-devel >= 2.0
 BuildRequires:	libxslt-devel
 BuildRequires:	ncurses-devel
-# db2* failed previously - probably openjade or opensp bug
-BuildRequires:	openjade >= 1:1.3.3-0.pre1
 %{?with_ldap:BuildRequires:	openldap-devel}
-BuildRequires:	opensp >= 1:1.5.1
-BuildRequires:	pulseaudio-devel
 BuildRequires:	pkgconfig
 BuildRequires:	prelink
+BuildRequires:	pulseaudio-devel
 BuildRequires:	samba-devel
 %{?with_sane:BuildRequires:	sane-backends-devel}
-BuildRequires:	unixODBC-devel >= 2.2.12-2
-#BuildRequires:	valgrind
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXcomposite-devel
 BuildRequires:	xorg-lib-libXcursor-devel
