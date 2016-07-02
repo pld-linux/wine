@@ -108,7 +108,6 @@ BuildRequires:	libxslt-devel
 BuildRequires:	ncurses-devel
 %{?with_ldap:BuildRequires:	openldap-devel}
 BuildRequires:	pkgconfig
-BuildRequires:	prelink
 BuildRequires:	pulseaudio-devel
 BuildRequires:	samba-devel
 %{?with_sane:BuildRequires:	sane-backends-devel}
