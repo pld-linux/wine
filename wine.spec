@@ -37,7 +37,8 @@
 %define	libqual %{nil}
 %endif
 
-%define		gecko_ver	2.24
+%define		gecko_ver	2.47
+%define		_rc		rc4
 Summary:	Program that lets you launch Win applications
 Summary(es.UTF-8):	Ejecuta programas Windows en Linux
 Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
@@ -45,17 +46,17 @@ Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
 # 1.8.x – stable
 # 1.9.x – development
-Version:	1.8
-Release:	2
+Version:	3.0
+Release:	0.%{_rc}.1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
-Source0:	http://downloads.sourceforge.net/wine/%{name}-%{version}.tar.bz2
-# Source0-md5:	96b51a2f2ae727802d71095354e69fef
-Source1:	http://downloads.sourceforge.net/wine/%{name}_gecko-%{gecko_ver}-x86.msi
-# Source1-md5:	766bb034172f7f0a97443951a02a0df8
-Source2:	http://downloads.sourceforge.net/wine/%{name}_gecko-%{gecko_ver}-x86_64.msi
-# Source2-md5:	1912fd191872c72d5f562283e44e8ab4
+Source0:	https://dl.winehq.org/wine/source/3.0/%{name}-%{version}-%{_rc}.tar.xz
+# Source0-md5:	843fd4697d153543aba5260214414dfd
+Source1:	https://dl.winehq.org/wine/wine-gecko/%{gecko_ver}/%{name}_gecko-%{gecko_ver}-x86.msi
+# Source1-md5:	5ebc4ec71c92b3db3d84b334a1db385d
+Source2:	https://dl.winehq.org/wine/wine-gecko/%{gecko_ver}/%{name}_gecko-%{gecko_ver}-x86_64.msi
+# Source2-md5:	d93ac0d2e6aceafe9113a9918916df45
 Source3:	%{name}-uninstaller.desktop
 Patch0:		%{name}-gphoto2_bool.patch
 Patch1:		%{name}-makedep.patch
@@ -80,16 +81,14 @@ BuildRequires:	dbus-devel
 BuildRequires:	flex >= 2.5.33
 BuildRequires:	fontconfig-devel
 BuildRequires:	freetype-devel >= 2.0.5
-# for findup used after make install
-BuildRequires:	fslint
 BuildRequires:	gettext-devel
 %ifarch %{x8664}
 BuildRequires:	gcc >= 6:4.4
 %endif
 BuildRequires:	gettext-tools
 BuildRequires:	gnutls-devel
-%{?with_gstreamer:BuildRequires:	gstreamer0.10-devel >= 0.10}
-%{?with_gstreamer:BuildRequires:	gstreamer0.10-plugins-base-devel >= 0.10}
+%{?with_gstreamer:BuildRequires:	gstreamer-devel >= 1.0}
+%{?with_gstreamer:BuildRequires:	gstreamer-plugins-base-devel >= 1.0}
 %{?with_hal:BuildRequires:	hal-devel}
 # for icotool used in build
 BuildRequires:	icoutils >= 0.29.0
@@ -281,7 +280,7 @@ ALSA driver for WINE mm.dll (multimedia system) implementation.
 Sterownik ALSA dla implementacji mm.dll (systemu multimediów) w Wine.
 
 %prep
-%setup -q
+%setup -q -n %{name}-%{version}-%{_rc}
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -325,7 +324,6 @@ mv -f oic_winlogo_*.png %{name}.png
 	--with-opencl \
 	--with-opengl \
 	--with-osmesa \
-	--with-oss \
 	--with-pcap \
 	--with-png \
 	--with-pthread \
@@ -546,9 +544,10 @@ fi
 %attr(755,root,root) %{_bindir}/wrc
 %{_libdir}/wine/lib*.def
 # no shared variants, so not separated
-%{_libdir}/wine/lib*.def.a
 %{_libdir}/wine/libadsiid.a
+%{_libdir}/wine/libdinput.a
 %{_libdir}/wine/libdx*.a
+%{_libdir}/wine/libmfuuid.a
 %{_libdir}/wine/libstrmbase.a
 %{_libdir}/wine/libstrmiids.a
 %{_libdir}/wine/libuuid.a
