@@ -133,6 +133,7 @@ Suggests:	cups-clients
 Suggests:	xorg-app-xmessage
 # for ntlm_auth
 Suggests:	samba-common >= 1:3.0.25
+AutoReqProv:	no
 # link to wine/ntdll.dll.so, without any SONAME
 Provides:	libntdll.dll.so
 Obsoletes:	wine-doc-pdf
