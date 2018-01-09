@@ -38,7 +38,7 @@
 %endif
 
 %define		gecko_ver	2.47
-%define		_rc		rc4
+%define		_rc		rc5
 Summary:	Program that lets you launch Win applications
 Summary(es.UTF-8):	Ejecuta programas Windows en Linux
 Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
@@ -52,7 +52,7 @@ Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 Source0:	https://dl.winehq.org/wine/source/3.0/%{name}-%{version}-%{_rc}.tar.xz
-# Source0-md5:	843fd4697d153543aba5260214414dfd
+# Source0-md5:	6dc55cc5b26c40adfb608abc49a9f29b
 Source1:	https://dl.winehq.org/wine/wine-gecko/%{gecko_ver}/%{name}_gecko-%{gecko_ver}-x86.msi
 # Source1-md5:	5ebc4ec71c92b3db3d84b334a1db385d
 Source2:	https://dl.winehq.org/wine/wine-gecko/%{gecko_ver}/%{name}_gecko-%{gecko_ver}-x86_64.msi
