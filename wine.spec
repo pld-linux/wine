@@ -38,7 +38,6 @@
 %endif
 
 %define		gecko_ver	2.47
-%define		_rc		rc5
 Summary:	Program that lets you launch Win applications
 Summary(es.UTF-8):	Ejecuta programas Windows en Linux
 Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
@@ -47,12 +46,12 @@ Name:		wine
 # 1.8.x – stable
 # 1.9.x – development
 Version:	3.0
-Release:	0.%{_rc}.1
+Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
-Source0:	https://dl.winehq.org/wine/source/3.0/%{name}-%{version}-%{_rc}.tar.xz
-# Source0-md5:	6dc55cc5b26c40adfb608abc49a9f29b
+Source0:	https://dl.winehq.org/wine/source/3.0/%{name}-%{version}.tar.xz
+# Source0-md5:	52e49d9d7b677b7ab0892545cdacfe43
 Source1:	https://dl.winehq.org/wine/wine-gecko/%{gecko_ver}/%{name}_gecko-%{gecko_ver}-x86.msi
 # Source1-md5:	5ebc4ec71c92b3db3d84b334a1db385d
 Source2:	https://dl.winehq.org/wine/wine-gecko/%{gecko_ver}/%{name}_gecko-%{gecko_ver}-x86_64.msi
@@ -281,7 +280,7 @@ ALSA driver for WINE mm.dll (multimedia system) implementation.
 Sterownik ALSA dla implementacji mm.dll (systemu multimediów) w Wine.
 
 %prep
-%setup -q -n %{name}-%{version}-%{_rc}
+%setup -q
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
