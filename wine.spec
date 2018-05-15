@@ -45,13 +45,13 @@ Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
 # 1.8.x – stable
 # 1.9.x – development
-Version:	3.0
+Version:	3.0.1
 Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 Source0:	https://dl.winehq.org/wine/source/3.0/%{name}-%{version}.tar.xz
-# Source0-md5:	52e49d9d7b677b7ab0892545cdacfe43
+# Source0-md5:	f97b7ed4dbd328e1d751f88a87043b0b
 Source1:	https://dl.winehq.org/wine/wine-gecko/%{gecko_ver}/%{name}_gecko-%{gecko_ver}-x86.msi
 # Source1-md5:	5ebc4ec71c92b3db3d84b334a1db385d
 Source2:	https://dl.winehq.org/wine/wine-gecko/%{gecko_ver}/%{name}_gecko-%{gecko_ver}-x86_64.msi
