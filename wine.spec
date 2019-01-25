@@ -43,15 +43,13 @@ Summary(es.UTF-8):	Ejecuta programas Windows en Linux
 Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
-# 1.8.x – stable
-# 1.9.x – development
-Version:	3.0.4
+Version:	4.0
 Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
-Source0:	https://dl.winehq.org/wine/source/3.0/%{name}-%{version}.tar.xz
-# Source0-md5:	21f71387f4975493c392e3019f5d536b
+Source0:	https://dl.winehq.org/wine/source/4.0/%{name}-%{version}.tar.xz
+# Source0-md5:	411cbb15606e2f7eb5d5eca3bca10ce2
 Source1:	https://dl.winehq.org/wine/wine-gecko/%{gecko_ver}/%{name}_gecko-%{gecko_ver}-x86.msi
 # Source1-md5:	5ebc4ec71c92b3db3d84b334a1db385d
 Source2:	https://dl.winehq.org/wine/wine-gecko/%{gecko_ver}/%{name}_gecko-%{gecko_ver}-x86_64.msi
@@ -292,8 +290,11 @@ Sterownik ALSA dla implementacji mm.dll (systemu multimediów) w Wine.
 %endif
 
 %build
-icotool -x --width=32 --height=32 --bit-depth=32 -o . dlls/user32/resources/oic_winlogo.ico
-mv -f oic_winlogo_*.png %{name}.png
+
+#workaround for icon extraction error.
+icotool -x -o . dlls/user32/resources/oic_winlogo.ico
+mv -f oic_winlogo_*32x32x32.png %{name}.png
+rm -f oic_winlogo_*.png
 
 %{__autoconf}
 %{__autoheader}
@@ -546,12 +547,15 @@ fi
 # no shared variants, so not separated
 %{_libdir}/wine/libadsiid.a
 %{_libdir}/wine/libdinput.a
+%{_libdir}/wine/libdinput8.a
+%{_libdir}/wine/libdmoguids.a
 %{_libdir}/wine/libdx*.a
 %{_libdir}/wine/libmfuuid.a
 %{_libdir}/wine/libstrmbase.a
 %{_libdir}/wine/libstrmiids.a
 %{_libdir}/wine/libuuid.a
 %{_libdir}/wine/libwinecrt0.a
+%{_libdir}/wine/libwmcodecdspuuid.a
 %{_includedir}/wine
 %{_mandir}/man1/widl.1*
 %{_mandir}/man1/winebuild.1*
