@@ -43,13 +43,13 @@ Summary(es.UTF-8):	Ejecuta programas Windows en Linux
 Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
-Version:	4.0
+Version:	4.0.1
 Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 Source0:	https://dl.winehq.org/wine/source/4.0/%{name}-%{version}.tar.xz
-# Source0-md5:	411cbb15606e2f7eb5d5eca3bca10ce2
+# Source0-md5:	966e7f9a3673194de79c3b3c25a9434b
 Source1:	https://dl.winehq.org/wine/wine-gecko/%{gecko_ver}/%{name}_gecko-%{gecko_ver}-x86.msi
 # Source1-md5:	5ebc4ec71c92b3db3d84b334a1db385d
 Source2:	https://dl.winehq.org/wine/wine-gecko/%{gecko_ver}/%{name}_gecko-%{gecko_ver}-x86_64.msi
