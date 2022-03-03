@@ -34,6 +34,12 @@
 %define	libqual %{nil}
 %endif
 
+%ifarch %{x8664} 
+%define	winelib	x86_64
+%else
+%define	winelib	i386
+%endif
+
 %define		gecko_ver	2.47.2
 Summary:	Program that lets you launch Win applications
 Summary(es.UTF-8):	Ejecuta programas Windows en Linux
@@ -60,6 +66,8 @@ Patch5:		%{name}-ca_certificates.patch
 Patch6:		desktop.patch
 Patch7:		%{name}-wine64_man.patch
 URL:		http://www.winehq.org/
+BuildConflicts:	crossmingw32-gcc
+BuildConflicts:	crossmingw64-gcc
 BuildRequires:	Mesa-libOSMesa-devel
 BuildRequires:	OpenAL-devel >= 1.1
 BuildRequires:	OpenCL-devel
@@ -70,6 +78,7 @@ BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake
 BuildRequires:	bison
 %{?with_capi:BuildRequires:	capi4k-utils-devel}
+BuildRequires:	clang
 %{?with_cups:BuildRequires:	cups-devel}
 BuildRequires:	dbus-devel
 BuildRequires:	flex >= 2.5.33
