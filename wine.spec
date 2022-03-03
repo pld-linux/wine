@@ -367,24 +367,14 @@ EOF
 dir=$(pwd)
 > files.so
 > files.programs
-cd $RPM_BUILD_ROOT%{_libdir}/wine
-for f in *.so; do
-	case $f in
-	capi2032.dll.so|d3d8.dll.so|d3d9.dll.so|d3dx8.dll.so|glu32.dll.so|opengl32.dll.so|sane.ds.so|twain.dll.so|twain_32.dll.so|winealsa.drv.so|wined3d.dll.so|wldap32.dll.so)
-		;;
-	*)
-		echo "%attr(755,root,root) %{_libdir}/wine/$f" >> $dir/files.so
-	esac
-done
-cd -
 
 programs="notepad regedit regsvr32 wineconsole winefile winemine winepath"
 for p in $programs; do
 	echo "%attr(755,root,root) %{_bindir}/$p" >> files.programs
-	echo "%attr(755,root,root) %{_libdir}/wine/$p.exe.so" >> files.programs
+	echo "%attr(755,root,root) %{_libdir}/wine/%{winelib}-windows/$p.exe" >> files.programs
 	echo "%{_mandir}/man1/$p.1*" >> files.programs
-	grep -v "$p\.exe\.so$" files.so > files.so.
-	mv -f files.so. files.so
+#	grep -v "$p\.exe\.so$" files.so > files.so.
+#	mv -f files.so. files.so
 done
 
 for dir in $RPM_BUILD_ROOT%{_mandir}/*.UTF-8 ; do
@@ -431,7 +421,7 @@ if [ -x /sbin/chkconfig ]; then
 	/sbin/chkconfig --del wine
 fi
 
-%files -f files.so
+%files 
 %defattr(644,root,root,755)
 %doc README AUTHORS ANNOUNCE
 %lang(de) %doc documentation/README.de
@@ -446,6 +436,7 @@ fi
 %lang(ru) %doc documentation/README.ru
 %lang(sv) %doc documentation/README.sv
 %lang(tr) %doc documentation/README.tr
+%attr(755,root,root) %{_bindir}/msidb
 %attr(755,root,root) %{_bindir}/msiexec
 %ifnarch %{x8664}
 %attr(755,root,root) %{_bindir}/wine
@@ -461,30 +452,34 @@ fi
 %attr(755,root,root) %{_bindir}/wine64-preloader
 %endif
 %attr(755,root,root) %{_bindir}/wineserver
-%attr(755,root,root) %{_libdir}/*.so*
 %dir %{_libdir}/wine
-%dir %{_libdir}/wine/fakedlls
-%{_libdir}/wine/fakedlls/*.acm
-%{_libdir}/wine/fakedlls/*.cpl
-%{_libdir}/wine/fakedlls/*.dll
+%dir %{_libdir}/wine/%{winelib}-unix
+%attr(755,root,root) %{_libdir}/wine/%{winelib}-unix/*.so*
+%dir %{_libdir}/wine/%{winelib}-windows
+%{_libdir}/wine/%{winelib}-windows/*.acm
+%{_libdir}/wine/%{winelib}-windows/*.ax
+%{_libdir}/wine/%{winelib}-windows/*.com
+%{_libdir}/wine/%{winelib}-windows/*.cpl
+%{_libdir}/wine/%{winelib}-windows/*.dll
 %ifarch %{ix86}
-%{_libdir}/wine/fakedlls/*.dll16
+%{_libdir}/wine/%{winelib}-windows/*.dll16
 %endif
-%{_libdir}/wine/fakedlls/*.drv
+%{_libdir}/wine/%{winelib}-windows/*.drv
 %ifarch %{ix86}
-%{_libdir}/wine/fakedlls/*.drv16
+%{_libdir}/wine/%{winelib}-windows/*.drv16
 %endif
-%{_libdir}/wine/fakedlls/*.ds
-%{_libdir}/wine/fakedlls/*.exe
+%{_libdir}/wine/%{winelib}-windows/*.ds
+%{_libdir}/wine/%{winelib}-windows/*.exe
 %ifarch %{ix86}
-%{_libdir}/wine/fakedlls/*.exe16
-%{_libdir}/wine/fakedlls/*.mod16
+%{_libdir}/wine/%{winelib}-windows/*.exe16
+%{_libdir}/wine/%{winelib}-windows/*.mod16
 %endif
-%{_libdir}/wine/fakedlls/*.ocx
-%{_libdir}/wine/fakedlls/*.sys
-%{_libdir}/wine/fakedlls/*.tlb
+%{_libdir}/wine/%{winelib}-windows/*.msstyles
+%{_libdir}/wine/%{winelib}-windows/*.ocx
+%{_libdir}/wine/%{winelib}-windows/*.sys
+%{_libdir}/wine/%{winelib}-windows/*.tlb
 %ifarch %{ix86}
-%{_libdir}/wine/fakedlls/*.vxd
+%{_libdir}/wine/%{winelib}-windows/*.vxd
 %endif
 %ifnarch %{x8664}
 %{_mandir}/man1/wine.1*
@@ -499,6 +494,7 @@ fi
 %endif
 %{_mandir}/man1/msiexec.1*
 %{_mandir}/man1/wineboot.1*
+
 %{_mandir}/man1/winecfg.1*
 %{_mandir}/man1/winedbg.1*
 %{_mandir}/man1/wineserver.1*
@@ -525,19 +521,9 @@ fi
 %attr(755,root,root) %{_bindir}/winecpp
 %attr(755,root,root) %{_bindir}/wmc
 %attr(755,root,root) %{_bindir}/wrc
-%{_libdir}/wine/lib*.def
 # no shared variants, so not separated
-%{_libdir}/wine/libadsiid.a
-%{_libdir}/wine/libdinput.a
-%{_libdir}/wine/libdinput8.a
-%{_libdir}/wine/libdmoguids.a
-%{_libdir}/wine/libdx*.a
-%{_libdir}/wine/libmfuuid.a
-%{_libdir}/wine/libstrmbase.a
-%{_libdir}/wine/libstrmiids.a
-%{_libdir}/wine/libuuid.a
-%{_libdir}/wine/libwinecrt0.a
-%{_libdir}/wine/libwmcodecdspuuid.a
+%{_libdir}/wine/%{winelib}-unix/lib*.a
+%{_libdir}/wine/%{winelib}-windows/lib*.a
 %{_includedir}/wine
 %{_mandir}/man1/widl.1*
 %{_mandir}/man1/winebuild.1*
@@ -554,36 +540,45 @@ fi
 
 %files dll-capi
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/wine/capi2032.dll.so
+%attr(755,root,root) %{_libdir}/wine/%{winelib}-windows/capi2032.dll
+%attr(755,root,root) %{_libdir}/wine/%{winelib}-unix/capi2032.so
 
 %files dll-d3d
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/wine/d3d8.dll.so
-%attr(755,root,root) %{_libdir}/wine/d3d9.dll.so
-%attr(755,root,root) %{_libdir}/wine/wined3d.dll.so
+%attr(755,root,root) %{_libdir}/wine/%{winelib}-windows/d3d8.dll
+%attr(755,root,root) %{_libdir}/wine/%{winelib}-windows/d3d8thk.dll
+%attr(755,root,root) %{_libdir}/wine/%{winelib}-windows/d3d9.dll
+%attr(755,root,root) %{_libdir}/wine/%{winelib}-windows/d3d10*.dll
+%attr(755,root,root) %{_libdir}/wine/%{winelib}-windows/d3d11.dll
+%attr(755,root,root) %{_libdir}/wine/%{winelib}-windows/wined3d.dll
+%attr(755,root,root) %{_libdir}/wine/%{winelib}-unix/wined3d.dll.so
 
 %files dll-gl
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/wine/glu32.dll.so
-%attr(755,root,root) %{_libdir}/wine/opengl32.dll.so
+%attr(755,root,root) %{_libdir}/wine/%{winelib}-windows/glu32.dll
+%attr(755,root,root) %{_libdir}/wine/%{winelib}-windows/opengl32.dll
 
 %if %{with sane}
 %files dll-twain
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/wine/sane.ds.so
-%attr(755,root,root) %{_libdir}/wine/twain*.dll.so
+%attr(755,root,root) %{_libdir}/wine/%{winelib}-unix/sane.so
+%attr(755,root,root) %{_libdir}/wine/%{winelib}-windows/twain*.dll
+%ifarch %{ix86}
+%attr(755,root,root) %{_libdir}/wine/%{winelib}-windows/twain*.dll16
+%endif
 %endif
 
 %if %{with ldap}
 %files dll-ldap
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/wine/wldap*.dll.so
+%attr(755,root,root) %{_libdir}/wine/%{winelib}-unix/wldap*.so
+%attr(755,root,root) %{_libdir}/wine/%{winelib}-windows/wldap*.dll
 %endif
 
 %if %{with alsa}
 %files drv-alsa
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/wine/winealsa.drv.so
+%attr(755,root,root) %{_libdir}/wine/%{winelib}-unix/winealsa.drv.so
 %endif
 
 # additional dependencies in *.so not separated (yet?) from main package
