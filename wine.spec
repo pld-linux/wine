@@ -1,10 +1,12 @@
 #
+# todo:
+# libvkd3d https://wiki.winehq.org/Vkd3d
+#
 # Conditional build:
 %bcond_without	alsa		# don't build ALSA mm driver
 %bcond_without	capi		# don't build CAPI 2.0 (ISDN) support
 %bcond_without	gstreamer	# don't build GStreamer filters support
 %bcond_without	sane		# don't build TWAIN DLL with scanning support (through SANE)
-%bcond_with	hal		# HAL dynamic device support [deprecated]
 %bcond_without	ldap		# don't build LDAP DLL
 %bcond_without	cups		# without CUPS printing support in winspool,wineps DLLs
 %bcond_without	netapi		# don't use the Samba NetAPI library
@@ -19,15 +21,10 @@
 #   libfontconfig (gdi32.dll.so)
 #   libfreetype (gdi32.dll.so)
 #   libgnutls (secur32.dll.so)
-#   libhal (mountmgr.sys.so)
-#   libjpeg (gphoto2.ds.so windowscodecs.dll.so)
 #   libncurses (kernel32.dll.so)
 #   libodbc (odbc32.dll.so)
-#   libpng (windowscodecs.dll.so)
 #   libsane (sane.ds.so)
 #   libtiff (windowscodecs.dll.so)
-#   libv4l1 (qcap.dll.so)
-#   libxslt (msxml3.dll.so)
 # thus requires rebuild after change of any of the above.
 
 # library qualifier in rpm generated deps
@@ -86,22 +83,12 @@ BuildRequires:	gettext-tools
 BuildRequires:	gnutls-devel
 %{?with_gstreamer:BuildRequires:	gstreamer-devel >= 1.0}
 %{?with_gstreamer:BuildRequires:	gstreamer-plugins-base-devel >= 1.0}
-%{?with_hal:BuildRequires:	hal-devel}
 # for icotool used in build
 BuildRequires:	icoutils >= 0.29.0
 BuildRequires:	lcms2-devel >= 2
 BuildRequires:	libcap-devel
 BuildRequires:	libgphoto2-devel
-BuildRequires:	libgsm-devel
-BuildRequires:	libjpeg-devel
-BuildRequires:	libmpg123-devel >= 1.5.0
 BuildRequires:	libpcap-devel
-BuildRequires:	libpng-devel >= 1.5
-BuildRequires:	libtiff-devel
-BuildRequires:	libv4l-devel
-BuildRequires:	libxml2-devel >= 2.0
-BuildRequires:	libxslt-devel
-BuildRequires:	ncurses-devel
 %{?with_ldap:BuildRequires:	openldap-devel}
 BuildRequires:	pkgconfig
 BuildRequires:	pulseaudio-devel
@@ -116,7 +103,6 @@ BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXrandr-devel
 BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
-BuildRequires:	zlib-devel
 Requires:	libfreetype.so.6%{libqual}
 Requires:	libpng16.so.16%{libqual}
 Requires(post):	/sbin/ldconfig
@@ -304,48 +290,36 @@ rm -f oic_winlogo_*.png
 %endif
 	--with-alsa%{!?with_alsa:=no} \
 	--with-capi%{!?with_capi:=no} \
-	--with-cms \
 	--with-coreaudio \
 	--with-cups%{!?with_cups:=no} \
-	--with-curses \
 	--with-dbus \
 	--with-fontconfig \
 	--with-freetype \
 	--with-gphoto \
-	--with-glu \
 	--with-gnutls \
-	--with-gsm \
 	%{__with_without gstreamer} \
-	%{__with_without hal} \
-	--with-jpeg \
 	--with-ldap%{!?with_ldap:=no} \
-	--with-mpg123 \
 	--with%{!?with_netapi:out}-netapi \
 	--with-openal \
 	--with-opencl \
 	--with-opengl \
 	--with-osmesa \
 	--with-pcap \
-	--with-png \
 	--with-pthread \
 	--with-pulse \
 	--with%{!?with_sane:out}-sane \
-	--with-tiff \
-	--with-v4l \
 	--with-xcomposite \
 	--with-xcursor \
 	--with-xinerama \
 	--with-xinput \
 	--with-xinput2 \
-	--with-xml \
 	--with-xrandr \
 	--with-xrender \
 	--with-xshape \
 	--with-xshm \
-	--with-xslt \
 	--with-xxf86vm \
-	--with-x \
-	--with-zlib
+	--with-x
+	
 %{__make} depend
 %{__make}
 
