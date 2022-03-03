@@ -1,11 +1,10 @@
-diff -dur wine-1.8.orig/dlls/crypt32/rootstore.c wine-1.8/dlls/crypt32/rootstore.c
---- wine-1.8.orig/dlls/crypt32/rootstore.c	2015-12-19 16:57:44.000000000 +0100
-+++ wine-1.8/dlls/crypt32/rootstore.c	2016-01-09 18:19:17.673921302 +0100
-@@ -490,6 +490,7 @@
+--- wine-6.0.2/dlls/crypt32/unixlib.c.orig	2021-10-26 16:38:44.000000000 +0200
++++ wine-6.0.2/dlls/crypt32/unixlib.c	2022-01-09 21:45:16.898023272 +0100
+@@ -573,6 +573,7 @@
   "/usr/local/share/certs/",
   "/etc/sfw/openssl/certs",
   "/etc/security/cacerts",  /* Android */
 + "/etc/certs/ca-certificates.crt",
  };
  
- static const BYTE authenticode[] = {
+ static void load_root_certs(void)

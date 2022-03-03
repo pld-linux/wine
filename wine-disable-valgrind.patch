@@ -1,12 +1,13 @@
-diff -ruN wine-0.9.51./configure.ac wine-0.9.51/configure.ac
---- wine-0.9.51./configure.ac	2007-12-16 20:15:52.000000000 +0100
-+++ wine-0.9.51/configure.ac	2007-12-16 20:31:42.099007759 +0100
-@@ -377,8 +377,6 @@
- 	termios.h \
- 	unistd.h \
- 	utime.h \
+--- wine-7.0/configure.ac.orig	2022-01-09 21:37:56.595170351 +0100
++++ wine-7.0/configure.ac	2022-01-09 21:39:13.939184716 +0100
+@@ -502,9 +502,7 @@
+ 	sys/utsname.h \
+ 	sys/vnode.h \
+ 	syscall.h \
+-	utime.h \
 -	valgrind/memcheck.h \
--	valgrind/valgrind.h \
- 	zlib.h
+-	valgrind/valgrind.h
++	utime.h
  )
+ WINE_HEADER_MAJOR()
  AC_HEADER_STAT()

@@ -265,9 +265,8 @@ Sterownik ALSA dla implementacji mm.dll (systemu multimediów) w Wine.
 
 %prep
 %setup -q
-%patch0 -p1
+#%patch0 -p1
 %patch1 -p1
-%patch2 -p1
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
