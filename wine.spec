@@ -538,10 +538,12 @@ fi
 %{_mandir}/man1/wrc.1*
 %{_aclocaldir}/*.m4
 
+%if %{with capi}
 %files dll-capi
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/wine/%{winelib}-windows/capi2032.dll
 %attr(755,root,root) %{_libdir}/wine/%{winelib}-unix/capi2032.so
+%endif
 
 %files dll-d3d
 %defattr(644,root,root,755)
