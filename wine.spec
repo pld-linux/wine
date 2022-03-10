@@ -4,7 +4,7 @@
 #
 # Conditional build:
 %bcond_without	alsa		# don't build ALSA mm driver
-%bcond_without	capi		# don't build CAPI 2.0 (ISDN) support
+%bcond_with	capi		# don't build CAPI 2.0 (ISDN) support
 %bcond_without	gstreamer	# don't build GStreamer filters support
 %bcond_without	sane		# don't build TWAIN DLL with scanning support (through SANE)
 %bcond_without	ldap		# don't build LDAP DLL
@@ -47,7 +47,7 @@ Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
 Version:	7.3
-Release:	0.1
+Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
