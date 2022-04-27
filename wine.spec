@@ -77,15 +77,12 @@ BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake
 BuildRequires:	bison
 %{?with_capi:BuildRequires:	capi4k-utils-devel}
-BuildRequires:	clang
 %{?with_cups:BuildRequires:	cups-devel}
 BuildRequires:	dbus-devel
 BuildRequires:	flex >= 2.5.33
 BuildRequires:	fontconfig-devel
 BuildRequires:	freetype-devel >= 2.0.5
 BuildRequires:	gettext-devel
-BuildConflicts:	crossmingw32-gcc
-BuildConflicts:	crossmingw64-gcc
 %ifarch %{x8664}
 BuildRequires:	gcc >= 6:4.4
 %endif
@@ -115,6 +112,9 @@ BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXrandr-devel
 BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
+BuildConflicts:	crossmingw32-gcc
+BuildConflicts:	crossmingw64-gcc
+BuildConflicts:	lld-link
 Requires:	libfreetype.so.6%{libqual}
 Requires:	libpng16.so.16%{libqual}
 Requires(post):	/sbin/ldconfig
