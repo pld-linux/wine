@@ -76,6 +76,7 @@ BuildRequires:	SDL2-devel
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake
 BuildRequires:	bison
+BuildRequires:	clang
 %{?with_capi:BuildRequires:	capi4k-utils-devel}
 %{?with_cups:BuildRequires:	cups-devel}
 BuildRequires:	dbus-devel
@@ -98,6 +99,7 @@ BuildRequires:	libglvnd-libEGL-devel
 BuildRequires:	libgphoto2-devel
 BuildRequires:	libpcap-devel
 BuildRequires:	libv4l-devel
+BuildRequires:	lld
 %{?with_ldap:BuildRequires:	openldap-devel}
 BuildRequires:	pkgconfig
 BuildRequires:	pulseaudio-devel
@@ -114,7 +116,6 @@ BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
 BuildConflicts:	crossmingw32-gcc
 BuildConflicts:	crossmingw64-gcc
-BuildConflicts:	lld-link
 Requires:	libfreetype.so.6%{libqual}
 Requires:	libpng16.so.16%{libqual}
 Requires(post):	/sbin/ldconfig
