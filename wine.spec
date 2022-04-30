@@ -76,7 +76,6 @@ BuildRequires:	SDL2-devel
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake
 BuildRequires:	bison
-BuildRequires:	clang
 %{?with_capi:BuildRequires:	capi4k-utils-devel}
 %{?with_cups:BuildRequires:	cups-devel}
 BuildRequires:	dbus-devel
@@ -114,6 +113,7 @@ BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXrandr-devel
 BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
+BuildConflicts:	clang
 BuildConflicts:	crossmingw32-gcc
 BuildConflicts:	crossmingw64-gcc
 Requires:	libfreetype.so.6%{libqual}
