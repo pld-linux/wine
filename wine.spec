@@ -3,7 +3,6 @@
 # libvkd3d https://wiki.winehq.org/Vkd3d
 #
 # Conditional build:
-%bcond_without	alsa		# don't build ALSA mm driver
 %bcond_with	capi		# don't build CAPI 2.0 (ISDN) support
 %bcond_without	gstreamer	# don't build GStreamer filters support
 %bcond_without	sane		# don't build TWAIN DLL with scanning support (through SANE)
@@ -47,7 +46,7 @@ Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
 Version:	7.7
-Release:	1
+Release:	2
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
@@ -71,12 +70,13 @@ BuildRequires:	OpenAL-devel >= 1.1
 BuildRequires:	OpenCL-devel
 BuildRequires:	OpenGL-GLU-devel
 BuildRequires:	SDL2-devel
-%{?with_alsa:BuildRequires:	alsa-lib-devel}
+BuildRequires:	alsa-lib-devel
 %{?with_arts:BuildRequires:	artsc-devel}
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake
 BuildRequires:	bison
 %{?with_capi:BuildRequires:	capi4k-utils-devel}
+BuildRequires:	clang
 %{?with_cups:BuildRequires:	cups-devel}
 BuildRequires:	dbus-devel
 BuildRequires:	flex >= 2.5.33
@@ -113,9 +113,9 @@ BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXrandr-devel
 BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
-BuildConflicts:	clang
 BuildConflicts:	crossmingw32-gcc
 BuildConflicts:	crossmingw64-gcc
+Requires:	OpenGL
 Requires:	libfreetype.so.6%{libqual}
 Requires:	libpng16.so.16%{libqual}
 Requires(post):	/sbin/ldconfig
@@ -131,10 +131,14 @@ Suggests:	xorg-app-xmessage
 Suggests:	samba-common >= 1:3.0.25
 # link to wine/ntdll.dll.so, without any SONAME
 Provides:	libntdll.dll.so
+Obsoletes:	wine-dll-d3d
+Obsoletes:	wine-dll-gl
 Obsoletes:	wine-doc-pdf
+Obsoletes:	wine-drv-alsa
 Obsoletes:	wine-drv-arts
 Obsoletes:	wine-drv-jack
 Obsoletes:	wine-drv-nas
+Obsoletes:	wine-programs
 ExclusiveArch:	%{ix86} %{x8664} arm
 ExcludeArch:	i386
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -190,18 +194,6 @@ Wine - pliki nagłówkowe.
 Arquivos de inclusão e bibliotecas para desenvolver aplicações com o
 WINE.
 
-%package programs
-Summary:	Wine - programs
-Summary(pl.UTF-8):	Wine - programy
-Group:		Applications
-Requires:	%{name} = %{epoch}:%{version}-%{release}
-
-%description programs
-Wine - programs.
-
-%description programs -l pl.UTF-8
-Wine - programy.
-
 %package dll-capi
 Summary:	CAPI 2.0 (ISDN) implementation DLLs for Wine
 Summary(pl.UTF-8):	Biblioteki DLL z implementacją CAPI 2.0 (ISDN) dla Wine
@@ -213,32 +205,6 @@ CAPI 2.0 (ISDN) implementation DLLs for Wine.
 
 %description dll-capi -l pl.UTF-8
 Biblioteki DLL z implementacją CAPI 2.0 (ISDN) dla Wine.
-
-%package dll-d3d
-Summary:	Direct3D implementation DLLs for Wine
-Summary(pl.UTF-8):	Biblioteki DLL z implementacją Direct3D dla Wine
-Group:		Applications/Emulators
-Requires:	%{name} = %{epoch}:%{version}-%{release}
-Requires:	OpenGL
-
-%description dll-d3d
-Direct3D implementation DLLs for Wine (through OpenGL).
-
-%description dll-d3d -l pl.UTF-8
-Biblioteki DLL z implementacją Direct3D dla Wine (poprzez OpenGL).
-
-%package dll-gl
-Summary:	OpenGL implementation DLLs for Wine
-Summary(pl.UTF-8):	Biblioteki DLL z implementacją OpenGL dla Wine
-Group:		Applications/Emulators
-Requires:	%{name} = %{epoch}:%{version}-%{release}
-Requires:	OpenGL
-
-%description dll-gl
-OpenGL implementation DLLs for Wine.
-
-%description dll-gl -l pl.UTF-8
-Biblioteki DLL z implementacją OpenGL dla Wine.
 
 %package dll-twain
 Summary:	TWAIN implementation DLL for Wine
@@ -264,18 +230,6 @@ Lightweight Directory Access Protocol Library for Wine.
 %description dll-ldap -l pl.UTF-8
 Biblioteka LDAP (Lightweight Directory Access Protocol) dla Wine.
 
-%package drv-alsa
-Summary:	ALSA driver for WINE mm.dll implementation
-Summary(pl.UTF-8):	Sterownik ALSA dla implementacji mm.dll w Wine
-Group:		Applications/Emulators
-Requires:	%{name} = %{epoch}:%{version}-%{release}
-
-%description drv-alsa
-ALSA driver for WINE mm.dll (multimedia system) implementation.
-
-%description drv-alsa -l pl.UTF-8
-Sterownik ALSA dla implementacji mm.dll (systemu multimediów) w Wine.
-
 %prep
 %setup -q
 #%patch0 -p1
@@ -300,7 +254,7 @@ rm -f oic_winlogo_*.png
 %ifarch %{x8664}
 	--enable-win64 \
 %endif
-	--with-alsa%{!?with_alsa:=no} \
+	--with-alsa \
 	--with-capi%{!?with_capi:=no} \
 	--with-coreaudio \
 	--with-cups%{!?with_cups:=no} \
@@ -368,19 +322,6 @@ EOF
 
 # /sbin/chstk -e $RPM_BUILD_ROOT%{_bindir}/wine
 
-dir=$(pwd)
-> files.so
-> files.programs
-
-programs="notepad regedit regsvr32 wineconsole winefile winemine winepath"
-for p in $programs; do
-	echo "%attr(755,root,root) %{_bindir}/$p" >> files.programs
-	echo "%attr(755,root,root) %{_libdir}/wine/%{winelib}-windows/$p.exe" >> files.programs
-	echo "%{_mandir}/man1/$p.1*" >> files.programs
-#	grep -v "$p\.exe\.so$" files.so > files.so.
-#	mv -f files.so. files.so
-done
-
 for dir in $RPM_BUILD_ROOT%{_mandir}/*.UTF-8 ; do
 	mv "$dir" "${dir%.UTF-8}"
 done
@@ -442,14 +383,21 @@ fi
 %lang(tr) %doc documentation/README.tr
 %attr(755,root,root) %{_bindir}/msidb
 %attr(755,root,root) %{_bindir}/msiexec
+%attr(755,root,root) %{_bindir}/notepad
+%attr(755,root,root) %{_bindir}/regedit
+%attr(755,root,root) %{_bindir}/regsvr32
 %ifnarch %{x8664}
 %attr(755,root,root) %{_bindir}/wine
 %else
 %attr(755,root,root) %{_bindir}/wine64
 %endif
 %attr(755,root,root) %{_bindir}/wineboot
-%attr(755,root,root) %{_bindir}/winedbg
 %attr(755,root,root) %{_bindir}/winecfg
+%attr(755,root,root) %{_bindir}/wineconsole
+%attr(755,root,root) %{_bindir}/winedbg
+%attr(755,root,root) %{_bindir}/winefile
+%attr(755,root,root) %{_bindir}/winemine
+%attr(755,root,root) %{_bindir}/winepath
 %ifnarch %{x8664}
 %attr(755,root,root) %{_bindir}/wine-preloader
 %else
@@ -485,6 +433,25 @@ fi
 %ifarch %{ix86}
 %{_libdir}/wine/%{winelib}-windows/*.vxd
 %endif
+%if %{with capi}
+%exclude %{_libdir}/wine/%{winelib}-windows/capi2032.dll
+%exclude %{_libdir}/wine/%{winelib}-unix/capi2032.so
+%endif
+%if %{with sane}
+%exclude %{_libdir}/wine/%{winelib}-unix/sane.so
+%exclude %{_libdir}/wine/%{winelib}-windows/twain*.dll
+%ifarch %{ix86}
+%exclude %{_libdir}/wine/%{winelib}-windows/twain*.dll16
+%endif
+%endif
+%if %{with ldap}
+%exclude %{_libdir}/wine/%{winelib}-unix/wldap*.so
+%exclude %{_libdir}/wine/%{winelib}-windows/wldap*.dll
+%endif
+%{_mandir}/man1/msiexec.1*
+%{_mandir}/man1/notepad.1*
+%{_mandir}/man1/regedit.1*
+%{_mandir}/man1/regsvr32.1*
 %ifnarch %{x8664}
 %{_mandir}/man1/wine.1*
 %lang(de) %{_mandir}/de/man1/wine.1*
@@ -496,11 +463,13 @@ fi
 %lang(fr) %{_mandir}/fr/man1/wine64.1*
 %lang(pl) %{_mandir}/pl/man1/wine64.1*
 %endif
-%{_mandir}/man1/msiexec.1*
 %{_mandir}/man1/wineboot.1*
-
 %{_mandir}/man1/winecfg.1*
+%{_mandir}/man1/wineconsole.1*
 %{_mandir}/man1/winedbg.1*
+%{_mandir}/man1/winefile.1*
+%{_mandir}/man1/winemine.1*
+%{_mandir}/man1/winepath.1*
 %{_mandir}/man1/wineserver.1*
 %lang(de) %{_mandir}/de/man1/wineserver.1*
 %lang(fr) %{_mandir}/fr/man1/wineserver.1*
@@ -508,9 +477,6 @@ fi
 %{_desktopdir}/wine.desktop
 %{_desktopdir}/wine-uninstaller.desktop
 %{_pixmapsdir}/%{name}.png
-
-%files programs -f files.programs
-%defattr(644,root,root,755)
 
 %files devel
 %defattr(644,root,root,755)
@@ -527,7 +493,7 @@ fi
 %attr(755,root,root) %{_bindir}/wrc
 # no shared variants, so not separated
 %{_libdir}/wine/%{winelib}-unix/lib*.a
-#%{_libdir}/wine/%{winelib}-windows/lib*.a
+%{_libdir}/wine/%{winelib}-windows/lib*.a
 %{_includedir}/wine
 %{_mandir}/man1/widl.1*
 %{_mandir}/man1/winebuild.1*
@@ -549,21 +515,6 @@ fi
 %attr(755,root,root) %{_libdir}/wine/%{winelib}-unix/capi2032.so
 %endif
 
-%files dll-d3d
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/wine/%{winelib}-windows/d3d8.dll
-%attr(755,root,root) %{_libdir}/wine/%{winelib}-windows/d3d8thk.dll
-%attr(755,root,root) %{_libdir}/wine/%{winelib}-windows/d3d9.dll
-%attr(755,root,root) %{_libdir}/wine/%{winelib}-windows/d3d10*.dll
-%attr(755,root,root) %{_libdir}/wine/%{winelib}-windows/d3d11.dll
-%attr(755,root,root) %{_libdir}/wine/%{winelib}-windows/wined3d.dll
-%attr(755,root,root) %{_libdir}/wine/%{winelib}-unix/wined3d.dll.so
-
-%files dll-gl
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/wine/%{winelib}-windows/glu32.dll
-%attr(755,root,root) %{_libdir}/wine/%{winelib}-windows/opengl32.dll
-
 %if %{with sane}
 %files dll-twain
 %defattr(644,root,root,755)
@@ -579,12 +530,6 @@ fi
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/wine/%{winelib}-unix/wldap*.so
 %attr(755,root,root) %{_libdir}/wine/%{winelib}-windows/wldap*.dll
-%endif
-
-%if %{with alsa}
-%files drv-alsa
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/wine/%{winelib}-unix/winealsa.drv.so
 %endif
 
 # additional dependencies in *.so not separated (yet?) from main package
