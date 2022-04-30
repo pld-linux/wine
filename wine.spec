@@ -131,14 +131,14 @@ Suggests:	xorg-app-xmessage
 Suggests:	samba-common >= 1:3.0.25
 # link to wine/ntdll.dll.so, without any SONAME
 Provides:	libntdll.dll.so
-Obsoletes:	wine-dll-d3d
-Obsoletes:	wine-dll-gl
-Obsoletes:	wine-doc-pdf
-Obsoletes:	wine-drv-alsa
-Obsoletes:	wine-drv-arts
-Obsoletes:	wine-drv-jack
-Obsoletes:	wine-drv-nas
-Obsoletes:	wine-programs
+Obsoletes:	wine-dll-d3d < 1:7.7-2
+Obsoletes:	wine-dll-gl < 1:7.7-2
+Obsoletes:	wine-doc-pdf < 1:7.7-2
+Obsoletes:	wine-drv-alsa < 1:7.7-2
+Obsoletes:	wine-drv-arts < 1:7.7-2
+Obsoletes:	wine-drv-jack < 1:7.7-2
+Obsoletes:	wine-drv-nas < 1:7.7-2
+Obsoletes:	wine-programs < 1:7.7-2
 ExclusiveArch:	%{ix86} %{x8664} arm
 ExcludeArch:	i386
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
