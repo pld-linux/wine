@@ -45,13 +45,13 @@ Summary(es.UTF-8):	Ejecuta programas Windows en Linux
 Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
-Version:	7.20
+Version:	7.22
 Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 Source0:	https://dl.winehq.org/wine/source/7.x/%{name}-%{version}.tar.xz
-# Source0-md5:	915ad9fedfeef1dfd8b19d2e774086ec
+# Source0-md5:	c0f66aab1e6ab19f905ab64adef865d1
 Source1:	https://dl.winehq.org/wine/wine-gecko/%{gecko_ver}/%{name}-gecko-%{gecko_ver}-x86.msi
 # Source1-md5:	e8bf0350695a633e15877684d5b97baf
 Source2:	https://dl.winehq.org/wine/wine-gecko/%{gecko_ver}/%{name}-gecko-%{gecko_ver}-x86_64.msi
@@ -493,7 +493,6 @@ fi
 %attr(755,root,root) %{_bindir}/wrc
 # no shared variants, so not separated
 %{_libdir}/wine/%{winelib}-unix/lib*.a
-%{_libdir}/wine/%{winelib}-windows/lib*.a
 %{_includedir}/wine
 %{_mandir}/man1/widl.1*
 %{_mandir}/man1/winebuild.1*
