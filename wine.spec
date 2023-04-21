@@ -45,13 +45,13 @@ Summary(es.UTF-8):	Ejecuta programas Windows en Linux
 Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
-Version:	8.0
+Version:	8.0.1
 Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
 Source0:	https://dl.winehq.org/wine/source/8.0/%{name}-%{version}.tar.xz
-# Source0-md5:	9b575d61b442da343c6ee7acf6716b60
+# Source0-md5:	ed4ff7f4f76b6200a61a893d39a42d6b
 Source1:	https://dl.winehq.org/wine/wine-gecko/%{gecko_ver}/%{name}-gecko-%{gecko_ver}-x86.msi
 # Source1-md5:	e8bf0350695a633e15877684d5b97baf
 Source2:	https://dl.winehq.org/wine/wine-gecko/%{gecko_ver}/%{name}-gecko-%{gecko_ver}-x86_64.msi
