@@ -6,7 +6,6 @@
 %bcond_with	capi		# don't build CAPI 2.0 (ISDN) support
 %bcond_without	gstreamer	# don't build GStreamer filters support
 %bcond_without	sane		# don't build TWAIN DLL with scanning support (through SANE)
-%bcond_without	ldap		# don't build LDAP DLL
 %bcond_without	cups		# without CUPS printing support in winspool,wineps DLLs
 %bcond_without	netapi		# don't use the Samba NetAPI library
 #
@@ -39,23 +38,23 @@
 %define	winelib	i386
 %endif
 
-%define		gecko_ver	2.47.3
+%define		gecko_ver	2.47.4
 Summary:	Program that lets you launch Win applications
 Summary(es.UTF-8):	Ejecuta programas Windows en Linux
 Summary(pl.UTF-8):	Program pozwalający uruchamiać aplikacje Windows
 Summary(pt_BR.UTF-8):	Executa programas Windows no Linux
 Name:		wine
-Version:	8.0.2
+Version:	9.0
 Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Applications/Emulators
-Source0:	https://dl.winehq.org/wine/source/8.0/%{name}-%{version}.tar.xz
-# Source0-md5:	c8ec9a10623f0d9b321061de22b2a1d8
+Source0:	https://dl.winehq.org/wine/source/9.0/%{name}-%{version}.tar.xz
+# Source0-md5:	78e1cb8d77d20b44820461b056a15069
 Source1:	https://dl.winehq.org/wine/wine-gecko/%{gecko_ver}/%{name}-gecko-%{gecko_ver}-x86.msi
-# Source1-md5:	e8bf0350695a633e15877684d5b97baf
+# Source1-md5:	f61c2a0065301ce329aa390342e70f14
 Source2:	https://dl.winehq.org/wine/wine-gecko/%{gecko_ver}/%{name}-gecko-%{gecko_ver}-x86_64.msi
-# Source2-md5:	ed0fa1f498a4b272b1cf8db14f71701a
+# Source2-md5:	8cc7018079a8db70e822320b69185515
 Source3:	%{name}-uninstaller.desktop
 Patch0:		%{name}-gphoto2_bool.patch
 Patch1:		%{name}-makedep.patch
@@ -98,8 +97,8 @@ BuildRequires:	libglvnd-libEGL-devel
 BuildRequires:	libgphoto2-devel
 BuildRequires:	libpcap-devel
 BuildRequires:	libv4l-devel
+BuildRequires:	libxkbregistry-devel
 BuildRequires:	lld
-%{?with_ldap:BuildRequires:	openldap-devel}
 BuildRequires:	pkgconfig
 BuildRequires:	pulseaudio-devel
 BuildRequires:	samba-devel
@@ -133,6 +132,7 @@ Suggests:	samba-common >= 1:3.0.25
 Provides:	libntdll.dll.so
 Obsoletes:	wine-dll-d3d < 1:7.7-2
 Obsoletes:	wine-dll-gl < 1:7.7-2
+Obsoletes:	wine-dll-ldap < 1:9.0
 Obsoletes:	wine-doc-pdf < 1:7.7-2
 Obsoletes:	wine-drv-alsa < 1:7.7-2
 Obsoletes:	wine-drv-arts < 1:7.7-2
@@ -218,18 +218,6 @@ TWAIN implementation DLL for Wine (through SANE).
 %description dll-twain -l pl.UTF-8
 Biblioteka DLL z implementacją TWAIN dla Wine (poprzez SANE).
 
-%package dll-ldap
-Summary:	Win32 LDAP API DLL for Wine
-Summary(pl.UTF-8):	Biblioteka DLL z implementacją API Win32 LDAP dla Wine
-Group:		Applications/Emulators
-Requires:	%{name} = %{epoch}:%{version}-%{release}
-
-%description dll-ldap
-Lightweight Directory Access Protocol Library for Wine.
-
-%description dll-ldap -l pl.UTF-8
-Biblioteka LDAP (Lightweight Directory Access Protocol) dla Wine.
-
 %prep
 %setup -q
 #%patch0 -p1
@@ -264,9 +252,7 @@ rm -f oic_winlogo_*.png
 	--with-gphoto \
 	--with-gnutls \
 	%{__with_without gstreamer} \
-	--with-ldap%{!?with_ldap:=no} \
 	--with%{!?with_netapi:out}-netapi \
-	--with-openal \
 	--with-opencl \
 	--with-opengl \
 	--with-osmesa \
@@ -368,19 +354,19 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc README AUTHORS ANNOUNCE
-%lang(de) %doc documentation/README.de
-%lang(es) %doc documentation/README.es
-%lang(fr) %doc documentation/README.fr
-%lang(hu) %doc documentation/README.hu
-%lang(it) %doc documentation/README.it
-%lang(ko) %doc documentation/README.ko
-%lang(nb) %doc documentation/README.no
-%lang(pt) %doc documentation/README.pt
-%lang(pt_BR) %doc documentation/README.pt_br
-%lang(ru) %doc documentation/README.ru
-%lang(sv) %doc documentation/README.sv
-%lang(tr) %doc documentation/README.tr
+%doc README.md AUTHORS ANNOUNCE.md
+%lang(de) %doc documentation/README-de.md
+%lang(es) %doc documentation/README-es.md
+%lang(fr) %doc documentation/README-fr.md
+%lang(hu) %doc documentation/README-hu.md
+%lang(it) %doc documentation/README-it.md
+%lang(ko) %doc documentation/README-ko.md
+%lang(nb) %doc documentation/README-no.md
+%lang(pt) %doc documentation/README-pt.md
+%lang(pt_BR) %doc documentation/README-pt_br.md
+%lang(ru) %doc documentation/README-ru.md
+%lang(sv) %doc documentation/README-sv.md
+%lang(tr) %doc documentation/README-tr.md
 %attr(755,root,root) %{_bindir}/msidb
 %attr(755,root,root) %{_bindir}/msiexec
 %attr(755,root,root) %{_bindir}/notepad
@@ -444,10 +430,6 @@ fi
 %exclude %{_libdir}/wine/%{winelib}-windows/twain*.dll16
 %endif
 %endif
-%if %{with ldap}
-%exclude %{_libdir}/wine/%{winelib}-unix/wldap*.so
-%exclude %{_libdir}/wine/%{winelib}-windows/wldap*.dll
-%endif
 %{_mandir}/man1/msiexec.1*
 %{_mandir}/man1/notepad.1*
 %{_mandir}/man1/regedit.1*
@@ -493,6 +475,7 @@ fi
 %attr(755,root,root) %{_bindir}/wrc
 # no shared variants, so not separated
 %{_libdir}/wine/%{winelib}-unix/lib*.a
+%{_libdir}/wine/%{winelib}-windows/lib*.a
 %{_includedir}/wine
 %{_mandir}/man1/widl.1*
 %{_mandir}/man1/winebuild.1*
@@ -522,13 +505,6 @@ fi
 %ifarch %{ix86}
 %attr(755,root,root) %{_libdir}/wine/%{winelib}-windows/twain*.dll16
 %endif
-%endif
-
-%if %{with ldap}
-%files dll-ldap
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/wine/%{winelib}-unix/wldap*.so
-%attr(755,root,root) %{_libdir}/wine/%{winelib}-windows/wldap*.dll
 %endif
 
 # additional dependencies in *.so not separated (yet?) from main package
