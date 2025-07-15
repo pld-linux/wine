@@ -220,7 +220,7 @@ Biblioteka DLL z implementacją TWAIN dla Wine (poprzez SANE).
 
 %prep
 %setup -q
-#%patch0 -p1
+#%%patch0 -p1
 %patch -P1 -p1
 %patch -P4 -p1
 %patch -P5 -p1
